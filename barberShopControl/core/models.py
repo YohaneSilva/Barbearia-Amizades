@@ -1,13 +1,5 @@
 from django.db import models
 
-
-class Agenda(models.Model):
-    data = models.CharField(max_length=10)
-    servico = models.CharField(max_length=500)
-    
-    def __str__(self):
-        return "Data: "+self.data+" | Serviço(s): ["+ self.servico+"]"
-
 class Estabelecimento(models.Model):
     estab_alter_data = models.DateTimeField(auto_now=True, auto_now_add=False, null=True)
     estab_alter_usuario_id = models.ForeignKey("Usuario", related_name="estab_alter_usuario_id", on_delete=models.CASCADE, null=True)
