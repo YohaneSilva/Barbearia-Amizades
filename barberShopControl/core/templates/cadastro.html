@@ -1,0 +1,55 @@
+{% extends 'login-base.html' %}
+{% load static %}
+{% block title %}Criar Conta | Barbearia Amizades S & D{% endblock %}
+{% block content %}
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 login-section-wrapper">
+          <div class="brand-wrapper">
+            <a href="#" tabindex="1"  title="Retornar a página inicial"><img src="{% static 'img/logo.png' %}" alt="logo da Barbearia Amizades S & D" class="logo"></a>
+          </div>
+          <div class="login-wrapper">
+            <h1 class="login-title">Criar<br><p style="font-size:60px">Conta</p></h1>
+        
+            <form action="#!" >
+              <div id="form-count">
+                <div class="form-group">
+                  <label for="first-name">primeiro nome</label>
+                  <input tabindex="2" type="text" maxlength="15" name="first-name" id="first-name" class="form-control">
+                </div>
+                <div class="form-group mb-4">
+                  <label for="second-name">sobrenome</label>
+                  <input tabindex="3" type="text" maxlength="45" name="second-name" id="second-name" class="form-control">
+                </div>
+                <div class="form-group mb-4">
+                  <label for="select-sex">qual seu sexo?</label>
+                  <select tabindex="4" id="select-sex" class="form-control">
+                      <option selected>Masculino</option>
+                      <option>Feminino</option>
+                    </select>
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="email">e-mail</label>
+                    <input tabindex="5" type="email" name="email" id="email" class="form-control" placeholder="email@exemplo.com">
+                  </div>
+                  <div class="form-group mb-4" id="form-password">
+                    <label for="password">senha</label>
+                    <input tabindex="6" type="password" name="password" id="password" class="form-control" placeholder="até 20 caracteres">
+                  </div>
+                  <div class="form-group mb-4" id="form-password">
+                    <label for="password">confirme a senha</label>
+                    <input tabindex="7" type="password" name="password" id="password" class="form-control" placeholder="mesma senha acima">
+                  </div>
+              </div>
+                <input tabindex="8" name="submit-count" id="submit-count" class="btn btn-block login-btn" type="button" value="Criar">
+              </form>
+          </div>
+        </div>
+        <div class="col-sm-6 px-0 d-none d-sm-block">
+          <img src="{% static 'img/login.jpg' %}" alt="Imagem do rosto de um capaz com os olhos corbertos por uma toalha umedecida. Há um outro homem se preparando para cortar a barbar, do rapaz com os olhos vendados, com o auxílio de uma navalha." class="login-img">
+        </div>
+      </div>
+    </div>  
+  </main>
+{% endblock %}

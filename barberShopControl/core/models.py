@@ -44,7 +44,7 @@ class Usuario(models.Model):
     us_email = models.EmailField(max_length=254, unique=True)
     us_senha = models.CharField(max_length=20)
     us_telefone = models.CharField(max_length=11)
-    us_end_cep = models.CharField(max_length=8)
+    us_end_cep = models.CharField(max_length=8, blank=True)
     us_end_logradouro = models.CharField(max_length=100, blank=True)
     us_end_numero = models.CharField(max_length=8, blank=True)
     us_end_complemento = models.CharField(max_length=100, blank=True)
