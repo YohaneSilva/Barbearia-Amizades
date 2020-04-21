@@ -4,29 +4,6 @@ body {
   min-height: 100vh; 
 }
 
-#form-count {
-  width: 400px;
-  margin-bottom: 10px;
-  max-height: 450px;
-  overflow-y: auto;
-}
-
-#form-count::-webkit-scrollbar{
-  width: 5px;
-}
-
-#form-count::-webkit-scrollbar-thumb{
-  background-color: #2f2f2f;
-}
-
-#form-count::-webkit-scrollbar-track{
-  background-color: #dbdbdb;
-}
-
-#forgot-password-link{
-  margin-bottom: 40px;
-}
-
 .brand-wrapper {
   padding-top: 7px; 
 }
@@ -36,7 +13,29 @@ body {
   height: 150px; 
 }
 
+#form-count {
+  margin-bottom: 10px;
+  max-height: 450px;
+}
+
+.login-section-wrapper::-webkit-scrollbar{
+  width: 5px;
+}
+
+.login-section-wrapper::-webkit-scrollbar-thumb{
+  background-color: #2f2f2f;
+}
+
+.login-section-wrapper::-webkit-scrollbar-track{
+  background-color: #dbdbdb;
+}
+
+#forgot-password-link{
+  margin-bottom: 40px;
+}
+
 .login-section-wrapper {
+  overflow-y: auto;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -157,15 +156,15 @@ body {
 
 @media (max-width: 575px) {
 
-   form {
-    max-height: 990px;
+  #form-count {
+    max-height: 100%;
   }
 
   #form-count::-webkit-scrollbar{
     width: 0px;
   }
 
-  #form-count {
+  .login-section-wrapper {
     width: 100%;
   }
   
