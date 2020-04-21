@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
 
-def login(request):
-    return render(request, 'login.html')
+def loginPrincipal(request):
+    return render(request, 'login-principal.html')
 
 def recuperarSenha(request):
-    return render(request, 'recuperarsenha.html')
+    return render(request, 'login-recuperarsenha.html')
 
-def cadastroCliente(request):
-    return render(request, 'cadastro.html')
+def criarConta(request):
+    return render(request, 'login-criarconta.html')
