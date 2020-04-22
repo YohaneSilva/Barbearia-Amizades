@@ -9,3 +9,9 @@ def recuperarSenha(request):
 
 def criarConta(request):
     return render(request, 'login-criarconta.html')
+
+def dashboar(request):
+    return render(request, 'minhaconta-dashboard.html')
+
+def servicos(request):
+    return render(request, 'minhaconta-servicos.html')
