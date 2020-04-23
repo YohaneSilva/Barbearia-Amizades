@@ -1,4 +1,4 @@
-{% extends 'login-base.html' %}
+{% extends 'login/base.html' %}
 {% load static %}
 {% block title %}Criar Conta | Barbearia Amizades S & D{% endblock %}
 {% block content %}
@@ -41,7 +41,7 @@
                   <input tabindex="7" type="password" name="password" id="password" class="form-control" placeholder="mesma senha acima">
                 </div>
                 <input tabindex="8" name="submit-count" id="submit-count" class="btn btn-block login-btn" type="button" value="Criar">
-                <a href="{% url 'loginPrincipal'%}" class="forgot-password-link">Retornar ao login</a>                
+                <a href="{% url 'acesso'%}" class="forgot-password-link">Retornar ao login</a>                
               </form>
 
           </div>

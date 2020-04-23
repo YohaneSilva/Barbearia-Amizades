@@ -1,4 +1,4 @@
-{% extends 'login-base.html' %}
+{% extends 'login/base.html' %}
 {% load static %}
 {% block title %}Recuperar Senha | Barbearia Amizades S & D{% endblock %}
 {% block content %}
@@ -20,7 +20,7 @@
               <input name="forgot-btn" id="forgot-btn" class="btn btn-block login-btn" type="button" value="Enviar">
             </form>
 
-            <a href="{% url 'loginPrincipal'%}" class="forgot-password-link">Retornar ao login</a>
+            <a href="{% url 'acesso'%}" class="forgot-password-link">Retornar ao login</a>
             <p class="login-wrapper-footer-text">Não tem conta? <a href="{% url 'criarConta' %}" class="text-reset">Cadastre-se aqui</a></p>
           </div>
         </div>
