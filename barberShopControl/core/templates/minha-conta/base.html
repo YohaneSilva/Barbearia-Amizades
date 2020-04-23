@@ -20,7 +20,7 @@
         <!-- Sidebar - Brand -->
         <div class="sidebar-brand d-flex align-items-center justify-content-center">
           <img class="simbol-logo" src="{% static 'img/simbolo-branco.png' %}" alt="Símbolo da Barbearia Amizades S & D" class="logo">
-          <div class="sidebar-brand-text mx-3">Minha Conta</div>
+          <div class="sidebar-brand-text mx-3">Admin.</div>
         </div>
 
         <!-- Divider -->
@@ -30,7 +30,8 @@
         <li class="nav-item active" title="Ir para o painel de monitoração">
           <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Dashboard</span></a>
+            <span>Dashboard</span>
+          </a>
         </li>
 
         <!-- Divider -->
@@ -232,9 +233,12 @@
         </nav>
         <!-- End of Topbar -->
         
-      {% block content %}
-      {% endblock %}
-      
+        <!-- Module Title -->
+        <h1 class="h3 text-gray-800 container-fluid module-title">{% block module_title %}{% endblock %}</h1>
+
+        {% block content %}
+        {% endblock %}
+        
       
       </div>
       <!-- End of Content Wrapper -->

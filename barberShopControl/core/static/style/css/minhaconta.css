@@ -3951,6 +3951,10 @@ input[type="button"].btn-block {
   display: block;
 }
 
+.module-title {
+  margin-bottom: 24px;
+}
+
 .navbar {
   position: relative;
   display: flex;
