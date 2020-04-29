@@ -37,13 +37,35 @@
     }
   });
 
-  // Smooth scrolling using jQuery easing
-  $(document).on('click', 'a.scroll-to-top', function(e) {
-    var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: ($($anchor.attr('href')).offset().top)
-    }, 1000, 'easeInOutExpo');
-    e.preventDefault();
-  });
-
 })(jQuery); // End of use strict
+
+// Pegar o id do registro 
+$('td #btnEditService').click(function () {
+  var $idSelectedItem = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeService")     // Gets a descendent with class="#codeService"
+    .text();         // Retrieves the text within <td>
+  
+  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'/editar';
+
+  window.open(url);
+});
+
+// Refresh da tabela de serviços
+$(document).ready(function (){
+  $("#btnRefreshTableService").click(function(){
+      location.reload(true);
+  });
+});
+
+// Retornar ao topo da página
+$("#backToTop").click(function () {
+  $("html, body").animate({scrollTop: 0}, 1000);
+});
+
+// Contador das linhas da tabela
+$(document).ready(function () {
+  var quantidadeLinhasTabela = $('#tableService tr').length - 1;
+  $('#lengthRowTableService').html('<strong>Quantidade de Serviços Cadastrados: </strong> '+quantidadeLinhasTabela);
+});
+

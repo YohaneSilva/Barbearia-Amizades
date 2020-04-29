@@ -18,9 +18,9 @@ class Estabelecimento(models.Model):
 class Servico(models.Model):
     serv_data_alter = models.DateTimeField(auto_now=True, auto_now_add=False, null=True)
     serv_alter_usuario_id = models.ForeignKey("Usuario", related_name="serv_alter_usuario_id", on_delete=models.CASCADE, null=True)
-    serv_nome = models.CharField(max_length=40)
-    serv_tempo_duracao = models.TimeField(auto_now=False, auto_now_add=False)
-    serv_valor = models.DecimalField(max_digits=7, decimal_places=2)
+    serv_nome = models.CharField("Nome", max_length=40)
+    serv_tempo_duracao = models.TimeField("Duração", auto_now=False, auto_now_add=False)
+    serv_valor = models.DecimalField("Valor", max_digits=7, decimal_places=2)
 
 
 class Usuario(models.Model):

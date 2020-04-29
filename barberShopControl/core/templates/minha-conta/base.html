@@ -80,9 +80,8 @@
           </a>
           <div id="collapseService" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="#">Cadastrar Serviços</a>
-              <a class="collapse-item" href="#">Alterar Serviços</a>
-              <a class="collapse-item" href="#">Consultar Serviços</a>
+              <a class="collapse-item collapse-item-service" href="{% url 'novoServico' %}">Cadastrar Serviços</a>
+              <a class="collapse-item collapse-item-service" href="{% url 'servicosCadastrados' %}">Consultar Serviços</a>
             </div>
           </div>
         </li>
@@ -236,6 +235,18 @@
         <!-- Module Title -->
         <h1 class="h3 text-gray-800 container-fluid module-title">{% block module_title %}{% endblock %}</h1>
 
+        {% comment %} <!-- Dropdown Service -->
+          <div class="dropdown module-title container-fluid">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButtonService" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Menu Serviços
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownButtonService">
+              <div class="dropdown-item dropdown-item-service">Cadastrar Serviços</div>
+              <div class="dropdown-item dropdown-item-service">Alterar Serviços</div>
+              <div class="dropdown-item dropdown-item-service">Consultar Serviços</div>
+            </div>
+          </div> {% endcomment %}
+
         {% block content %}
         {% endblock %}
         
@@ -247,7 +258,7 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" id="backToTop" title="Retornar ao topo" aria-label="Botão para retonar ao topo">
       <i class="fas fa-angle-up"></i>
     </a>
 
@@ -272,5 +283,6 @@
     <script src="{% static 'script/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'script/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'script/js/minhaconta.js' %}"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
   </body>
 </html>
