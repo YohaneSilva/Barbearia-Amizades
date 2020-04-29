@@ -5,8 +5,8 @@ def home(request):
     return render(request, 'institucional/index.html')
 
 
-def acesso(request):
-    return render(request, 'login/acesso.html')
+def entrar(request):
+    return render(request, 'login/entrar.html')
 
 
 def recuperarSenha(request):

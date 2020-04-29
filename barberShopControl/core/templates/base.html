@@ -82,10 +82,16 @@
                     <a href="#contact-section" class="nav-link">contato</a>
                   </li>
                   <li class="relative">
-                    <a href="#" class="nav-link">agenda</a>
+                    <a
+                      href="#"
+                      class="nav-link"
+                      data-toggle="modal"
+                      data-target="#baseModal"
+                      >agenda</a
+                    >
                   </li>
                   <li class="relative">
-                    <a href="#" class="nav-link">entrar</a>
+                    <a href="{% url 'entrar' %}" class="nav-link">entrar</a>
                   </li>
                 </ul>
               </nav>
@@ -106,54 +112,130 @@
 
       <!--FOOTER-->
 
-      <footer class="site-footer">
+      <footer class="font-small bg-dark">
         <div class="container">
-          <div class="row">
-            <div class="col-md-5">
-              <h2 class="footer-heading mb-4">About Us</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-                facere laudantium magnam voluptatum autem. Amet aliquid nesciunt
-                veritatis aliquam.
+          <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+            <div class="col-md-2 mb-3">
+              <h6 class="text-uppercase font-weight-bold">
+                <a href="#!" class="text-secondary">SOBRE NÓS</a>
+              </h6>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <h6 class="text-uppercase font-weight-bold">
+                <a href="#!" class="text-secondary">SERVIÇOS</a>
+              </h6>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <h6 class="text-uppercase font-weight-bold">
+                <a href="#!" class="text-secondary">Awards</a>
+              </h6>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <h6 class="text-uppercase font-weight-bold">
+                <a href="#!" class="text-secondary">Contato</a>
+              </h6>
+            </div>
+          </div>
+          <hr class="rgba-white-light" style="margin: 0 15%;" />
+
+          <div
+            class="row d-flex text-center justify-content-center mb-md-0 mb-4"
+          >
+            <div class="col-md-8 col-12 mt-5">
+              <p style="line-height: 1.7rem;">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+                quae ab illo inventore veritatis et quasi architecto beatae
+                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+                voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur.
               </p>
             </div>
-            <div class="col-md-3 ml-auto">
-              <h2 class="footer-heading mb-4">Quick Links</h2>
-              <ul class="list-unstyled">
-                <li>
-                  <a href="#about-section" class="smoothscroll">About Us</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-3">
-              <h2 class="footer-heading mb-4">Follow Us</h2>
-              <a
-                href="https://www.facebook.com/barbeariaamizades/"
-                class="pl-0 pr-3"
-                ><span class="icon-facebook"></span
-              ></a>
-              <a
-                href="https://www.instagram.com/barbeariaamizades/"
-                class="pl-3 pr-3"
-                ><span class="icon-instagram"></span
-              ></a>
+          </div>
+          <hr
+            class="clearfix d-md-none rgba-white-light"
+            style="margin: 10% 15% 5%;"
+          />
+
+          <div class="row pb-3">
+            <div class="col-md-12">
+              <div class="mb-5 text-center">
+                <!--Instagram-->
+                <a class="ins-ic">
+                  <i class="icon-instagram mr-2 ml-2"> </i>
+                </a>
+                <!-- Facebook -->
+                <a class="fb-ic">
+                  <i class="icon-facebook-f mr-2 ml-2"> </i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+          © 2020 Copyright:
+          <span class="text-dark-yellow">BarberShopControl</span>
+        </div>
       </footer>
     </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="baseModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">allla lalal lala</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item list-group">
+                <div>
+                  <div>
+                    <h4>serviço</h4>
+                  </div>
+                </div>
+                <div>
+                  <div>R$40,00</div>
+                  <span>30min</span>
+                </div>
+                <div>
+                  <button type="button" class="btn" data-dismiss="modal">
+                    RESERVAR
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn danger" data-dismiss="modal">
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- scripts -->
-    <script src="{% static 'js/bootstrap/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/aos.js' %}"></script>
+    <script src="{% static 'js/bootstrap/main.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery-ui.js' %}"></script>
     <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.countdown.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'js/bootstrap/aos.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.fancybox.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/main.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.countdown.min.js' %}"></script>
   </body>
 </html>

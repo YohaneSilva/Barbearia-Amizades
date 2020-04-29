@@ -1,21 +1,29 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Recuperar Senha |
-Barbearia Amizades S & D{% endblock %} {% block content %}
-<main>
+{% extends 'base.html' %} {% load static %} {% block title %}Login | Barbearia
+Amizades S & D{% endblock %} {% block content %}
+<body>
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6 login-section-wrapper">
         <div class="brand-wrapper">
-          <a href="#" title="Retornar a página inicial"
+          <a href="{% url 'home' %}" title="Retornar a página inicial"
             ><img
-              src="{% static 'img/logo.png' %}"
-              alt="logo da Barbearia Amizades S & D"
-              class="logo"
-          /></a>
+              src="{% static 'img/logotipo-barbearia-amizades-preto.svg' %}"
+              width="18%"
+              alt="logotipo da barbearia amizades"
+            />
+          </a>
         </div>
         <div class="login-wrapper">
           <h1 class="login-title">
-            Recuperar <br />
-            <p style="font-size: 60px;">Conta</p>
+            Já tem <br />
+            <p style="font-size: 60px;">Conta?</p>
           </h1>
 
           <form action="#!">
@@ -29,17 +37,27 @@ Barbearia Amizades S & D{% endblock %} {% block content %}
                 placeholder="email@exemplo.com"
               />
             </div>
+            <div class="form-group mb-4" id="form-password">
+              <label for="password">senha</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="form-control"
+                placeholder="●●●●●●●●"
+              />
+            </div>
             <input
-              name="forgot-btn"
-              id="forgot-btn"
+              name="login"
+              id="login"
               class="btn btn-block login-btn"
               type="button"
-              value="Enviar"
+              value="Acessar"
             />
           </form>
 
-          <a href="{% url 'acesso'%}" class="forgot-password-link"
-            >Retornar ao login</a
+          <a href="{% url 'recuperarSenha'%}" class="forgot-password-link"
+            >Esqueceu a senha?</a
           >
           <p class="login-wrapper-footer-text">
             Não tem conta?
@@ -58,5 +76,5 @@ Barbearia Amizades S & D{% endblock %} {% block content %}
       </div>
     </div>
   </div>
-</main>
+</body>
 {% endblock %}
