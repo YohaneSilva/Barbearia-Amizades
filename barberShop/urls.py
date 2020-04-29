@@ -20,4 +20,5 @@ import barberShop.core
 urlpatterns = [
     path('', include('barberShop.core.urls')),
     path('admin/', admin.site.urls),
+    #path('login/', include('django.contrib.auth.urls')),
 ]
