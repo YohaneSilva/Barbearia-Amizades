@@ -39,21 +39,33 @@
 
 })(jQuery); // End of use strict
 
-// Pegar o id do registro 
+// Pegar o id do registro do Serviço
 $('td #btnEditService').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
-    .find("#codeService")     // Gets a descendent with class="#codeService"
+    .find("#codeService")     // Gets a descendent with id="codeService"
     .text();         // Retrieves the text within <td>
   
   var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'/editar';
 
-  window.open(url);
+  window.location.href = url;
+});
+
+// Pegar o id do registro do Usuário
+$('td #btnEditUser').click(function () {
+  var $idSelectedItem = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeUser")     // Gets a descendent with id="codeUser"
+    .text();         // Retrieves the text within <td>
+  
+  var url = 'http://127.0.0.1:8000/minhaconta/conta/'+$idSelectedItem+'/editar';
+
+  window.location.href = url;
 });
 
 // Refresh da tabela de serviços
 $(document).ready(function (){
-  $("#btnRefreshTableService").click(function(){
+  $("#btnRefreshPage").click(function(){
       location.reload(true);
   });
 });
@@ -65,7 +77,6 @@ $("#backToTop").click(function () {
 
 // Contador das linhas da tabela
 $(document).ready(function () {
-  var quantidadeLinhasTabela = $('#tableService tr').length - 1;
-  $('#lengthRowTableService').html('<strong>Quantidade de Serviços Cadastrados: </strong> '+quantidadeLinhasTabela);
+  var quantidadeLinhasTabela = $('#tableAllResults tr').length - 1;
+  $('#lengthRowTable').html('<strong>Quantidade de Cadastros: </strong> '+quantidadeLinhasTabela);
 });
-

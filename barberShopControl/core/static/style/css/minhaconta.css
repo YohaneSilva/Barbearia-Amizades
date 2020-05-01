@@ -450,11 +450,11 @@ mark,
   background-color: #fcf8e3;
 }
 
-#formDeleteService{
+#formDeleteService, #formDeleteUser{
   display: inline;
 }
 
-#tableService{
+#listingTable{
   overflow-x: auto;
 }
 

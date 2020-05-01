@@ -43,18 +43,11 @@
         </div>
 
         <!-- Nav Item - Count Collapse Menu -->
-        <li class="nav-item" title="Clique para ver as opções">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCount" aria-expanded="true" aria-controls="collapseTwo">
+        <li class="nav-item" title="Ir para Gestão de Conta">
+          <a class="nav-link collapsed" href="{% url 'usuariosCadastrados' %}">
             <i class="fas fa-fw fa-user"></i>
             <span>Conta</span>
           </a>
-          <div id="collapseCount" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="#">Realizar Cadastro</a>
-              <a class="collapse-item" href="#">Alterar Cadastro</a>
-              <a class="collapse-item" href="#">Consultar Cadastro</a>
-            </div>
-          </div>
         </li>
 
         <!-- Nav Item - Schedul Collapse Menu -->
@@ -80,7 +73,7 @@
           </a>
           <div id="collapseService" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item collapse-item-service" href="{% url 'novoServico' %}">Cadastrar Serviços</a>
+              <a class="collapse-item collapse-item-service" href="{% url 'cadastrarServico' %}">Cadastrar Serviços</a>
               <a class="collapse-item collapse-item-service" href="{% url 'servicosCadastrados' %}">Consultar Serviços</a>
             </div>
           </div>

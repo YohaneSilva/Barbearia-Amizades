@@ -3,12 +3,12 @@
 {% block title %} Editar Serviço | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Editar Serviço{% endblock %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid module-title">
     <form method="POST" class="form-edit-service" id="formEditService">
         {% csrf_token %}
         {{ form_servico.as_p }}
     </form>
-    <button type="submit" form="formEditService" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do serviço" id="btnSaveEditService" title="Salvar alterções no serviço">
+    <button type="submit" form="formEditService" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do serviço" id="btnSaveEditService" title="Salvar alterações do serviço">
         Salvar Alteração
     </button>
 
@@ -25,12 +25,12 @@
         {% endfor %}
     </div>
     
-    <ul class="list-group" id="listServiceSelected">
+    <ul class="list-group module-title" id="listServiceSelected">
         <li class="list-group-item active h5">Visualizar Alteração</li>
         <li class="list-group-item"><strong>Código:</strong> {{ id_servico_selecionado }}</li>
-        <li class="list-group-item"><strong>Nome:</strong> {{ instance.serv_nome }}</li>
-        <li class="list-group-item"><strong>Duração:</strong> {{ instance.serv_tempo_duracao }}</li>
-        <li class="list-group-item"><strong>Valor:</strong> R$ {{ instance.serv_valor }}</li>
+        <li class="list-group-item"><strong>Nome:</strong> {{ instanciaServico.serv_nome }}</li>
+        <li class="list-group-item"><strong>Duração:</strong> {{ instanciaServico.serv_tempo_duracao }}</li>
+        <li class="list-group-item"><strong>Valor:</strong> R$ {{ instanciaServico.serv_valor }}</li>
     </ul>
 </div>
 {% endblock %}
