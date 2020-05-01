@@ -1,0 +1,36 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %} Editar Serviço | Barbearia Amizades S & D{% endblock %}
+{% block module_title %}Editar Serviço{% endblock %}
+{% block content %}
+<div class="container-fluid module-title">
+    <form method="POST" class="form-edit-service" id="formEditService">
+        {% csrf_token %}
+        {{ form_servico.as_p }}
+    </form>
+    <button type="submit" form="formEditService" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do serviço" id="btnSaveEditService" title="Salvar alterações do serviço">
+        Salvar Alteração
+    </button>
+
+    <a class="btn btn-outline-secondary module-title" href="{% url 'servicosCadastrados' %}" aria-label="Botão para redirecionar para a listagem dos serviços cadastrados" title="Ir para Consultar Serviços">Consultar Serviços</a>
+
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <ul class="list-group module-title" id="listServiceSelected">
+        <li class="list-group-item active h5">Visualizar Alteração</li>
+        <li class="list-group-item"><strong>Código:</strong> {{ id_servico_selecionado }}</li>
+        <li class="list-group-item"><strong>Nome:</strong> {{ instanciaServico.serv_nome }}</li>
+        <li class="list-group-item"><strong>Duração:</strong> {{ instanciaServico.serv_tempo_duracao }}</li>
+        <li class="list-group-item"><strong>Valor:</strong> R$ {{ instanciaServico.serv_valor }}</li>
+    </ul>
+</div>
+{% endblock %}

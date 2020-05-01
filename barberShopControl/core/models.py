@@ -18,9 +18,9 @@ class Estabelecimento(models.Model):
 class Servico(models.Model):
     serv_data_alter = models.DateTimeField(auto_now=True, auto_now_add=False, null=True)
     serv_alter_usuario_id = models.ForeignKey("Usuario", related_name="serv_alter_usuario_id", on_delete=models.CASCADE, null=True)
-    serv_nome = models.CharField(max_length=40)
-    serv_tempo_duracao = models.TimeField(auto_now=False, auto_now_add=False)
-    serv_valor = models.DecimalField(max_digits=7, decimal_places=2)
+    serv_nome = models.CharField("Nome", max_length=40)
+    serv_tempo_duracao = models.TimeField("Duração", auto_now=False, auto_now_add=False)
+    serv_valor = models.DecimalField("Valor", max_digits=7, decimal_places=2)
 
 
 class Usuario(models.Model):
@@ -35,15 +35,21 @@ class Usuario(models.Model):
         ("A", "Administrador")
     )
 
+        
+    STATUS_CHOICES = (
+        ("A", "Ativado"),
+        ("D", "Desativado"),
+    )
+
     us_data_alter = models.DateTimeField(auto_now=True, auto_now_add=False, null=True)
-    us_situacao_conta = models.BooleanField()
-    us_perfil = models.CharField(max_length=1, choices=PERFIL_CHOICES)
-    us_primeiro_nome = models.CharField(max_length=15)
-    us_segundo_nome = models.CharField(max_length=45)
-    us_sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
-    us_email = models.EmailField(max_length=254, unique=True)
-    us_senha = models.CharField(max_length=20)
-    us_telefone = models.CharField(max_length=11)
+    us_situacao_conta = models.CharField("Habilitar/Desabilitar", max_length=1, choices=STATUS_CHOICES)
+    us_perfil = models.CharField("Perfil", max_length=1, choices=PERFIL_CHOICES)
+    us_primeiro_nome = models.CharField("Primeiro Nome", max_length=15)
+    us_segundo_nome = models.CharField("Sobrenome", max_length=45)
+    us_sexo = models.CharField("Sexo", max_length=1, choices=SEXO_CHOICES)
+    us_email = models.EmailField("E-mail", max_length=254, unique=True)
+    us_senha = models.CharField("Senha", max_length=20)
+    us_telefone = models.CharField("Telefone", max_length=11, blank=True)
     us_end_cep = models.CharField(max_length=8, blank=True)
     us_end_logradouro = models.CharField(max_length=100, blank=True)
     us_end_numero = models.CharField(max_length=8, blank=True)

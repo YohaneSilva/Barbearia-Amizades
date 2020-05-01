@@ -1,0 +1,31 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %} Cadastrar Serviço | Barbearia Amizades S & D{% endblock %}
+{% block module_title %}Cadastrar Serviço{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <form method="POST" class="form-register-service" id="formRegisterService">
+        {% csrf_token %}
+        {{ form_servico.as_p }}
+    </form>
+
+    <button type="submit" form="formRegisterService" class="btn btn-primary module-title" aria-label="Botão para salvar novo serviço" title="Salvar novo serviço">
+        Salvar Serviço
+    </button>
+
+    <a class="btn btn-outline-secondary module-title" href="{% url 'servicosCadastrados' %}" aria-label="Botão para redirecionar para a listagem dos serviços cadastrados" title="Ir para Consulta de Serviços">
+        Consultar Serviços
+    </a>
+
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

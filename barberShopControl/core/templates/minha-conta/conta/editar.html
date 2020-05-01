@@ -1,0 +1,49 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %}Editar Usuário | Barbearia Amizades S & D{% endblock %}
+{% block module_title %}Editar Usuário{% endblock %}
+{% block content %}
+<div class="container-fluid module-title">
+    <form method="POST" class="form-register-user" id="formEditUser">
+        {% csrf_token %}
+        {{ form_usuario.as_p }}
+    </form>
+    
+    <button type="submit" form="formEditUser" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do usuário" id="btnSaveEditUser" title="Salvar alterações do serviço">
+        Salvar Alteração
+    </button>
+
+    <a class="btn btn-outline-secondary module-title" href="{% url 'usuariosCadastrados' %}" aria-label="Botão para redirecionar para a listagem dos usuários cadastrados" title="Ir para Consulta de Usuários">
+        Consultar Usuários
+    </a>
+
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <ul class="list-group" id="listUserSelected">
+        <li class="list-group-item active h5">Visualizar Alteração</li>
+        <li class="list-group-item"><strong>Código:</strong> {{ id_usuario_selecionado }}</li>
+
+        {% if instanciaUsuario.us_situacao_conta == 'A' %}
+            <li class="list-group-item"><strong>Status: </strong>Ativado</li>
+        {% else %}
+            <li class="list-group-item"><strong>Status: </strong>Desativado</li>
+        {% endif %}
+
+        <li class="list-group-item"><strong>Perfil:</strong> {{ instanciaUsuario.us_perfil }}</li>
+        <li class="list-group-item"><strong>Primeiro Nome:</strong> {{ instanciaUsuario.us_primeiro_nome }}</li>
+        <li class="list-group-item"><strong>Sobrenome:</strong> {{ instanciaUsuario.us_segundo_nome }}</li>
+        <li class="list-group-item"><strong>E-mail:</strong> {{ instanciaUsuario.us_email }}</li>
+        <li class="list-group-item"><strong>Sexo:</strong> {{ instanciaUsuario.us_sexo }}</li>
+        <li class="list-group-item"><strong>Telefone:</strong> {{ instanciaUsuario.us_telefone }}</li>
+    </ul>
+</div>
+{% endblock %}
