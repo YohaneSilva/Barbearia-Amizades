@@ -12,6 +12,10 @@
       rel="stylesheet"
       href="{% static 'fonts/flaticon/font/flaticon.css' %}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"
+    />
 
     <!-- Arquivos CSS -->
     <link
@@ -29,6 +33,7 @@
       href="{% static 'style/css/bootstrap/owl.carousel.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'style/css/bootstrap/aos.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/css/login.css' %}" />
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -168,7 +173,10 @@
                   <i class="icon-instagram mr-2 ml-2"> </i>
                 </a>
                 <!-- Facebook -->
-                <a class="fb-ic">
+                <a
+                  href="https://www.facebook.com/barbeariaamizades/"
+                  class="fb-ic"
+                >
                   <i class="icon-facebook-f mr-2 ml-2"> </i>
                 </a>
               </div>
@@ -224,18 +232,20 @@
         </div>
       </div>
     </div>
-    <!-- scripts -->
-    <script src="{% static 'js/bootstrap/aos.js' %}"></script>
-    <script src="{% static 'js/bootstrap/main.js' %}"></script>
+
+    <!-- scripts - não mexer na ordem dos scripts -->
+    <script src="{% static 'js/bootstrap/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery-ui.js' %}"></script>
     <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.sticky.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'js/bootstrap/jquery.fancybox.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/bootstrap/aos.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/bootstrap/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/main.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
   </body>
 </html>
