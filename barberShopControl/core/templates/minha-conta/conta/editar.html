@@ -13,7 +13,7 @@
         Salvar Alteração
     </button>
 
-    <a class="btn btn-outline-secondary module-title" href="{% url 'usuariosCadastrados' %}" aria-label="Botão para redirecionar para a listagem dos usuários cadastrados" title="Ir para Consulta de Usuários">
+    <a class="btn btn-outline-secondary module-title" href="{% url 'contasCadastradas' %}" aria-label="Botão para redirecionar para a listagem dos usuários cadastrados" title="Ir para Consulta de Usuários">
         Consultar Usuários
     </a>
 
@@ -38,7 +38,6 @@
             <li class="list-group-item"><strong>Status: </strong>Desativado</li>
         {% endif %}
 
-        <li class="list-group-item"><strong>Perfil:</strong> {{ instanciaUsuario.us_perfil }}</li>
         <li class="list-group-item"><strong>Primeiro Nome:</strong> {{ instanciaUsuario.us_primeiro_nome }}</li>
         <li class="list-group-item"><strong>Sobrenome:</strong> {{ instanciaUsuario.us_segundo_nome }}</li>
         <li class="list-group-item"><strong>E-mail:</strong> {{ instanciaUsuario.us_email }}</li>

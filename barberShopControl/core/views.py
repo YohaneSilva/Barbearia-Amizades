@@ -3,7 +3,7 @@ from django.contrib import messages
 
 from .forms import *
 from .filters import FiltroUsuario
-from .models import Servico, Usuario
+from .models import Servico, Usuario, Estabelecimento
 
 def acesso(request):
     return render(request, 'login/acesso.html')
@@ -16,6 +16,7 @@ def criarConta(request):
 
 def dashboard(request):
     return render(request, 'minha-conta/dashboard.html')
+
 
 # Subsistema: Serviço
 def servicosCadastrados(request):
@@ -95,29 +96,77 @@ def excluirServico(request, id):
 
 
 # Subsistema: Conta
-def usuariosCadastrados(request):
+
+def contasCadastradas(request):
     # Trazendo todos os registros da tabela Serviço
     usuarios_cadastrados = Usuario.objects.all()
+    estab_cadastrado = Estabelecimento.objects.all()
 
-    filtro_usuarios_cadastrados = FiltroUsuario(request.GET, queryset=usuarios_cadastrados)
-    usuarios_cadastrados = filtro_usuarios_cadastrados.qs
+    # Filtros
+    # filtro_usuarios_cadastrados = Filtro(request.GET, queryset=usuarios_cadastrados)
+    # usuarios_cadastrados = filtro_usuarios_cadastrados.qs
 
     contexto = {
         'usuarios_cadastrados' : usuarios_cadastrados,
-        'filtro_usuarios_cadastrados' : filtro_usuarios_cadastrados,
+        'estab_cadastrado' : estab_cadastrado
     }
 
     return render(request, 'minha-conta/conta/lista.html', contexto)
 
+# Conta Jurídica
+def editarContaJuridica(request, id):
+    instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
+    
+    if request.method == "POST":
+        form_estabelecimento = FormularioEstabelecimento(request.POST, instance=instanciaEstabelecimento)
+
+        if form_estabelecimento.is_valid():
+            instanciaEstabelecimento = form_estabelecimento.save(commit=False)
+            instanciaEstabelecimento.save()
+
+            # Mensagem de sucesso
+            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        else:
+            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
+    else:
+        form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
+
+    contexto = {
+        "id_usuario_selecionado" : id,
+        "instanciaEstabelecimento" : instanciaEstabelecimento,
+        "form_estabelecimento" : form_estabelecimento
+    }
+
+    return render(request, 'minha-conta/conta/editar.html', contexto)
+
+# Cadastrar Estabelecimento
+def cadastrarEstabelecimento(request):
+
+    novo_usuario = Estabelecimento(
+            estab_cnpj='42157458000107',
+            estab_razao_social='Sandoval Santos Silva Filho',
+            estab_nome_fantasia='Barbearia Amizades S & D',
+            estab_end_cep='13232281',
+            estab_end_logradouro='R. Edmundo Antônio Pernetti',
+            estab_end_numero='212',
+            estab_end_complemento='2º andar',
+            estab_end_bairro='Jardim Santo Antonio I',
+            estab_end_cidade='Campo Limpo Paulista',
+            estab_end_uf='SP'
+        )
+
+    novo_usuario.save()
+
+    return redirect('contasCadastradas')
+
 def cadastrarUsuario(request):
-    form_usuario = FormularioConta()
+    form_usuario = FormularioUsuario()    
 
     if request.method == "POST":
-        form_usuario = FormularioConta(request.POST)
+        form_usuario = FormularioUsuario(request.POST)
         
         if form_usuario.is_valid():
             status = form_usuario.cleaned_data['us_situacao_conta']
-            perfil = form_usuario.cleaned_data['us_perfil']
             nome = form_usuario.cleaned_data['us_primeiro_nome']
             sobrenome = form_usuario.cleaned_data['us_segundo_nome']
             sexo = form_usuario.cleaned_data['us_sexo']
@@ -126,7 +175,6 @@ def cadastrarUsuario(request):
 
             novo_usuario = Usuario(
                     us_situacao_conta=status,
-                    us_perfil=perfil, 
                     us_primeiro_nome=nome, 
                     us_segundo_nome=sobrenome, 
                     us_sexo=sexo,
@@ -140,7 +188,7 @@ def cadastrarUsuario(request):
             return redirect('cadastrarUsuario')
 
         else:
-            form_usuario = FormularioConta()
+            form_usuario = FormularioUsuario()
             messages.success(request, 'Não foi possível cadastrar o usuário', extra_tags='alert-danger')
     
     contexto = {'form_usuario' : form_usuario}
@@ -151,7 +199,7 @@ def editarUsuario(request, id):
     instanciaUsuario = get_object_or_404(Usuario, id=id)
     
     if request.method == "POST":
-        form_usuario = FormularioConta(request.POST, instance=instanciaUsuario)
+        form_usuario = FormularioUsuario(request.POST, instance=instanciaUsuario)
 
         if form_usuario.is_valid():
             instanciaUsuario = form_usuario.save(commit=False)
@@ -162,7 +210,7 @@ def editarUsuario(request, id):
         else:
             messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
     else:
-        form_usuario = FormularioConta(instance=instanciaUsuario)
+        form_usuario = FormularioUsuario(instance=instanciaUsuario)
 
     contexto = {
         "id_usuario_selecionado" : id,
@@ -176,4 +224,4 @@ def excluirUsuario(request, id):
         instance = Usuario.objects.get(id=id)
         instance.delete()
         messages.success(request, 'Cadastro excluído', extra_tags='alert-success')
-        return redirect('usuariosCadastrados')
+        return redirect('contasCadastradas')

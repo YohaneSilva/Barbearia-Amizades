@@ -8,7 +8,6 @@ class FiltroUsuario(django_filters.FilterSet):
         model = Usuario
         fields = [
             'us_situacao_conta',
-            'us_perfil',
             'us_primeiro_nome',
             'us_segundo_nome',
             'us_sexo',

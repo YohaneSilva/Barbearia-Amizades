@@ -44,10 +44,16 @@
 
         <!-- Nav Item - Count Collapse Menu -->
         <li class="nav-item" title="Ir para Gestão de Conta">
-          <a class="nav-link collapsed" href="{% url 'usuariosCadastrados' %}">
+          <a class="nav-link collapsed" href="{% url 'contasCadastradas' %}" data-toggle="collapse" data-target="#collapseSchedul" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-user"></i>
             <span>Conta</span>
           </a>
+          <div id="collapseCount" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="#">Física</a>
+              <a class="collapse-item" href="#">Jurídica</a>
+            </div>
+          </div>
         </li>
 
         <!-- Nav Item - Schedul Collapse Menu -->

@@ -18,8 +18,11 @@ urlpatterns = [
     path('minhaconta/servicos/<int:id>/', views.excluirServico, name="excluirServico"),
 
     # Subsistema: Conta
-    path('minhaconta/conta/', views.usuariosCadastrados, name="usuariosCadastrados"),
+    path('minhaconta/conta/', views.contasCadastradas, name="contasCadastradas"),
     path('minhaconta/conta/cadastro/', views.cadastrarUsuario, name="cadastrarUsuario"),
     path('minhaconta/conta/<int:id>/editar/', views.editarUsuario, name="editarUsuario"),
     path('minhaconta/conta/<int:id>/', views.excluirUsuario, name="excluirUsuario"),
+
+    # Cadastrar estabelecimento automaticamente (alterar)
+    path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento"),
 ]
