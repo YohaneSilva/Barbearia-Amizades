@@ -37,9 +37,11 @@
               {{ valor.estab_end_logradouro }}, {{ valor.estab_end_numero }}, {{ valor.estab_end_complemento }} - {{ valor.estab_end_bairro }} <br> {{ valor.estab_end_cidade }} - {{ valor.estab_end_uf }}
             </td>
             <td class="align-middle">
-              <button type="button" class="btn btn-info" id="btnEditUser" title="Editar usuário" aria-label="Botão para editar um usuário cadastrado">
-                <i class="fas fa-edit"></i>
-              </button>
+              <a href="http://127.0.0.1:8000/minhaconta/conta/1/editar/estabelecimento">
+                <button type="button" class="btn btn-info" id="btnEditCompany" title="Editar estabelecimento" aria-label="Botão para editar o estabelecimento">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>
             </td>
           </tr>
         {% endfor %}

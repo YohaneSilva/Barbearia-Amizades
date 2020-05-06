@@ -1,0 +1,45 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %}Editar Estabelecimento | Barbearia Amizades S & D{% endblock %}
+{% block module_title %}Editar Estabelecimento{% endblock %}
+{% block content %}
+<div class="container-fluid module-title">
+    <form method="POST" class="form-register-company" id="formEditCompany">
+        {% csrf_token %}
+        {{ form_estabelecimento.as_p }}
+    </form>
+    
+    <button type="submit" form="formEditCompany" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do estabelecimento" id="btnSaveEditUser" title="Salvar alterações do estabelecimento">
+        Salvar Alteração
+    </button>
+
+    <a class="btn btn-outline-secondary module-title" href="{% url 'contasCadastradas' %}" aria-label="Botão para redirecionar para a listagem das contas cadastradas" title="Ir para Contas Cadastradas">
+        Consultar Contas
+    </a>
+
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <ul class="list-group" id="listCompanySelected">
+        <li class="list-group-item active h5">Visualizar Alteração</li>
+        <li class="list-group-item"><strong>CNPJ:</strong> {{ instanciaEstabelecimento.estab_cnpj }}</li>
+        <li class="list-group-item"><strong>Razão Social:</strong> {{ instanciaEstabelecimento.estab_razao_social }}</li>
+        <li class="list-group-item"><strong>Nome Fantasia:</strong> {{ instanciaEstabelecimento.estab_nome_fantasia }}</li>
+        <li class="list-group-item"><strong>CEP:</strong> {{ instanciaEstabelecimento.estab_end_cep }}</li>
+        <li class="list-group-item"><strong>Logradouro:</strong> {{ instanciaEstabelecimento.estab_end_logradouro }}</li>
+        <li class="list-group-item"><strong>Número:</strong> {{ instanciaEstabelecimento.estab_end_numero }}</li>
+        <li class="list-group-item"><strong>Complemento:</strong> {{ instanciaEstabelecimento.estab_end_complemento }}</li>
+        <li class="list-group-item"><strong>Bairro:</strong> {{ instanciaEstabelecimento.estab_end_bairro }}</li>
+        <li class="list-group-item"><strong>Cidade:</strong> {{ instanciaEstabelecimento.estab_end_cidade }}</li>
+        <li class="list-group-item"><strong>UF:</strong> {{ instanciaEstabelecimento.estab_end_uf }}</li>
+    </ul>
+</div>
+{% endblock %}

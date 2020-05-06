@@ -23,6 +23,10 @@ urlpatterns = [
     path('minhaconta/conta/<int:id>/editar/', views.editarUsuario, name="editarUsuario"),
     path('minhaconta/conta/<int:id>/', views.excluirUsuario, name="excluirUsuario"),
 
+    # Conta Jurídica
+    path('minhaconta/conta/<int:id>/editar/estabelecimento', views.editarEstabelecimento, name="editeditarEstabelecimentoarUsuario"),
+
+
     # Cadastrar estabelecimento automaticamente (alterar)
     path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento"),
 ]

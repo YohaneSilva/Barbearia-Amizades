@@ -114,7 +114,7 @@ def contasCadastradas(request):
     return render(request, 'minha-conta/conta/lista.html', contexto)
 
 # Conta Jurídica
-def editarContaJuridica(request, id):
+def editarEstabelecimento(request, id):
     instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
     
     if request.method == "POST":
@@ -132,12 +132,11 @@ def editarContaJuridica(request, id):
         form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
 
     contexto = {
-        "id_usuario_selecionado" : id,
         "instanciaEstabelecimento" : instanciaEstabelecimento,
         "form_estabelecimento" : form_estabelecimento
     }
 
-    return render(request, 'minha-conta/conta/editar.html', contexto)
+    return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
 
 # Cadastrar Estabelecimento
 def cadastrarEstabelecimento(request):
