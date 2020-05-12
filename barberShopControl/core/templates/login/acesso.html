@@ -1,0 +1,47 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block title %}Login | Barbearia Amizades S & D{% endblock %}
+{% block content %}
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 login-section-wrapper">
+          <div class="brand-wrapper">
+            <a href="#" title="Retornar a página inicial"><img src="{% static 'img/logo.png' %}" alt="logo da Barbearia Amizades S & D" class="logo"></a>
+          </div>
+          <div class="login-wrapper">
+            <h1 class="login-title">Já tem <br><p style="font-size:60px">Conta?</p></h1>
+
+            <form action="submit" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" class="form-control" placeholder="usuário" id="username" name="username">
+              </div>
+              <div class="form-group mb-4" id="form-password">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" placeholder="********" id="password" name="password">
+              </div>
+              <div class="form-group form-check">
+              </div>
+              {% for message in messages  %}
+                <div class="alert alert-danger alert-dismissible fade show" >
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
+                </div>
+              {% endfor %}
+              <button name="login" id="login" class="btn btn-block login-btn" type="submit" >Acesso</button>
+            </form>
+            </form>
+
+            <a href="{% url 'recuperarSenha'%}" class="forgot-password-link">Esqueceu a senha?</a>
+            <p class="login-wrapper-footer-text">Não tem conta? <a href="{% url 'criarConta' %}" class="text-reset">Cadastre-se aqui</a></p>
+          </div>
+        </div>
+        <div class="col-sm-6 px-0 d-none d-sm-block">
+          <img src="{% static 'img/login.jpg' %}" alt="Imagem do rosto de um capaz com os olhos corbertos por uma toalha umedecida. Há um outro homem se preparando para cortar a barbar, do rapaz com os olhos vendados, com o auxílio de uma navalha." class="login-img">
+        </div>
+      </div>
+    </div>  
+  </main>
+{% endblock %}

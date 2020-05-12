@@ -1,0 +1,33 @@
+{% extends 'login/base.html' %}
+
+{% block title %}Criar Conta | Barbearia Amizades S & D{% endblock %}
+{% block content %}
+ 
+<div class="container">
+<form action="{% url 'criarConta'%}" class="form-signin" method="POST" >
+  {% csrf_token %}
+  <br>
+   <h2 class="form-signin-heading text-center">Cadastro de Usuário</h2><br><br>               
+  <label>Primeiro nome:</label>
+  {{form.first_name}}
+  <br>
+  <label>Sobrenome:</label>
+  {{form.last_name}}
+  <br>
+
+  <label>Email:</label>
+  {{form.email}}
+  <br>
+  <label>Usuário:</label>
+  {{form.username}}
+  <br>
+  <label>Senha:</label>
+  {{form.password}}
+  <br>
+  {{form.is_staff}}
+  <br>
+            
+  <button type="submit" class="btn btn-lg btn-primary btn-black">Criar</button>
+ </form>
+</div>
+ {% endblock %}

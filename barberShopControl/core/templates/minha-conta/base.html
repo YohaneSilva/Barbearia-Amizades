@@ -1,0 +1,281 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{% static 'style/css/minhaconta.css' %}" rel="stylesheet">
+  </head>
+
+  <body id="page-top">
+    <div id="wrapper">
+    
+      <!-- Sidebar -->
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <div class="sidebar-brand d-flex align-items-center justify-content-center">
+          <img class="simbol-logo" src="{% static 'img/simbolo-branco.png' %}" alt="Símbolo da Barbearia Amizades S & D" class="logo">
+          <div class="sidebar-brand-text mx-3">Admin.</div>
+        </div>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active" title="Ir para o painel de monitoração">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+         <!-- Heading -->
+        <div class="sidebar-heading">
+          Configuração
+        </div>
+
+        <!-- Nav Item - Count Collapse Menu -->
+        <li class="nav-item" title="Ir para Gestão de Conta">
+          <a class="nav-link collapsed" href="{% url 'usuariosCadastrados' %}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Conta</span>
+          </a>
+        </li>
+
+        <!-- Nav Item - Schedul Collapse Menu -->
+        <li class="nav-item" title="Clique para ver as opções">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedul" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-address-book"></i>
+            <span>Agenda</span>
+          </a>
+          <div id="collapseSchedul" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="#">Realizar Angedamento</a>
+              <a class="collapse-item" href="#">Alterar Agendamento</a>
+              <a class="collapse-item" href="#">Consultar Agenda</a>
+            </div>
+          </div>
+        </li>
+
+        <!-- Nav Item - Service Collapse Menu -->
+        <li class="nav-item" title="Clique para ver as opções">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseService" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cut"></i>
+            <span>Serviços</span>
+          </a>
+          <div id="collapseService" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item collapse-item-service" href="{% url 'cadastrarServico' %}">Cadastrar Serviços</a>
+              <a class="collapse-item collapse-item-service" href="{% url 'servicosCadastrados' %}">Consultar Serviços</a>
+            </div>
+          </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Utilitário
+        </div>
+
+        <!-- Nav Item - Charts -->
+        <li class="nav-item" title="Clique para gerar os relatórios">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Relatórios</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline" title="Alternar barra de navegação">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+      </ul>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" title="Abrir caixa de alertas" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3+</span>
+              </a>
+
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">Caixa de Alertas</h6>
+                <div class="dropdown-list-body">
+                  <div class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-warning">
+                        <i class="fas fa-exclamation-triangle text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">Lenildo Nascimento</div>
+                      <span>Cadastro realizado com sucesso.</span>
+                    </div>
+                  </div>
+                  <div class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-success">
+                        <i class="fas fa-plus text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">Isaías Araujo</div>
+                      <span>Serviço alterado com sucesso.</span>
+                    </div>
+                  </div>
+                  <div class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-danger">
+                        <i class="fas fa-times text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">Yohanne Braga</div>
+                      <span>Cadastro excluído.</span>
+                    </div>
+                  </div>
+                  <div class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-danger">
+                        <i class="fas fa-times text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">Paulo Danilo</div>
+                      <span>Cadastro excluído.</span>
+                    </div>
+                  </div>
+                  <div class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-warning">
+                        <i class="fas fa-times text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">Anderon Pissulin</div>
+                      <span>Agendamento alterado com sucesso.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.get_username }}</span>
+                <img class="img-profile rounded-circle" src="https://static.vecteezy.com/system/resources/previews/000/550/731/non_2x/user-icon-vector.jpg">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+        
+        <!-- Module Title -->
+        <h1 class="h3 text-gray-800 container-fluid module-title">{% block module_title %}{% endblock %}</h1>
+
+        {% comment %} <!-- Dropdown Service -->
+          <div class="dropdown module-title container-fluid">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButtonService" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Menu Serviços
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownButtonService">
+              <div class="dropdown-item dropdown-item-service">Cadastrar Serviços</div>
+              <div class="dropdown-item dropdown-item-service">Alterar Serviços</div>
+              <div class="dropdown-item dropdown-item-service">Consultar Serviços</div>
+            </div>
+          </div> {% endcomment %}
+
+        {% block content %}
+        {% endblock %}
+        
+      
+      </div>
+      <!-- End of Content Wrapper -->
+
+      </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" id="backToTop" title="Retornar ao topo" aria-label="Botão para retonar ao topo">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Finalizando a sessão!</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Selecionar "Logout" para encerrar a sua sessão.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="{% url 'logoutUser' %}">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'script/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'script/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'script/js/minhaconta.js' %}"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  </body>
+</html>

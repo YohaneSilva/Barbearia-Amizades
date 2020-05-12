@@ -1,0 +1,219 @@
+body {
+  font-family: "Raleway";
+  background-color: #fff;
+  min-height: 100vh; 
+}
+
+.brand-wrapper {
+  padding-top: 7px; 
+}
+
+.brand-wrapper .logo {
+  margin-bottom: 50px;
+  height: 150px; 
+}
+
+#form-count {
+  margin-bottom: 10px;
+  max-height: 450px;
+}
+
+.login-section-wrapper::-webkit-scrollbar{
+  width: 5px;
+}
+
+.login-section-wrapper::-webkit-scrollbar-thumb{
+  background-color: #2f2f2f;
+}
+
+.login-section-wrapper::-webkit-scrollbar-track{
+  background-color: #dbdbdb;
+}
+
+#forgot-password-link{
+  margin-bottom: 40px;
+}
+
+.login-section-wrapper {
+  overflow-y: auto;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  padding: 68px 100px 0px 100px;
+  background-color: #fff;
+}
+
+.login-wrapper {
+  background-color: #fff;
+  width: 300px;
+  max-width: 100%;
+  padding-top: 24px;
+  padding-bottom: 24px; 
+}
+
+.login-wrapper label {
+  font-size: 18px;
+  font-family: 'Poppins';
+  font-style: italic;
+  letter-spacing: 4px;
+  color: #fdcb8d; 
+}
+
+.login-wrapper .form-control {
+  border: none;
+  border-bottom: 1px solid #e7e7e7;
+  border-radius: 0;
+  padding: 9px 5px;
+  min-height: 40px;
+  font-size: 18px;
+  font-weight: normal; 
+}
+
+.login-wrapper .form-control::-webkit-input-placeholder {
+  color: #b0adad; 
+}
+
+.login-wrapper .form-control::-moz-placeholder {
+  color: #b0adad; 
+}
+
+.login-wrapper .form-control:-ms-input-placeholder {
+  color: #b0adad; 
+}
+
+.login-wrapper .form-control::-ms-input-placeholder {
+  color: #b0adad; 
+}
+
+.login-wrapper .form-control::placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .login-btn {
+  padding: 13px 20px;
+  background-color: #fdcb8d;
+  border-radius: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 14px; 
+}
+
+.login-wrapper .login-btn:hover {
+  border: 1px solid #fdbb28;
+  background-color: #fff;
+  color: #fdbb28; 
+}
+
+.login-wrapper a.forgot-password-link {
+  color: #080808;
+  font-size: 14px;
+  text-decoration: underline;
+  display: inline-block;
+  margin-bottom: 54px; 
+}
+
+
+.login-wrapper-footer-text {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 0; 
+}
+
+.login-title {
+  font-size: 40px;
+  color: #313131;
+  font-family: 'Abril Fatface';
+  line-height: 43px;
+  margin-bottom: 25px; 
+}
+
+.login-img {
+  width: 100%;
+  height: 100vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: left;
+     object-position: left; 
+}
+
+@media (max-width: 320px) {
+  .brand-wrapper {
+    text-align: center; 
+  }
+}
+
+@media (max-width: 360px) {
+
+  .brand-wrapper {
+    margin-bottom: 34px;
+    text-align: center;
+    height: 80px; 
+  }
+}
+
+@media (max-width: 575px) {
+
+  #form-count {
+    max-height: 100%;
+  }
+
+  #form-count::-webkit-scrollbar{
+    width: 0px;
+  }
+
+  .login-section-wrapper {
+    width: 100%;
+  }
+  
+  .login-wrapper .form-control {
+    font-size: 15px;
+  }
+
+  .login-wrapper label {
+    font-size: 13px;
+  }
+
+  .my-auto {
+    margin-top: 0px;
+  }
+  .brand-wrapper .logo {
+    height: 80px;
+    margin-bottom: 34px;
+  } 
+
+  .brand-wrapper {
+    text-align: center;
+  }
+  .login-wrapper a.forgot-password-link {
+    margin-bottom: 28px; 
+  } 
+
+  .login-section-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: 100vh; 
+    background-color: #2f2f2f;
+  } 
+
+  .login-wrapper {
+    width: 800px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 10px;
+  } 
+}
+
+@media (max-width: 991px) {
+  .login-section-wrapper {
+    padding-left: 20px;
+    padding-right: 20px; 
+  } 
+}
+
+
+
+
+/*# sourceMappingURL=login.css.map */
