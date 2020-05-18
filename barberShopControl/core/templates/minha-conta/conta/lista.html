@@ -18,6 +18,7 @@
     <table class="table table-striped table-light text-center" id="tableInstitute">
       <thead>
         <tr>
+          <th scope="col">Última Alteração</th>
           <th scope="col">CNPJ</th>
           <th scope="col">Razão Social</th>
           <th scope="col">Nome Fantasia</th>
@@ -29,7 +30,8 @@
       <tbody>
         {% for valor in estab_cadastrado %}
           <tr data-toggle="modal" data-target="#modaEditDeleteUser">
-            <td class="align-middle" scope="row">{{ valor.estab_cnpj }}</td>
+            <td class="align-middle" scope="row">{{ valor.estab_alter_data }}</td>
+            <td class="align-middle">{{ valor.estab_cnpj }}</td>
             <td class="align-middle">{{ valor.estab_razao_social }}</td>
             <td class="align-middle">{{ valor.estab_nome_fantasia }}</td>
             <td class="align-middle">{{ valor.estab_end_cep }}</td>
@@ -53,10 +55,8 @@
         <tr>
           <th scope="col">Código</th>
           <th scope="col">Nome</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">Sexo</th>
-          <th scope="col">Telefone</th>
-          <th scope="col">Status</th>
+          <th scope="col">Usuário</th>
+          <th scope="col">Senha</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -64,17 +64,9 @@
         {% for valor in usuarios_cadastrados %}
           <tr data-toggle="modal" data-target="#modaEditDeleteUser">
             <td class="align-middle" scope="row" id="codeUser">{{ valor.id }}</td>
-            <td class="align-middle">{{ valor.us_primeiro_nome }} {{ valor.us_segundo_nome }}</td>
-            <td class="align-middle">{{ valor.us_email }}</td>
-            <td class="align-middle">{{ valor.us_sexo }}</td>
-            <td class="align-middle">{{ valor.us_telefone }}</td>
-
-            {% if valor.us_situacao_conta == 'A' %}
-              <td class="align-middle">Ativado</td>
-            {% else %}
-              <td class="align-middle">Desativado</td>
-            {% endif %}
-
+            <td class="align-middle">{{ valor.us_nome }}</td>
+            <td class="align-middle">{{ valor.us_usuario }}</td>
+            <td class="align-middle">{{ valor.us_senha }}</td>
             <td class="align-middle">
               <button type="button" class="btn btn-info" id="btnEditUser" title="Editar usuário" aria-label="Botão para editar um usuário cadastrado">
                 <i class="fas fa-edit"></i>

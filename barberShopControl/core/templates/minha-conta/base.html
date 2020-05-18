@@ -51,17 +51,11 @@
         </li>
 
         <!-- Nav Item - Schedul Collapse Menu -->
-        <li class="nav-item" title="Clique para ver as opções">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedul" aria-expanded="true" aria-controls="collapseUtilities">
+        <li class="nav-item" title="Ir para Gestão da Agenda">
+          <a class="nav-link collapsed" href="{% url 'agendamentosCadastrados' %}">
             <i class="fas fa-fw fa-address-book"></i>
             <span>Agenda</span>
           </a>
-          <div id="collapseSchedul" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="#">Realizar Angedamento</a>
-              <a class="collapse-item" href="#">Consultar Agenda</a>
-            </div>
-          </div>
         </li>
 
         <!-- Nav Item - Service Collapse Menu -->
@@ -250,7 +244,7 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" id="backToTop" title="Retornar ao topo" aria-label="Botão para retonar ao topo">
+    <a class="scroll-to-top rounded text-light" id="backToTop" title="Retornar ao topo" aria-label="Botão para retonar ao topo">
       <i class="fas fa-angle-up"></i>
     </a>
 

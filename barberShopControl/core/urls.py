@@ -26,6 +26,11 @@ urlpatterns = [
     # Conta Jurídica
     path('minhaconta/conta/<int:id>/editar/estabelecimento', views.editarEstabelecimento, name="editeditarEstabelecimentoarUsuario"),
 
+    # Subsistema: Agenda
+    path('minhaconta/agenda/', views.agendamentosCadastrados, name="agendamentosCadastrados"),
+    path('minhaconta/agenda/novo-agendamento/', views.cadastrarAgendamento, name="cadastrarAgendamento"),
+    path('minhaconta/agenda/novo-agendamento/#', views.periodosDisponiveis, name="periodosDisponiveis"),
+    path('minhaconta/agenda/<int:id>/', views.excluirAgendamento, name="excluirAgendamento"),
 
     # Cadastrar estabelecimento automaticamente (alterar)
     path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento"),

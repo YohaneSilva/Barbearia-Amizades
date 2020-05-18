@@ -1,0 +1,152 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %} Novo Agendamento | Barbearia Amizades S & D{% endblock %}
+
+{% block module_title %}
+    Novo Agendamento <br>
+    <p class="text-danger h6">Todos os campos devem ser preenchidos
+{% endblock %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function (){
+    var sem_periodo_disponivel = "{{ sem_periodo_disponivel }}";
+    var especialista_indisponivel = "{{ especialista_indisponivel }}";
+    var data_selecionada = "{{ data_selecionada }}";
+
+    if (sem_periodo_disponivel && especialista_indisponivel == "Chiquinho Oliveira"){
+        $('#formRegistrarAgendamentoDaniel').hide();
+    } else if (sem_periodo_disponivel && especialista_indisponivel == "Sandrinho Santos"){
+        $('#formRegistrarAgendamentoSandro').hide();
+    };
+
+    if (data_selecionada != ''){
+        $('#formulariosAgendamento').show();
+    } else {
+        $('#formulariosAgendamento').hide();
+    };
+
+});
+</script>
+
+<div class="container-fluid">
+    <!-- Formulário para verificar -->
+    <form class="module-title" action="{% url 'periodosDisponiveis' %}" method="POST" id="formPeriodosDisponiveis">
+        {% csrf_token %}
+        <label for="diaAtendimento">Qual o dia?</label>
+        <div class="input-group">
+            <input type="date" id="diaAtendimento" name="dia-atendimento" class="form-control col-md-2 mr-md-3" aria-describedby="ajudaDiaAtendimento">
+            <button type="submit" class="btn btn-primary" form="formPeriodosDisponiveis"  title="Clique para verificar a disponibilidade de horários">Pesquisar</button>
+        </div>
+        <small id="ajudaDiaAtendimento" class="form-text text-muted">clique na seta para ver o calendário</small>
+    </form>
+
+    <div class="module-title p-3 bg-white text-dark rounded" style="border-left:2px solid black">
+        <label><strong>Data selecionada: {{ data_selecionada }}</strong></label>
+        <small class="form-text text-uppercase">verifique os especialistas e períodos disponíveis abaixo.</small>
+    </div>
+
+    <div class="form-row justify-content-center" id="formulariosAgendamento">
+        <!-- Formulário do Chiquinho (Daniel) -->
+        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoDaniel">
+            {% csrf_token %}
+            <div class="card mr-md-3">
+                <img class="card-img-top" src="{% static 'img/perfil_daniel.jpg'%}" alt="Barbeiro Chiquinho Oliveira">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Chiquinho Oliveira</h5>
+                    <input type="hidden" name="nome-especialista" value="Chiquinho Oliveira"/>
+                    <input type="hidden" name="data_selecionada" value="{{ data_selecionada }}"/>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="nomeCliente">Quem será atendido?</label>
+                        <input required type="text" id="nomeCliente" name="nome-cliente" class="form-control" max-length="60" title="digite o nome completo" placeholder="digite o nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefoneCliente">Qual o telefone?</label>
+                        <input required type="number" id="telefoneCliente" name="telefone-cliente" max-length="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="periodoAtendimento">Qual o período?</label>
+                        <div class="mr-md-3">
+                            <select required id="periodoAtendimento" class="form-control" name="periodo-atendimento" onchange="exibirCampos()" title="Selecione um período">
+                                {% for chave, valor  in periodos_chiquinho.items %}
+                                    <option value="{{ chave }}"> {{ valor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label> Qual(is) serviço(s)</label><br>
+                        {% for valor in servicos_cadastrados %}
+                            <input type="checkbox" id="{{ valor }}Daniel" name="servicos-selecionados" value="{{ valor }}">
+                            <label for="{{ valor }}Daniel">{{ valor }}</label><br>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" title="Confirmar agendamento">Agendar</button>
+            </div>
+        </form>
+
+        <!-- Formulário do Sandrinho (Sandro) -->
+        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoSandro">
+            {% csrf_token %}
+            <div class="card mr-md-3">
+                <img class="card-img-top" src="{% static 'img/perfil_sandro.jpg'%}" alt="Barbeiro Sandrinho Santos">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sandrinho Santos</h5>
+                    <input type="hidden" name="nome-especialista" value="Sandrinho Santos"/>
+                    <input type="hidden" name="data_selecionada" value="{{ data_selecionada }}"/>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="nomeCliente">Quem será atendido?</label>
+                        <input required type="number" id="nomeCliente" name="nome-cliente" class="form-control" max-length="60" title="digite o nome completo" placeholder="digite o nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefoneCliente">Qual o telefone?</label>
+                        <input required type="text" id="telefoneCliente" name="telefone-cliente" max-length="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="periodoAtendimento">Qual o período?</label>
+                        <div class="mr-md-3">
+                            <select required id="periodoAtendimento" class="form-control" name="periodo-atendimento" onchange="exibirCampos()" title="Selecione um período">
+                                {% for chave, valor  in periodos_sandrinho.items %}
+                                    <option value="{{ chave }}"> {{ valor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label> Qual(is) serviço(s)</label><br>
+                        {% for valor in servicos_cadastrados %}
+                            <input type="checkbox" id="{{ valor }}Sandro" name="servicos-selecionados" value="{{ valor }}">
+                            <label for="{{ valor }}Sandro">{{ valor }}</label><br>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" title="Confirmar agendamento">Agendar</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

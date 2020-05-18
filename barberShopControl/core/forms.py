@@ -1,30 +1,6 @@
 from django import forms
 
-from .models import Servico, Usuario, Estabelecimento
-
-
-class FormularioServico(forms.ModelForm):
-
-    class Meta:
-        model = Servico
-        fields = [
-            'serv_nome', 
-            'serv_tempo_duracao',
-            'serv_valor'
-        ]
-
-class FormularioUsuario(forms.ModelForm):
-
-    class Meta:
-        model = Usuario
-        fields = [
-            'us_situacao_conta',
-            'us_primeiro_nome',
-            'us_segundo_nome',
-            'us_sexo',
-            'us_email',
-            'us_telefone'
-        ]
+from .models import *
 
 
 class FormularioEstabelecimento(forms.ModelForm):
@@ -43,4 +19,23 @@ class FormularioEstabelecimento(forms.ModelForm):
             'estab_end_cidade',
             'estab_end_uf'
         ]
-    
+
+
+class FormularioServico(forms.ModelForm):
+
+    class Meta:
+        model = Servico
+        fields = [
+            'serv_nome',
+            'serv_valor'
+        ]
+
+class FormularioUsuario(forms.ModelForm):
+
+    class Meta:
+        model = Usuario
+        fields = [
+            'us_nome',
+            'us_usuario',
+            'us_senha',
+        ]

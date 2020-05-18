@@ -79,6 +79,8 @@ body {
   outline: 0 !important;
 }
 
+
+
 hr {
   box-sizing: content-box;
   height: 0;
@@ -464,6 +466,16 @@ mark,
 
 #table-service_filter label{
   width: 100%;
+}
+
+#formRegistrarAgendamentoDaniel,
+ #formRegistrarAgendamentoSandro{
+  max-width: 600px;
+}
+
+#formRegistrarAgendamentoDaniel img, 
+#formRegistrarAgendamentoSandro img {
+  max-height: 500px;
 }
 
 .list-unstyled {

@@ -1,0 +1,66 @@
+{% extends 'minha-conta/base.html' %}
+{% load static %}
+{% block title %} Agendamentos | Barbearia Amizades S & D{% endblock %}
+{% block module_title %}Agendamentos{% endblock %}
+{% block content %}
+<div class="container-fluid">
+<!-- Botão pra atualizar a página -->
+  <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
+    Atualizar Tabela
+  </button>
+
+<!-- Botão pra redirecionar para tela de cadastro -->
+  <a class="btn btn-outline-secondary module-title" href="{% url 'cadastrarAgendamento' %}" aria-label="Botão para redirecionar para o cadastro de um novo agendamento" title="Ir para Novo Agendamento">
+    Novo Agendamento
+  </a>
+
+{% comment %} <!-- Filtro de busca -->
+  <form method="GET" class="module-title input-group mb-3">
+    <input type="text" class="form-control" name="search" id="search" placeholder="busque pelo nome do serviço">
+    <div class="input-group-prepend">
+      <button class="btn btn-primary" title="Buscar serviço" type="submit" aria-label="Botão para fazer a busca do serviço"><i class="fas fa-search"></i></button>
+    </div>
+  </form>
+   {% endcomment %}
+
+  <p id="lengthRowTable"></p>
+
+  <div id="listingTable">
+    <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
+      <thead>
+        <tr>
+          <th scope="col" class="align-middle">Código</th>
+          <th scope="col" class="align-middle">Realizado em</th>
+          <th scope="col" class="align-middle">Nome <br> Cliente</th>
+          <th scope="col" class="align-middle">Telefone <br> Cliente</th>
+          <th scope="col" class="align-middle">Data <br> Atendimento</th>
+          <th scope="col" class="align-middle">Período <br> Atendimento</th>
+          <th scope="col" class="align-middle">Especialista</th>
+          <th scope="col" class="align-middle">Serviço</th>
+          <th scope="col" class="align-middle">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for valor in agendamentos_cadastrados %}
+        <tr data-toggle="modal" data-target="#modaEditDeleteReservation">
+          <td class="align-middle" scope="row" id="codeReservation">{{ valor.id }}</td>
+          <td class="align-middle">{{ valor.res_data_realizacao }}</td>
+          <td class="align-middle">{{ valor.res_nome_cliente }}</td>
+          <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
+          <td class="align-middle">{{ valor.res_data_atendimento }}</td>
+          <td class="align-middle">{{ valor.res_periodo_atendimento }}</td>
+          <td class="align-middle">{{ valor.res_especialista }}</td>
+          <td class="align-middle">{{ valor.res_servicos }}</td>
+          <td class="align-middle">
+            <form action="{% url 'excluirAgendamento' valor.id %}" method="POST" id="formDeleteReservation">
+              {% csrf_token %}
+              <button type="submit" form="formDeleteReservation" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado"><i class="fas fa-trash-alt"></i></button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
