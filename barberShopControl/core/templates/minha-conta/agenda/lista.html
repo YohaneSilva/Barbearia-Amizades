@@ -33,6 +33,7 @@
           <th scope="col" class="align-middle">Realizado em</th>
           <th scope="col" class="align-middle">Nome <br> Cliente</th>
           <th scope="col" class="align-middle">Telefone <br> Cliente</th>
+          <th scope="col" class="align-middle">E-mail <br> Cliente</th>
           <th scope="col" class="align-middle">Data <br> Atendimento</th>
           <th scope="col" class="align-middle">Período <br> Atendimento</th>
           <th scope="col" class="align-middle">Especialista</th>
@@ -47,6 +48,7 @@
           <td class="align-middle">{{ valor.res_data_realizacao }}</td>
           <td class="align-middle">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
+          <td class="align-middle">{{ valor.res_email_cliente }}</td>
           <td class="align-middle">{{ valor.res_data_atendimento }}</td>
           <td class="align-middle">{{ valor.res_periodo_atendimento }}</td>
           <td class="align-middle">{{ valor.res_especialista }}</td>
@@ -54,6 +56,10 @@
           <td class="align-middle">
             <form action="{% url 'excluirAgendamento' valor.id %}" method="POST" id="formDeleteReservation">
               {% csrf_token %}
+              <input type="hidden" name="data-agendada" value="{{ valor.res_data_atendimento }}"/>
+              <input type="hidden" name="nome-cliente" value="{{ valor.res_nome_cliente }}"/>
+              <input type="hidden" name="nome-especialista" value="{{ valor.res_especialista }}"/>
+              <input type="hidden" name="email-cliente" value="{{ valor.res_email_cliente }}"/>
               <button type="submit" form="formDeleteReservation" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado"><i class="fas fa-trash-alt"></i></button>
             </form>
           </td>

@@ -13,7 +13,7 @@
 $(document).ready(function (){
     var sem_periodo_disponivel = "{{ sem_periodo_disponivel }}";
     var especialista_indisponivel = "{{ especialista_indisponivel }}";
-    var data_selecionada = "{{ data_selecionada }}";
+    var data_enviada = "{{ data_enviada }}";
 
     if (sem_periodo_disponivel && especialista_indisponivel == "Chiquinho Oliveira"){
         $('#formRegistrarAgendamentoDaniel').hide();
@@ -21,7 +21,7 @@ $(document).ready(function (){
         $('#formRegistrarAgendamentoSandro').hide();
     };
 
-    if (data_selecionada != ''){
+    if (data_enviada != ''){
         $('#formulariosAgendamento').show();
     } else {
         $('#formulariosAgendamento').hide();
@@ -43,7 +43,7 @@ $(document).ready(function (){
     </form>
 
     <div class="module-title p-3 bg-white text-dark rounded" style="border-left:2px solid black">
-        <label><strong>Data selecionada: {{ data_selecionada }}</strong></label>
+        <label><strong>Data selecionada: {{ data_enviada_formatada }}</strong></label>
         <small class="form-text text-uppercase">verifique os especialistas e períodos disponíveis abaixo.</small>
     </div>
 
@@ -56,7 +56,8 @@ $(document).ready(function (){
                 <div class="card-body">
                     <h5 class="card-title text-center">Chiquinho Oliveira</h5>
                     <input type="hidden" name="nome-especialista" value="Chiquinho Oliveira"/>
-                    <input type="hidden" name="data_selecionada" value="{{ data_selecionada }}"/>
+                    <input type="hidden" name="data-enviada" value="{{ data_enviada }}"/>
+                    <input type="hidden" name="data-enviada-por-email" value="{{ data_enviada_formatada }}"/>
 
                     <hr>
 
@@ -68,6 +69,11 @@ $(document).ready(function (){
                     <div class="form-group">
                         <label for="telefoneCliente">Qual o telefone?</label>
                         <input required type="number" id="telefoneCliente" name="telefone-cliente" max-length="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailCliente">Qual o e-mail?</label>
+                        <input required type="email" id="emailCliente" name="email-cliente" max-length="254" class="form-control" title="digite um e-mail válido" placeholder="digite um e-mail válido">
                     </div>
 
                     <div class="form-group">
@@ -101,18 +107,24 @@ $(document).ready(function (){
                 <div class="card-body">
                     <h5 class="card-title text-center">Sandrinho Santos</h5>
                     <input type="hidden" name="nome-especialista" value="Sandrinho Santos"/>
-                    <input type="hidden" name="data_selecionada" value="{{ data_selecionada }}"/>
+                    <input type="hidden" name="data-enviada" value="{{ data_enviada }}"/>
+                    <input type="hidden" name="data-enviada-por-email" value="{{ data_enviada_formatada }}"/>
 
                     <hr>
 
                     <div class="form-group">
                         <label for="nomeCliente">Quem será atendido?</label>
-                        <input required type="number" id="nomeCliente" name="nome-cliente" class="form-control" max-length="60" title="digite o nome completo" placeholder="digite o nome completo">
+                        <input required type="text" id="nomeCliente" name="nome-cliente" class="form-control" max-length="60" title="digite o nome completo" placeholder="digite o nome completo">
                     </div>
                     
                     <div class="form-group">
                         <label for="telefoneCliente">Qual o telefone?</label>
-                        <input required type="text" id="telefoneCliente" name="telefone-cliente" max-length="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
+                        <input required type="number" id="telefoneCliente" name="telefone-cliente" max-length="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emailCliente">Qual o e-mail?</label>
+                        <input required type="email" id="emailCliente" name="email-cliente" max-length="254" class="form-control" title="digite um e-mail válido" placeholder="digite um e-mail válido">
                     </div>
 
                     <div class="form-group">

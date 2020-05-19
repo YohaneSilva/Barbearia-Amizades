@@ -37,6 +37,7 @@ class Reserva(models.Model):
     res_nome_cliente = models.CharField("Nome Cliente", max_length=60)
     res_telefone_cliente = models.CharField("Telefone Cliente", max_length=11)
     res_data_atendimento = models.DateField("Data Atendimento")
+    res_email_cliente = models.CharField("E-mail Cliente", max_length=254)
     res_periodo_atendimento = models.CharField("Periodo Atendimento", max_length=5)
     res_especialista = models.CharField("Especialista", max_length=60)
     res_servicos = models.TextField("Servicos")
