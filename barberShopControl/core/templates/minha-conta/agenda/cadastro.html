@@ -1,12 +1,7 @@
 {% extends 'minha-conta/base.html' %}
 {% load static %}
 {% block title %} Novo Agendamento | Barbearia Amizades S & D{% endblock %}
-
-{% block module_title %}
-    Novo Agendamento <br>
-    <p class="text-danger h6">Todos os campos devem ser preenchidos
-{% endblock %}
-
+{% block module_title %}Novo Agendamento{% endblock %}
 {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -56,6 +51,7 @@ $(document).ready(function (){
     <div class="module-title p-3 bg-white text-dark rounded" style="border-left:2px solid black">
         <label><strong>Data selecionada: {{ data_enviada_formatada }}</strong></label>
         <small class="form-text text-uppercase">verifique os especialistas e períodos disponíveis abaixo.</small>
+        <small class="text-danger">Todos os campos devem ser preenchidos.</small>
     </div>
 
     <div class="form-row justify-content-center" id="formulariosAgendamento">
