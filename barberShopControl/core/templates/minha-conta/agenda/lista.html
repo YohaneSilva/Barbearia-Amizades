@@ -3,6 +3,16 @@
 {% block title %} Agendamentos | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Agendamentos{% endblock %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function (){
+    $("#formDeleteReservation").on("submit", function(){
+      var id_registro = '#'+$('#codeReservation').text();
+      $(id_registro + ' .spinner-border').removeAttr("hidden");
+      $('#formDeleteReservation .btn').prop( "disabled", true );
+    });
+  });
+</script>
 <div class="container-fluid">
 <!-- Botão pra atualizar a página -->
   <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
@@ -60,7 +70,10 @@
               <input type="hidden" name="nome-cliente" value="{{ valor.res_nome_cliente }}"/>
               <input type="hidden" name="nome-especialista" value="{{ valor.res_especialista }}"/>
               <input type="hidden" name="email-cliente" value="{{ valor.res_email_cliente }}"/>
-              <button type="submit" form="formDeleteReservation" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado"><i class="fas fa-trash-alt"></i></button>
+              <button type="submit" id="{{ valor.id }}" form="formDeleteReservation" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado">
+                <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </form>
           </td>
         </tr>

@@ -569,7 +569,6 @@ def cadastrarAgendamento(request):
 
         novo_agendamento.save()
         envioDeEmail(assunto, mensagem, email_destino)
-        messages.success(request, 'Agendamento realizado com sucesso.', extra_tags='alert-success')
         return redirect('agendamentosCadastrados')
     
     return render(request, 'minha-conta/agenda/cadastro.html')

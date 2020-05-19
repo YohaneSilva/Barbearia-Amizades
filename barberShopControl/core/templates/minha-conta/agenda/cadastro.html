@@ -27,6 +27,17 @@ $(document).ready(function (){
         $('#formulariosAgendamento').hide();
     };
 
+    $("#formRegistrarAgendamentoDaniel").on("submit", function(){
+        $('#submitFormDaniel .spinner-border').removeAttr("hidden");
+        $('#submitFormDaniel').prop( "disabled", true );
+        $('#submitFormSandro').prop( "disabled", true );
+    });
+
+    $("#formRegistrarAgendamentoSandro").on("submit", function(){
+        $('#submitFormSandro .spinner-border').removeAttr("hidden");
+        $('#submitFormDaniel').prop( "disabled", true );
+        $('#submitFormSandro').prop( "disabled", true );
+    });
 });
 </script>
 
@@ -95,7 +106,10 @@ $(document).ready(function (){
                         {% endfor %}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" title="Confirmar agendamento">Agendar</button>
+                <button type="submit" id="submitFormDaniel" class="btn btn-primary" title="Confirmar agendamento">
+                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Agendar
+                </button>
             </div>
         </form>
 
@@ -146,7 +160,10 @@ $(document).ready(function (){
                         {% endfor %}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" title="Confirmar agendamento">Agendar</button>
+                <button type="submit" id="submitFormSandro" class="btn btn-primary" title="Confirmar agendamento">
+                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Agendar
+                </button>
             </div>
         </form>
     </div>
