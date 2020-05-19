@@ -3,17 +3,48 @@
 {% block title %}Editar Usuário | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Editar Usuário{% endblock %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#olho').mousedown(function(){
+        $('#senhaEspecialista').attr('type', 'text')
+         $("#olho").html('<i class="fas fa-eye-slash"></i>');
+    });
+    $('#olho').mouseup(function(){
+        $('#senhaEspecialista').attr('type', 'password');
+        $("#olho").html('<i class="fas fa-eye"></i>');
+    });
+});
+</script>
 <div class="container-fluid module-title">
-    <form method="POST" class="form-register-user" id="formEditUser">
+    <form method="POST" class="form-register-user" action="{% url 'editarUsuario' %}" id="formEditUser">
         {% csrf_token %}
-        {{ form_usuario.as_p }}
+        <div class="form-group">
+            <label for="nomeEspecialista">Nome</label>
+            <input required type="text" id="nomeEspecialista" name="nome-especialista" class="form-control" maxlength="60" title="digite o nome completo" placeholder="digite o nome completo" value="{{ instancia_usuario.us_nome }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="usuarioEspecialista">Usuário</label>
+            <input required type="text" id="usuarioEspecialista" name="usuario-especialista" maxlength="20" class="form-control" title="digite um usuário" placeholder="digite um usuário" value="{{ instancia_usuario.us_usuario }}">
+        </div>
+
+        <div class="form-group">
+            <label for="senhaEspecialista">Senha</label><br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" id="olho" type="button" title="Mostrar senha"><i class="fas fa-eye"></i></button>
+                </div>
+                <input required type="password" id="senhaEspecialista" name="senha-especialista" maxlength="20" class="form-control" title="máximo de 20 caracteres">
+            </div>    
+        </div>
     </form>
     
     <button type="submit" form="formEditUser" class="btn btn-primary module-title" aria-label="Botão para salvar alteração do usuário" id="btnSaveEditUser" title="Salvar alterações do serviço">
         Salvar Alteração
     </button>
 
-    <a class="btn btn-outline-secondary module-title" href="{% url 'contasCadastradas' %}" aria-label="Botão para redirecionar para a listagem das contas cadastradas" title="Ir para Contas Cadastradas">
+    <a class="btn btn-outline-secondary module-title" href="{% url 'usuariosCadastrados' %}" aria-label="Botão para redirecionar para a listagem das contas cadastradas" title="Ir para Contas Cadastradas">
         Consultar Contas
     </a>
 
@@ -31,9 +62,8 @@
     <ul class="list-group" id="listUserSelected">
         <li class="list-group-item active h5">Visualizar Alteração</li>
         <li class="list-group-item"><strong>Código:</strong> {{ id_usuario_selecionado }}</li>
-        <li class="list-group-item"><strong>Nome:</strong> {{ instanciaUsuario.us_nome }}</li>
-        <li class="list-group-item"><strong>Usuário:</strong> {{ instanciaUsuario.us_usuario }}</li>
-        <li class="list-group-item"><strong>Senha:</strong> {{ instanciaUsuario.us_senha }}</li>
+        <li class="list-group-item"><strong>Nome:</strong> {{ instancia_usuario.us_nome }}</li>
+        <li class="list-group-item"><strong>Usuário:</strong> {{ instancia_usuario.us_usuario }}</li>
     </ul>
 </div>
 {% endblock %}

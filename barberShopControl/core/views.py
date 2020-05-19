@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.generic import View
+from django.core import serializers
 
 import smtplib
+import hashlib
 from email.mime.text import MIMEText
 from datetime import date, datetime
 
@@ -40,7 +42,7 @@ def cadastrarEstabelecimento(request):
 
     novo_usuario.save()
 
-    return redirect('contasCadastradas')
+    return redirect('usuariosCadastrados')
 
 # Subsistema: Serviço
 def servicosCadastrados(request):
@@ -117,7 +119,7 @@ def excluirServico(request, id):
         return redirect('servicosCadastrados')
 
 # Subsistema: Conta
-def contasCadastradas(request):
+def usuariosCadastrados(request):
     # Trazendo todos os registros da tabela Serviço
     usuarios_cadastrados = Usuario.objects.all()
     estab_cadastrado = Estabelecimento.objects.all()
@@ -189,26 +191,32 @@ def cadastrarUsuario(request):
     return render(request, 'minha-conta/conta/cadastro.html', contexto)
 
 def editarUsuario(request, id):
-    instanciaUsuario = get_object_or_404(Usuario, id=id)
+    instancia_usuario = get_object_or_404(Usuario, id=id)
     
     if request.method == "POST":
-        form_usuario = FormularioUsuario(request.POST, instance=instanciaUsuario)
+        nome = request.POST['nome-especialista']
+        usuario = request.POST['usuario-especialista']
+        senha = request.POST['senha-especialista']
 
-        if form_usuario.is_valid():
-            instanciaUsuario = form_usuario.save(commit=False)
-            instanciaUsuario.save()
+        print(nome, usuario, senha)
+        novo_usuario = Usuario(
+            us_nome = nome,
+            us_usuario = usuario,
+            us_senha = senha
+        )
+        novo_usuario.save()
 
-            # Mensagem de sucesso
-            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
-        else:
-            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
-    else:
-        form_usuario = FormularioUsuario(instance=instanciaUsuario)
+        # Mensagem de sucesso
+        messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        contexto = {
+            "id_usuario_selecionado" : id,
+            "instancia_usuario" : instancia_usuario,
+        }
+        return render(request, 'minha-conta/conta/editar.html', contexto)
 
     contexto = {
         "id_usuario_selecionado" : id,
-        "instanciaUsuario" : instanciaUsuario,
-        "form_usuario" : form_usuario
+        "instancia_usuario" : instancia_usuario,
     }
     return render(request, 'minha-conta/conta/editar.html', contexto)
 
@@ -217,7 +225,7 @@ def excluirUsuario(request, id):
         instance = Usuario.objects.get(id=id)
         instance.delete()
         messages.success(request, 'Cadastro excluído', extra_tags='alert-success')
-        return redirect('contasCadastradas')
+        return redirect('usuariosCadastrados')
 
 def agendamentosCadastrados(request):
     agendamentos_cadastrados = Reserva.objects.all()
