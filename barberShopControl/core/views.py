@@ -40,6 +40,31 @@ def cadastrarEstabelecimento(request):
             estab_end_uf='SP'
         )
 
+# Subsistema: Conta | Jurídica
+def editarEstabelecimento(request, id):
+    instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
+    
+    if request.method == "POST":
+        form_estabelecimento = FormularioEstabelecimento(request.POST, instance=instanciaEstabelecimento)
+
+        if form_estabelecimento.is_valid():
+            instanciaEstabelecimento = form_estabelecimento.save(commit=False)
+            instanciaEstabelecimento.save()
+
+            # Mensagem de sucesso
+            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        else:
+            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
+    else:
+        form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
+
+    contexto = {
+        "instanciaEstabelecimento" : instanciaEstabelecimento,
+        "form_estabelecimento" : form_estabelecimento
+    }
+
+    return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
+
     novo_usuario.save()
 
     return redirect('usuariosCadastrados')
@@ -118,7 +143,7 @@ def excluirServico(request, id):
         messages.success(request, 'Serviço excluído com sucesso.', extra_tags='alert-success')
         return redirect('servicosCadastrados')
 
-# Subsistema: Conta
+# Subsistema: Conta | Física
 def usuariosCadastrados(request):
     # Trazendo todos os registros da tabela Serviço
     usuarios_cadastrados = Usuario.objects.all()
@@ -134,31 +159,6 @@ def usuariosCadastrados(request):
     }
 
     return render(request, 'minha-conta/conta/lista.html', contexto)
-
-### Conta Jurídica
-def editarEstabelecimento(request, id):
-    instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
-    
-    if request.method == "POST":
-        form_estabelecimento = FormularioEstabelecimento(request.POST, instance=instanciaEstabelecimento)
-
-        if form_estabelecimento.is_valid():
-            instanciaEstabelecimento = form_estabelecimento.save(commit=False)
-            instanciaEstabelecimento.save()
-
-            # Mensagem de sucesso
-            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
-        else:
-            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
-    else:
-        form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
-
-    contexto = {
-        "instanciaEstabelecimento" : instanciaEstabelecimento,
-        "form_estabelecimento" : form_estabelecimento
-    }
-
-    return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
 
 def cadastrarUsuario(request):
     form_usuario = FormularioUsuario()
@@ -198,18 +198,13 @@ def editarUsuario(request, id):
         usuario = request.POST['usuario-especialista']
         senha = request.POST['senha-especialista']
 
-        print(nome, usuario, senha)
-        novo_usuario = Usuario(
-            us_nome = nome,
-            us_usuario = usuario,
-            us_senha = senha
-        )
-        novo_usuario.save()
+        usuario_atualizado = Usuario.objects.filter(pk=id).update(us_nome=nome, us_usuario=usuario, us_senha=senha)
 
         # Mensagem de sucesso
         messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        
+        instancia_usuario = get_object_or_404(Usuario, id=id)
         contexto = {
-            "id_usuario_selecionado" : id,
             "instancia_usuario" : instancia_usuario,
         }
         return render(request, 'minha-conta/conta/editar.html', contexto)
@@ -877,6 +872,7 @@ def excluirAgendamento(request, id):
         instance.delete()
         envioDeEmail(assunto, mensagem, email_destino)
         return redirect('agendamentosCadastrados')
+
 
 # Função que retorna o dia da semana a partir
 # de uma string no formato: yyyy-mm-dd
