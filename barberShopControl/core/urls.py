@@ -5,8 +5,12 @@ from . import views
 
 urlpatterns = [
     path('login/', views.acesso, name="acesso"),
+    path('login/#', views.validarLogin, name="validarLogin"),
     path('login/recuperarsenha/', views.recuperarSenha, name="recuperarSenha"),
     path('login/criarconta/', views.criarConta, name="criarConta"),
+
+    # Deslogar do sistema
+    path('deslogar', views.deslogar, name="deslogar"),
 
     # Rota principal módulo admin
     path('minhaconta/dashboard/', views.dashboard, name="dashboard"),

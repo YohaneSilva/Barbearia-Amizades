@@ -2,36 +2,63 @@
 {% load static %}
 {% block title %}Login | Barbearia Amizades S & D{% endblock %}
 {% block content %}
-  <main>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6 login-section-wrapper">
-          <div class="brand-wrapper">
-            <a href="#" title="Retornar a página inicial"><img src="{% static 'img/logo.png' %}" alt="logo da Barbearia Amizades S & D" class="logo"></a>
-          </div>
-          <div class="login-wrapper">
-            <h1 class="login-title">Já tem <br><p style="font-size:60px">Conta?</p></h1>
-
-            <form action="#!">
-              <div class="form-group">
-                <label for="email">e-mail</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="email@exemplo.com">
-              </div>
-              <div class="form-group mb-4" id="form-password">
-                <label for="password">senha</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="●●●●●●●●">
-              </div>
-              <input name="login" id="login" class="btn btn-block login-btn" type="button" value="Acessar">
-            </form>
-
-            <a href="{% url 'recuperarSenha'%}" class="forgot-password-link">Esqueceu a senha?</a>
-            <p class="login-wrapper-footer-text">Não tem conta? <a href="{% url 'criarConta' %}" class="text-reset">Cadastre-se aqui</a></p>
-          </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#olho').mousedown(function(){
+        $('#senha').attr('type', 'text')
+         $("#olho").html('<i class="fas fa-eye-slash"></i>');
+    });
+    $('#olho').mouseup(function(){
+        $('#senha').attr('type', 'password');
+        $("#olho").html('<i class="fas fa-eye"></i>');
+    });
+});
+</script>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 login-section-wrapper">
+        <div class="brand-wrapper">
+          <a href="#" title="Retornar a página inicial"><img src="{% static 'img/logo.png' %}" alt="logo da Barbearia Amizades S & D" class="logo"></a>
         </div>
-        <div class="col-sm-6 px-0 d-none d-sm-block">
-          <img src="{% static 'img/login.jpg' %}" alt="Imagem do rosto de um capaz com os olhos corbertos por uma toalha umedecida. Há um outro homem se preparando para cortar a barbar, do rapaz com os olhos vendados, com o auxílio de uma navalha." class="login-img">
+        <div class="login-wrapper">
+          <h1 class="login-title">Já tem <br><p style="font-size:60px">Conta?</p></h1>
+
+          <form method="POST" action="{% url 'validarLogin' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="usuario">usuário</label>
+              <input required type="text" maxlength="60" name="usuario" id="usuario" class="form-control" title="digite o usuário" placeholder="digite o usuário">
+            </div>
+            <div class="form-group mb-4" id="form-password">
+              <label for="senha">senha</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" id="olho" type="button" title="Mostrar senha"><i class="fas fa-eye"></i></button>
+                </div>
+                <input required type="password" maxlength="20" name="senha" id="senha" class="form-control" placeholder="máximo 20 caracteres" title="digite a senha">
+              </div>
+            </div>
+            <button class="btn btn-block login-btn" type="submit" value="Acessar">Acessar</button>
+          </form>
+          <div>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+          </div>
+
+          <a href="{% url 'recuperarSenha'%}" class="forgot-password-link">Esqueceu a senha?</a>
+          <p class="login-wrapper-footer-text">Não tem conta? <a href="{% url 'criarConta' %}" class="text-reset">Cadastre-se aqui</a></p>
         </div>
       </div>
-    </div>  
-  </main>
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img src="{% static 'img/login.jpg' %}" alt="Imagem do rosto de um capaz com os olhos corbertos por uma toalha umedecida. Há um outro homem se preparando para cortar a barbar, do rapaz com os olhos vendados, com o auxílio de uma navalha." class="login-img">
+      </div>
+    </div>
+  </div>  
 {% endblock %}

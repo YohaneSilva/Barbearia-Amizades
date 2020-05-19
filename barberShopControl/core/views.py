@@ -12,6 +12,9 @@ from .forms import *
 from .models import *
 
 def acesso(request):
+    if request.session['logado'] == True:
+        return redirect('dashboard')
+
     return render(request, 'login/acesso.html')
 
 def recuperarSenha(request):
@@ -21,7 +24,15 @@ def criarConta(request):
     return render(request, 'login/criarconta.html')
 
 def dashboard(request):
-    return render(request, 'minha-conta/dashboard.html')
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+
+    contexto = {
+        'nome_usuario' : nome_usuario
+    }
+    return render(request, 'minha-conta/dashboard.html', contexto)
 
 
 ### Cadastrar Estabelecimento | Apenas para TESTE
@@ -42,6 +53,11 @@ def cadastrarEstabelecimento(request):
 
 # Subsistema: Conta | Jurídica
 def editarEstabelecimento(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+
     instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
     
     if request.method == "POST":
@@ -60,7 +76,8 @@ def editarEstabelecimento(request, id):
 
     contexto = {
         "instanciaEstabelecimento" : instanciaEstabelecimento,
-        "form_estabelecimento" : form_estabelecimento
+        "form_estabelecimento" : form_estabelecimento,
+        'nome_usuario' : nome_usuario
     }
 
     return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
@@ -71,6 +88,11 @@ def editarEstabelecimento(request, id):
 
 # Subsistema: Serviço
 def servicosCadastrados(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     # Trazendo todos os registros da tabela Serviço
     servicos_cadastrados = Servico.objects.all()        
 
@@ -79,11 +101,19 @@ def servicosCadastrados(request):
     if busca:
         servicos_cadastrados = Servico.objects.filter(serv_nome__icontains=busca)
     
-    contexto = {'servicos_cadastrados' : servicos_cadastrados}
+    contexto = {
+        'servicos_cadastrados' : servicos_cadastrados,
+        'nome_usuario' : nome_usuario
+    }
 
     return render(request, 'minha-conta/servicos/lista.html', contexto)
 
 def cadastrarServico(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     form_servico = FormularioServico()
 
     if request.method == "POST":
@@ -108,11 +138,19 @@ def cadastrarServico(request):
             form_servico = FormularioServico()
             messages.success(request, 'Não foi possível cadastrar o serviço', extra_tags='alert-danger')
     
-    contexto = {'form_servico' : form_servico}
+    contexto = {
+        'form_servico' : form_servico,
+        'nome_usuario' : nome_usuario
+    }
 
     return render(request, 'minha-conta/servicos/cadastro.html', contexto)
 
 def editarServico(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     instanciaServico = get_object_or_404(Servico, id=id)
     
     if request.method == "POST":
@@ -132,11 +170,17 @@ def editarServico(request, id):
     contexto = {
         "id_servico_selecionado" : id,
         "instanciaServico" : instanciaServico,
-        "form_servico" : form_servico
+        "form_servico" : form_servico,
+        'nome_usuario' : nome_usuario
     }
     return render(request, 'minha-conta/servicos/editar.html', contexto)
 
 def excluirServico(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     if request.method == "POST":
         instance = Servico.objects.get(id=id)
         instance.delete()
@@ -145,6 +189,11 @@ def excluirServico(request, id):
 
 # Subsistema: Conta | Física
 def usuariosCadastrados(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     # Trazendo todos os registros da tabela Serviço
     usuarios_cadastrados = Usuario.objects.all()
     estab_cadastrado = Estabelecimento.objects.all()
@@ -155,12 +204,18 @@ def usuariosCadastrados(request):
 
     contexto = {
         'usuarios_cadastrados' : usuarios_cadastrados,
-        'estab_cadastrado' : estab_cadastrado
+        'estab_cadastrado' : estab_cadastrado,
+        'nome_usuario' : nome_usuario
     }
 
     return render(request, 'minha-conta/conta/lista.html', contexto)
 
 def cadastrarUsuario(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     form_usuario = FormularioUsuario()
 
     if request.method == "POST":
@@ -186,11 +241,19 @@ def cadastrarUsuario(request):
             form_usuario = FormularioUsuario()
             messages.success(request, 'Não foi possível cadastrar o usuário', extra_tags='alert-danger')
     
-    contexto = {'form_usuario' : form_usuario}
+    contexto = {
+        'form_usuario' : form_usuario,
+        'nome_usuario' : nome_usuario
+    }
 
     return render(request, 'minha-conta/conta/cadastro.html', contexto)
 
 def editarUsuario(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     instancia_usuario = get_object_or_404(Usuario, id=id)
     
     if request.method == "POST":
@@ -206,16 +269,23 @@ def editarUsuario(request, id):
         instancia_usuario = get_object_or_404(Usuario, id=id)
         contexto = {
             "instancia_usuario" : instancia_usuario,
+            'nome_usuario' : nome_usuario
         }
         return render(request, 'minha-conta/conta/editar.html', contexto)
 
     contexto = {
         "id_usuario_selecionado" : id,
         "instancia_usuario" : instancia_usuario,
+        'nome_usuario' : nome_usuario
     }
     return render(request, 'minha-conta/conta/editar.html', contexto)
 
 def excluirUsuario(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     if request.method == "POST":
         instance = Usuario.objects.get(id=id)
         instance.delete()
@@ -223,15 +293,25 @@ def excluirUsuario(request, id):
         return redirect('usuariosCadastrados')
 
 def agendamentosCadastrados(request):
-    agendamentos_cadastrados = Reserva.objects.all()
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
 
+    agendamentos_cadastrados = Reserva.objects.all()
     contexto = {
-        'agendamentos_cadastrados' : agendamentos_cadastrados
+        'agendamentos_cadastrados' : agendamentos_cadastrados,
+        'nome_usuario' : nome_usuario
     }
 
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     if request.method == "POST":
         data_enviada_por_email = request.POST['data-enviada-por-email']
         nome_cliente = request.POST['nome-cliente']
@@ -573,10 +653,14 @@ def cadastrarAgendamento(request):
         novo_agendamento.save()
         envioDeEmail(assunto, mensagem, email_destino)
         return redirect('agendamentosCadastrados')
-    
-    return render(request, 'minha-conta/agenda/cadastro.html')
+
+    contexto = {'nome_usuario' : nome_usuario}
+    return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
 def excluirAgendamento(request, id):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
     if request.method == "POST":
         data_agendada = request.POST['data-agendada']
         nome_cliente = request.POST['nome-cliente']
@@ -901,6 +985,11 @@ def diaDaSemana(data):
 
 # Função para listar apenas os períodos livres
 def periodosDisponiveis(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
     sem_periodo_disponivel = False
     servicos_cadastrados = Servico.objects.all()
 
@@ -944,6 +1033,9 @@ def periodosDisponiveis(request):
     }
 
     if request.method == "POST":
+        sessao = request.session['logado']
+        nome_usuario = sessaoLogada(request, sessao)
+
         # Validando se a data não foi enviada vazia
         data = request.POST['dia-atendimento']
         if data == '':
@@ -1028,7 +1120,40 @@ def periodosDisponiveis(request):
         }
         return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
-    return render(request, 'minha-conta/agenda/cadastro.html')
+    contexto = {'nome_usuario' : nome_usuario}
+    return render(request, 'minha-conta/agenda/cadastro.html', contexto)
+
+def validarLogin(request):
+    if request.method == 'POST':
+        usuario = request.POST['usuario']
+        senha = request.POST['senha']
+
+        resultado_busca = Usuario.objects.filter(us_usuario=usuario, us_senha=senha)
+
+        if len(resultado_busca.values()) > 0:
+            for nome in resultado_busca:
+                request.session['usuario_logado'] = usuario
+                request.session['nome_usuario_logado'] = str(nome)
+                request.session['logado'] = True
+
+            return redirect('dashboard')
+        else:
+            request.session['usuario_logado'] = ''
+            request.session['nome_usuario_logado'] = ''
+            request.session['logado'] = False
+            messages.success(request, 'E-mail ou senha inválidos.', extra_tags='alert-danger')
+    return render(request, 'login/acesso.html')
+
+def deslogar(request):
+    if request.session['logado'] == False:
+        return redirect('acesso')
+    
+    if request.method == 'POST':
+        request.session['usuario_logado'] = ''
+        request.session['nome_usuario_logado'] = ''
+        request.session['logado'] = False
+        return redirect('acesso')
+    return redirect('acesso')
 
 def envioDeEmail(assunto, mensagem, email_destino):
     # conexão com os servidores do google
