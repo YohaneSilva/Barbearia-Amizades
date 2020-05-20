@@ -8,7 +8,7 @@ urlpatterns = [
     path('login/', views.acesso, name="acesso"),
     path('login/#', views.validarLogin, name="validarLogin"),
     path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
-    #path('login/criar-conta/', views.criarConta, name="criarConta"),
+    path('login/criar-conta/', views.criarConta, name="criarConta"),
 
     # Deslogar 
     path('deslogar', views.deslogar, name="deslogar"),

@@ -353,6 +353,9 @@ def dashboard(request):
     }
     return render(request, 'minha-conta/dashboard.html', contexto)
 
+### Cadastrar Usuário
+def criarConta(request):
+    return render(request, 'login/criarconta.html')
 
 ### Cadastrar Estabelecimento | Apenas para TESTE
 def cadastrarEstabelecimento(request):
