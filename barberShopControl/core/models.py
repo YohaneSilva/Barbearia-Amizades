@@ -26,6 +26,7 @@ class Servico(models.Model):
 class Usuario(models.Model):
     us_nome = models.CharField("Nome", max_length=60)
     us_usuario = models.CharField(max_length=20, verbose_name="Usuario")
+    us_email= models.CharField("E-mail", max_length=254)
     us_senha = models.CharField("Senha", max_length=20)
 
     def __str__(self):

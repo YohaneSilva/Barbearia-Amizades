@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/recuperarsenha/', views.recuperarSenha, name="recuperarSenha"),
     path('login/criarconta/', views.criarConta, name="criarConta"),
 
-    # Deslogar do sistema
+    # Deslogar 
     path('deslogar', views.deslogar, name="deslogar"),
 
     # Rota principal módulo admin

@@ -30,6 +30,11 @@ $(document).ready(function(){
         </div>
 
         <div class="form-group">
+            <label for="emailEspecialista">E-mail</label>
+            <input required type="email" id="emailEspecialista" name="email-especialista" class="form-control" maxlength="254" title="digite um e-mail válido" placeholder="digite um e-mail válido" value="{{ instancia_usuario.us_email }}">
+        </div>
+
+        <div class="form-group">
             <label for="senhaEspecialista">Senha</label><br>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -64,6 +69,7 @@ $(document).ready(function(){
         <li class="list-group-item"><strong>Código:</strong> {{ id_usuario_selecionado }}</li>
         <li class="list-group-item"><strong>Nome:</strong> {{ instancia_usuario.us_nome }}</li>
         <li class="list-group-item"><strong>Usuário:</strong> {{ instancia_usuario.us_usuario }}</li>
+        <li class="list-group-item"><strong>E-mail:</strong> {{ instancia_usuario.us_email }}</li>
     </ul>
 </div>
 {% endblock %}
