@@ -6,9 +6,9 @@ from . import views
 urlpatterns = [
     # Institucional
     path('', views.home, name="home"),
-    path('/agendamento', views.agendamento, name="agendamento"),
-    path('/agendamento/#', views.periodosDisponiveisHome, name="periodosDisponiveisHome"),
-    path('/agendamento/novo-agendamento', views.cadastrarAgendamentoHome, name="cadastrarAgendamentoHome"),
+    path('agendamento', views.agendamento, name="agendamento"),
+    path('agendamento/#', views.periodosDisponiveisHome, name="periodosDisponiveisHome"),
+    path('agendamento/novo-agendamento', views.cadastrarAgendamentoHome, name="cadastrarAgendamentoHome"),
 
     # Login
     path('login/', views.acesso, name="acesso"),
