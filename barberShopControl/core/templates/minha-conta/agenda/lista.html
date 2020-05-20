@@ -6,10 +6,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   $(document).ready(function (){
-    $("#formDeleteReservation").on("submit", function(){
-      var id_registro = '#'+$('#codeReservation').text();
+    $("#formDeleteBooking").on("submit", function(){
+      var id_registro = '#'+$('#codeBooking').text();
       $(id_registro + ' .spinner-border').removeAttr("hidden");
-      $('#formDeleteReservation .btn').prop( "disabled", true );
+      $('#formDeleteBooking .btn').prop( "disabled", true );
     });
   });
 </script>
@@ -53,8 +53,8 @@
       </thead>
       <tbody>
       {% for valor in agendamentos_cadastrados %}
-        <tr data-toggle="modal" data-target="#modaEditDeleteReservation">
-          <td class="align-middle" scope="row" id="codeReservation">{{ valor.id }}</td>
+        <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
+          <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
           <td class="align-middle">{{ valor.res_data_realizacao }}</td>
           <td class="align-middle">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
@@ -64,13 +64,13 @@
           <td class="align-middle">{{ valor.res_especialista }}</td>
           <td class="align-middle">{{ valor.res_servicos }}</td>
           <td class="align-middle">
-            <form action="{% url 'excluirAgendamento' valor.id %}" method="POST" id="formDeleteReservation">
+            <form action="{% url 'excluirAgendamento' valor.id %}" method="POST" id="formDeleteBooking">
               {% csrf_token %}
               <input type="hidden" name="data-agendada" value="{{ valor.res_data_atendimento }}"/>
               <input type="hidden" name="nome-cliente" value="{{ valor.res_nome_cliente }}"/>
               <input type="hidden" name="nome-especialista" value="{{ valor.res_especialista }}"/>
               <input type="hidden" name="email-cliente" value="{{ valor.res_email_cliente }}"/>
-              <button type="submit" id="{{ valor.id }}" form="formDeleteReservation" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado">
+              <button type="submit" id="{{ valor.id }}" form="formDeleteBooking" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado">
                 <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <i class="fas fa-trash-alt"></i>
               </button>

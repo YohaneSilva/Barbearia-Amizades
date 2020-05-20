@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
-
+    <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <!-- Favicon -->
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
     <link
@@ -88,15 +88,15 @@
                   </li>
                   <li class="relative">
                     <a
-                      href="#"
+                      href="#booking-section"
                       class="nav-link"
                       data-toggle="modal"
                       data-target="#baseModal"
-                      >agenda</a
+                      >agendamento</a
                     >
                   </li>
                   <li class="relative">
-                    <a href="{% url 'entrar' %}" class="nav-link">entrar</a>
+                    <a href="{% url 'acesso' %}" class="nav-link">entrar</a>
                   </li>
                 </ul>
               </nav>
@@ -119,7 +119,7 @@
 
       <footer class="font-small bg-dark">
         <div class="container">
-          <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+          <!--div class="row text-center d-flex justify-content-center pt-5 mb-3">
             <div class="col-md-2 mb-3">
               <h6 class="text-uppercase font-weight-bold">
                 <a href="#!" class="text-secondary">SOBRE NÓS</a>
@@ -143,7 +143,7 @@
                 <a href="#!" class="text-secondary">Contato</a>
               </h6>
             </div>
-          </div>
+          </div-->
           <hr class="rgba-white-light" style="margin: 0 15%;" />
 
           <div
@@ -151,13 +151,9 @@
           >
             <div class="col-md-8 col-12 mt-5">
               <p style="line-height: 1.7rem;">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur.
+                "Pinto os cabelos de preto para os encontros amorosos e de branco para as reuniões de negócios."
               </p>
+              <p>Aristóteles Onassis</p>
             </div>
           </div>
           <hr
@@ -169,15 +165,12 @@
             <div class="col-md-12">
               <div class="mb-5 text-center">
                 <!--Instagram-->
-                <a class="ins-ic">
-                  <i class="icon-instagram mr-2 ml-2"> </i>
+                <a href="https://www.instagram.com/barbeariaamizades/" class="text-dark-yellow">
+                  <i class="fab fa-instagram" style="font-size: 2em"></i>
                 </a>
                 <!-- Facebook -->
-                <a
-                  href="https://www.facebook.com/barbeariaamizades/"
-                  class="fb-ic"
-                >
-                  <i class="icon-facebook-f mr-2 ml-2"> </i>
+                <a href="https://www.facebook.com/barbeariaamizades/" class="text-dark-yellow">
+                  <i class="fab fa-facebook-square" style="font-size: 2em; padding:10px;"></i>
                 </a>
               </div>
             </div>
@@ -190,47 +183,6 @@
           <span class="text-dark-yellow">BarberShopControl</span>
         </div>
       </footer>
-    </div>
-
-    <!-- modal -->
-    <div class="modal fade" id="baseModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">allla lalal lala</h5>
-            <button type="button" class="close" data-dismiss="modal">
-              <span>&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body">
-            <ul class="list-group">
-              <li class="list-group-item list-group">
-                <div>
-                  <div>
-                    <h4>serviço</h4>
-                  </div>
-                </div>
-                <div>
-                  <div>R$40,00</div>
-                  <span>30min</span>
-                </div>
-                <div>
-                  <button type="button" class="btn" data-dismiss="modal">
-                    RESERVAR
-                  </button>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn danger" data-dismiss="modal">
-              Fechar
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- scripts - não mexer na ordem dos scripts -->
