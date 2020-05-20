@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home | Barbearia Amizades S & D{% endblock %}
+{% block content %}
+
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+    <!-- LOADER -->
+
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="site-wrap">
+  
+     <!-- PAGE HOME -->  
+
+    <div class="site-blocks-cover overlay" style="background-image: url(static/img/home-section-home.png);" data-aos="fade" id="home-section">
+
+      <div class="container">
+        <div class="row pt-4">
+          <div class="col">
+            <div class="pl-0 ml-3 mt-5 mb-5">
+              <img 
+              src="{% static 'img/logotipo-barbearia-amizades-branco.png' %}" 
+              width="18%"
+              alt="logotipo da barbearia amizades"
+              >
+            </div>
+            <div class="pl-3 pt-4">
+              <h1 data-aos="fade-up">
+                Respeito</br> 
+                pela tradição.
+              </h1>
+              <div class="line-shape mb-3"></div>
+              <div class="col-6 pl-0 pt-3">
+                <p class="mb-5 mr-30 desc"  data-aos="fade-up" data-aos-delay="100">
+                  Venha conhecer a barbearia mais tradicional de Campo Limpo
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#about-section" class="mouse smoothscroll">
+        <span class="mouse-icon">
+          <span class="mouse-wheel"></span>
+        </span>
+        <span class="icon-angle-down"></span>
+      </a>
+    </div>  
+
+    <!-- SOBRE-->  
+    
+    <section class="site-section cta-big-image" id="about-section">
+      <div class="container" style="margin:0; padding:0; border:0;">
+        <div class="row">
+          <div class="col-lg-7 pt-5" data-aos="fade-up">
+            <img 
+            src="{% static 'img/home-section-sobre.jpg' %}" 
+            alt="acessórios de barbearia" 
+            class="img-fluid"
+            >
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4 mt-5 pt-5 pl-5">
+              <h1 class="text-dark is-text-title">
+                Sobre
+              </h1>
+              <div class="line-shape-dark"></div>
+              <h5 class="text-dark-yellow mt-3">barba na navalha</h5>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Quo tempora cumque eligendi in nostrum labore omnis quaerat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </section>
+
+    <!--SERVIÇOS--> 
+
+    <section class="site-section p-0" id="services-section">
+      <div class="container-fluid pt-5">
+        <div class="row ml-3 pt-5">
+          <div class="col-lg-5 p-5" data-aos="fade-up" data-aos-delay="100">
+            <h1 class="mb-4 text-dark is-text-title">
+              Serviços
+            </h1>
+            <div class="line-shape-dark"></div>
+
+            <!-- carousel -->
+
+            <div class="owl-carousel slide-one-item-alt-text">
+              <div>
+                <h5 class="text-dark-yellow mt-3">barba na navalha</h5>
+                <p class="lead">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </p>
+                <p>
+                  Est qui eos quasi ratione nostrum excepturi id recusandae 
+                  fugit omnis ullam pariatur itaque nisi voluptas impedit  
+                  Quo suscipit omnis iste velit maxime.
+                </p>
+              </div>
+
+              <div>
+                <h5 class="text-dark-yellow mt-3">barba na navalha</h5>
+                <p class="lead">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </p>
+                <p>
+                  Est qui eos quasi ratione nostrum excepturi id recusandae 
+                  fugit omnis ullam pariatur itaque nisi voluptas impedit  
+                  Quo suscipit omnis iste velit maxime.
+                </p>
+              </div>
+
+              <div>
+                <h5 class="text-dark-yellow mt-3">barba na navalha</h5>
+                <p class="lead">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </p>
+                <p>Est qui eos quasi ratione nostrum excepturi id recusandae 
+                  fugit omnis ullam pariatur itaque nisi voluptas impedit  
+                  Quo suscipit omnis iste velit maxime.
+                </p>
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-lg-7 pl-5 pr-0 mr-0" data-aos="fade-up">
+            <div class="custom-direction">
+              <a href="#" class="custom-prev">
+                <span><span class="icon-angle-left"></span></span>
+              </a>
+              <a href="#" class="custom-next">
+                <span><span class="icon-angle-right"></span></span>
+              </a>
+            </div>
+            <div class="owl-carousel slide-one-item-alt pl-5 mb-5" style="margin-right:0; padding-right:0; border:0;">
+              <img 
+              src="{% static 'img/home-section-home.png' %}" 
+              width="50%" 
+              alt="Image" 
+              class="img-fluid"
+              >
+              <img 
+              src="{% static 'img/home-section-home.png' %}" 
+              alt="Image" 
+              class="img-fluid"
+              >
+              <img 
+              src="{% static 'img/home-section-home.png' %}" 
+              alt="Image" 
+              class="img-fluid"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--NOSSO TIME--> 
+    
+    <section class="site-section cta-big-image" id="team-section">
+      <div class="container-fluid pt-5">
+        <div class="row">
+          <div class="col">
+            <div class="pl-5 col-lg-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                <h1 class="text-dark is-text-title ml-4">
+                  Nosso time
+                </h1>
+                <div class="line-shape-dark mb-4 ml-4"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="margin:0; padding:0; border:0;">
+            <img 
+            src="{% static 'img/home-barbeiro-chiquinho.png' %}" 
+            alt="barbeiro chiquinho oliveira" 
+            class="img-fluid"
+            style="filter: brightness(100%);" 
+            >
+            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+              <h1 class="text-gray">Chiquinho Oliveira</h1>
+              <div class="line-shape-gray mb-4"></div>
+              <h5 class="text-dark-yellow mt-3">barbeiro</h5>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="margin:0; padding:0; border:0;">
+            <img 
+            src="{% static 'img/home-barbeiro-sandro.png' %}" 
+            alt="barbeiro sandrinho santos" 
+            class="img-fluid"
+            style="filter: brightness(80%);" 
+            >
+            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+              <h1 class="text-white">Sandrinho Santos</h1>
+              <div class="line-shape-white mb-4"></div>
+              <h5 class="text-dark-yellow mt-3">barbeiro</h5>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>  
+    </section>
+
+    <!--CONTATO--> 
+  
+    <section class="site-section" id="contact-section">
+      <div class="container pt-5" style="margin:0; padding:0; border:0;">
+        <div class="row">
+          <div class="col-lg-7 mb-5" data-aos="fade-up">
+            <img 
+            src="{% static 'img/home-section-contato.png' %}" 
+            alt="acessórios da barbearia amizades" 
+            class="img-fluid"
+            >
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4 pt-5 pl-5">
+              <h1 class="mb-4 text-dark is-text-title">
+                Contato
+              </h1>
+              <div class="line-shape-dark"></div>
+              <div class="mt-4" style="line-height: 50px;">
+                <a href="#">
+                  <span class="flaticon-email"><span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">email@gmail.com</span></span>
+                </a>
+              </div>
+              <div style="line-height: 50px;">
+                <a href="tel:+55-11-2222-5555">
+                  <span class="flaticon-telephone"><span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">11 2222.5555</span> </span>
+                </a>
+              </div>
+              <div style="line-height: 50px;">
+                <a href="#">
+                  <span class="flaticon-placeholder"><span class="text-dark" style="vertical-align: 8px;margin-left: 9px;">endereço</span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </section>
+
+  </div> <!-- .site-wrap -->
+  
+  </body>
+
+{% endblock %}

@@ -16,7 +16,6 @@ from .models import *
 def error_404_view(request, exception):
     return render(request, '404.html')
 
-
 def acesso(request):
     criarVariavelSessao(request)
     if request.session['logado'] == True:
@@ -24,6 +23,9 @@ def acesso(request):
 
     return render(request, 'login/acesso.html')
 
+def home(request):
+    return render(request, 'institucional/index.html')
+    
 def recuperarSenha(request):
     criarVariavelSessao(request)
     if request.session['logado'] == True:
@@ -338,9 +340,6 @@ def recuperarSenha(request):
             messages.success(request, 'Usuário ou e-mail inválidos.', extra_tags='alert-danger')
 
     return render(request, 'login/recuperarsenha.html')
-
-def criarConta(request):
-    return render(request, 'login/criarconta.html')
 
 def dashboard(request):
     criarVariavelSessao(request)

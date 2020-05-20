@@ -4,10 +4,11 @@ from . import views
 
 
 urlpatterns = [
+    path('', views.home, name="home"),
     path('login/', views.acesso, name="acesso"),
     path('login/#', views.validarLogin, name="validarLogin"),
-    path('login/recuperarsenha/', views.recuperarSenha, name="recuperarSenha"),
-    path('login/criarconta/', views.criarConta, name="criarConta"),
+    path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
+    #path('login/criar-conta/', views.criarConta, name="criarConta"),
 
     # Deslogar 
     path('deslogar', views.deslogar, name="deslogar"),
@@ -37,5 +38,5 @@ urlpatterns = [
     path('minhaconta/agenda/<int:id>/', views.excluirAgendamento, name="excluirAgendamento"),
 
     # Cadastrar estabelecimento automaticamente (alterar)
-    path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento"),
+    path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento")
 ]
