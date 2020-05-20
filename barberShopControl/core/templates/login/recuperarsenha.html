@@ -2,6 +2,15 @@
 {% load static %}
 {% block title %}Recuperar Senha | Barbearia Amizades S & D{% endblock %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function (){
+    $("#formRecuperarSenha").on("submit", function(){
+      $('.spinner-border').removeAttr("hidden");
+      $('#formRecuperarSenha .btn').prop( "disabled", true );
+    });
+  });
+</script>
   <main>
     <div class="container-fluid">
       <div class="row">
@@ -12,7 +21,7 @@
           <div class="login-wrapper">
             <h1 class="login-title">Recuperar <br><p style="font-size:60px">Conta</p></h1>
 
-            <form method="POST" action="{% url 'recuperarSenha' %}">
+            <form method="POST" action="{% url 'recuperarSenha' %}" id="formRecuperarSenha">
               {% csrf_token %}
               <div class="form-group">
                 <label for="usuario">usuário</label>
@@ -22,7 +31,10 @@
                 <label for="email">e-mail</label>
                 <input type="email" name="email" id="email" class="form-control" placeholder="email@exemplo.com">
               </div>
-              <input type="submit" class="btn btn-block login-btn" value="Enviar">
+              <button type="submit" class="btn btn-block login-btn" id="enviarFormulario">
+                <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Enviar
+              </button>
             </form>
             <div>
               {% for message in messages %}

@@ -12,13 +12,20 @@ from datetime import date, datetime
 from .forms import *
 from .models import *
 
+# View para HTTP Code 404
+def error_404_view(request, exception):
+    return render(request, '404.html')
+
+
 def acesso(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == True:
         return redirect('dashboard')
 
     return render(request, 'login/acesso.html')
 
 def recuperarSenha(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == True:
         return redirect('Dashboard')
 
@@ -336,6 +343,7 @@ def criarConta(request):
     return render(request, 'login/criarconta.html')
 
 def dashboard(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -365,6 +373,7 @@ def cadastrarEstabelecimento(request):
 
 # Subsistema: Conta | Jurídica
 def editarEstabelecimento(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -400,6 +409,7 @@ def editarEstabelecimento(request, id):
 
 # Subsistema: Serviço
 def servicosCadastrados(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -421,6 +431,7 @@ def servicosCadastrados(request):
     return render(request, 'minha-conta/servicos/lista.html', contexto)
 
 def cadastrarServico(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -458,6 +469,7 @@ def cadastrarServico(request):
     return render(request, 'minha-conta/servicos/cadastro.html', contexto)
 
 def editarServico(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -488,6 +500,7 @@ def editarServico(request, id):
     return render(request, 'minha-conta/servicos/editar.html', contexto)
 
 def excluirServico(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -501,6 +514,7 @@ def excluirServico(request, id):
 
 # Subsistema: Conta | Física
 def usuariosCadastrados(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -523,6 +537,7 @@ def usuariosCadastrados(request):
     return render(request, 'minha-conta/conta/lista.html', contexto)
 
 def cadastrarUsuario(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -561,6 +576,7 @@ def cadastrarUsuario(request):
     return render(request, 'minha-conta/conta/cadastro.html', contexto)
 
 def editarUsuario(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -594,6 +610,7 @@ def editarUsuario(request, id):
     return render(request, 'minha-conta/conta/editar.html', contexto)
 
 def excluirUsuario(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -606,6 +623,7 @@ def excluirUsuario(request, id):
         return redirect('usuariosCadastrados')
 
 def agendamentosCadastrados(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -620,6 +638,7 @@ def agendamentosCadastrados(request):
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -971,6 +990,7 @@ def cadastrarAgendamento(request):
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
 def excluirAgendamento(request, id):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -1298,6 +1318,7 @@ def diaDaSemana(data):
 
 # Função para listar apenas os períodos livres
 def periodosDisponiveis(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -1433,6 +1454,7 @@ def periodosDisponiveis(request):
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
 def validarLogin(request):
+    criarVariavelSessao(request)
     if request.method == 'POST':
         usuario = request.POST['usuario']
         senha = request.POST['senha']
@@ -1454,6 +1476,7 @@ def validarLogin(request):
     return render(request, 'login/acesso.html')
 
 def deslogar(request):
+    criarVariavelSessao(request)
     if request.session['logado'] == False:
         return redirect('acesso')
     
@@ -1465,11 +1488,11 @@ def deslogar(request):
     return redirect('acesso')
 
 def geraSenha():
-        caracters = '0123456789abcdefghijlmnopqrstuwvxzABCDEFGHIJKLMNOPQRSTUVXWYZ'
-        senha = ''
-        for char in range(10):
-                senha += random.choice(caracters)
-        return senha
+    caracters = '0123456789abcdefghijlmnopqrstuwvxzABCDEFGHIJKLMNOPQRSTUVXWYZ'
+    senha = ''
+    for char in range(10):
+            senha += random.choice(caracters)
+    return senha
 
 # Pega a data atual do computador
 def dataLocal(separador):
@@ -1481,6 +1504,13 @@ def dataLocal(separador):
 
     return data_local
     
+def criarVariavelSessao(request): 
+    try:
+        if request.session['logado']:
+            pass
+    except KeyError:
+        request.session['logado'] = False
+
 def envioDeEmail(assunto, mensagem, email_destino):
     # conexão com os servidores do google
     smtp_ssl_host = 'smtp.gmail.com'
