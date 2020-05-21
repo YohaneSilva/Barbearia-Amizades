@@ -3,16 +3,7 @@
 {% block title %} Agendamentos | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Agendamentos{% endblock %}
 {% block content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-  $(document).ready(function (){
-    $("#formDeleteBooking").on("submit", function(){
-      var id_registro = '#'+$('#codeBooking').text();
-      $(id_registro + ' .spinner-border').removeAttr("hidden");
-      $('#formDeleteBooking .btn').prop( "disabled", true );
-    });
-  });
-</script>
+
 <div class="container-fluid">
 <!-- Botão pra atualizar a página -->
   <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
@@ -36,6 +27,17 @@
   <p id="lengthRowTable"></p>
 
   <div id="listingTable">
+    <div>
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+
     <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
       <thead>
         <tr>
@@ -48,6 +50,7 @@
           <th scope="col" class="align-middle">Período <br> Atendimento</th>
           <th scope="col" class="align-middle">Especialista</th>
           <th scope="col" class="align-middle">Serviço</th>
+          <th scope="col" class="align-middle">Situação</th>
           <th scope="col" class="align-middle">Ações</th>
         </tr>
       </thead>
@@ -63,19 +66,12 @@
           <td class="align-middle">{{ valor.res_periodo_atendimento }}</td>
           <td class="align-middle">{{ valor.res_especialista }}</td>
           <td class="align-middle">{{ valor.res_servicos }}</td>
+          <td class="align-middle">{{ valor.res_status }}</td>
           <td class="align-middle">
-            <form action="{% url 'excluirAgendamento' valor.id %}" method="POST" id="formDeleteBooking">
-              {% csrf_token %}
-              <input type="hidden" name="data-agendada" value="{{ valor.res_data_atendimento }}"/>
-              <input type="hidden" name="nome-cliente" value="{{ valor.res_nome_cliente }}"/>
-              <input type="hidden" name="nome-especialista" value="{{ valor.res_especialista }}"/>
-              <input type="hidden" name="email-cliente" value="{{ valor.res_email_cliente }}"/>
-              <button type="submit" id="{{ valor.id }}" form="formDeleteBooking" class="btn btn-danger" title="Excluir agendamento" aria-label="Botão para excluir um serviço cadastrado">
-                <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </form>
-          </td>
+            <button type="button" id="btnExcluirAgendamento" class="btn btn-danger" title="Excluir agendamento">
+              <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <i class="fas fa-trash-alt"></i>
+            </button>
         </tr>
       {% endfor %}
       </tbody>

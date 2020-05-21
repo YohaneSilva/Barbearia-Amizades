@@ -42,4 +42,4 @@ class Reserva(models.Model):
     res_periodo_atendimento = models.CharField("Periodo Atendimento", max_length=5)
     res_especialista = models.CharField("Especialista", max_length=60)
     res_servicos = models.TextField("Servicos")
-    
+    res_status = models.CharField("Situação", max_length=9)

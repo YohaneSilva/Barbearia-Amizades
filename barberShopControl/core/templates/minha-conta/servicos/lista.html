@@ -41,11 +41,8 @@
           <td class="align-middle">{{ valor.serv_nome }}</td>
           <td class="align-middle">{{ valor.serv_valor }}</td>
           <td class="align-middle">
-            <button type="button" class="btn btn-info" id="btnEditService" title="Editar serviço" aria-label="Botão para editar um serviço cadastrado"><i class="fas fa-edit"></i></button>
-            <form action="{% url 'excluirServico' valor.id%}" method="POST" id="formDeleteService">
-              {% csrf_token %}
-              <button type="submit" form="formDeleteService" class="btn btn-danger" title="Excluir serviço" aria-label="Botão para excluir um serviço cadastrado"><i class="fas fa-trash-alt"></i></button>
-            </form>
+            <button type="button" class="btn btn-info" id="btnEditarServico" title="Editar serviço" aria-label="Botão para editar um serviço cadastrado"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger" id="btnExcluirServico" title="Excluir serviço" aria-label="Botão para excluir um serviço cadastrado"><i class="fas fa-trash-alt"></i></button>
           </td>
         </tr>
       {% endfor %}

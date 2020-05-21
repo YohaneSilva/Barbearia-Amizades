@@ -39,8 +39,9 @@
 
 })(jQuery); // End of use strict
 
-// Pegar o id do registro do Serviço
-$('td #btnEditService').click(function () {
+
+// Editar Serviço: Pegar o id do registro do Serviço e enviar para a view
+$('td #btnEditarServico').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
     .find("#codeService")     // Gets a descendent with id="codeService"
@@ -51,7 +52,20 @@ $('td #btnEditService').click(function () {
   window.location.href = url;
 });
 
-// Pegar o id do registro do Usuário
+// Excluir Serviço: Pegar o id do registro do Serviço e enviar para a view
+$('td #btnExcluirServico').click(function () {
+  var $idSelectedItem = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeService")     // Gets a descendent with id="codeService"
+    .text();         // Retrieves the text within <td>
+  
+  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'';
+
+  window.location.href = url;
+});
+
+
+// Editar Usuário: Pegar o id do registro do Usuário e enviar para  view
 $('td #btnEditUser').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
@@ -59,6 +73,18 @@ $('td #btnEditUser').click(function () {
     .text();         // Retrieves the text within <td>
   
   var url = 'http://127.0.0.1:8000/minhaconta/conta/'+$idSelectedItem+'/editar';
+
+  window.location.href = url;
+});
+
+// Excluir Agendamento: Pegar o id do registro do Agendamento e enviar para a view
+$('td #btnExcluirAgendamento').click(function () {
+  var $idSelectedItem = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeBooking")     // Gets a descendent with id="codeService"
+    .text();         // Retrieves the text within <td>
+  
+  var url = 'http://127.0.0.1:8000/minhaconta/agenda/'+$idSelectedItem;
 
   window.location.href = url;
 });
