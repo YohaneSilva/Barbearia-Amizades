@@ -11,6 +11,7 @@ from datetime import date, datetime
 
 from .forms import *
 from .models import *
+from .utils import *
 
 # View para HTTP Code 404
 def error_404_view(request, exception):
@@ -1662,7 +1663,6 @@ def excluirAgendamento(request, id_registro):
         <!--[if (IE)]></div><![endif]-->
         </body>
         """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista)
-        
     envioDeEmail(assunto, mensagem, email_destino)
     Reserva.objects.filter(id=id_registro).update(res_status='Cancelado')
     messages.success(request, 'Agendamento cancelado.', extra_tags='alert-success')
