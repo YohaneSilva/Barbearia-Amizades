@@ -77,8 +77,8 @@ $('td #btnEditUser').click(function () {
   window.location.href = url;
 });
 
-// Excluir Agendamento: Pegar o id do registro do Agendamento e enviar para a view
-$('td #btnExcluirAgendamento').click(function () {
+// Cancelar Agendamento: Pegar o id do registro do Agendamento e enviar para a view
+$('td #btnCancelarAgendamento').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
     .find("#codeBooking")     // Gets a descendent with id="codeService"

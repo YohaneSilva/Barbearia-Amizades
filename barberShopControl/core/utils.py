@@ -1,3 +1,6 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+
 import smtplib
 import hashlib
 import random
@@ -6,8 +9,22 @@ from datetime import date, datetime
 
 from .models import *
 
-class PeriodoEspecialista:
-    def periodos(self):
+class Telefone:
+    def quantidadeCaracteres(telefone):
+        if len(telefone) > 11:
+            return True
+    
+    def validarCampo(request):
+        telefone = request.POST['telefone-cliente']
+
+        if Telefone.quantidadeCaracteres(telefone):
+            messages.success(request, 'Os dados informados estão incorretos.', extra_tags='alert-danger')
+            return True
+        else:
+            return False
+
+class Periodo:
+    def periodos():
         periodos_disponiveis = {
             '9-10' : 'Das 9hr as 10hrs',
             '10-11' : 'Das 10hr as 11hrs',
@@ -24,39 +41,16 @@ class PeriodoEspecialista:
 
     # Listar apenas os períodos livres
     # dentro do módulo administrativo
-    def periodosDisponiveis(self, request):
-        # Validando se a data enviada está vazia
-        if Data.dataVazia(request):
-            contexto = {
-                'status' : True,
-                'mensagem' : {
-                    'corpo' : 'Informe uma data.',
-                    'extra_tags' : 'alert-danger'
-                }
-            }
-            return contexto
-
-        # Pegando a data atual do computador e 
-        # verificando se a data solicitada não é retroativa
-        if Data.dataRetroativa(Data.formatarData(request.POST['dia-atendimento'] ,'/')):
-            contexto = {
-                'status' : True,
-                'mensagem' : {
-                    'corpo' : 'A data informada é inválida.',
-                    'extra_tags' : 'alert-danger'
-                }
-            }
-            return contexto
-        
+    def periodosDisponiveis(request):
         # Consultando todos os registros da data enviada
         dia, mes, ano = Data.desmembrarData(request.POST['dia-atendimento'])
         reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
         sem_periodo_disponivel = False
-        periodos_chiquinho = self.periodos()
-        periodos_sandrinho = self.periodos()
-        data_enviada_formatada = Data.formatarData(request.POST['dia-atendimento'],' de ')
+        periodos_chiquinho = Periodo.periodos()
+        periodos_sandrinho = Periodo.periodos()
+        data_enviada_formatada = Data.formatarDataComMes(request.POST['dia-atendimento'],' de ')
         data_enviada = Data.formatarData(request.POST['dia-atendimento'],'/')
-        servicos_cadastrados = Servico.objects.all()
+        servicos_cadastrados = Servicos.retornarTodosServicos()
 
         # Se houver algum resultado é verificado qual o 
         # período está reservado por especialista e o período
@@ -105,7 +99,19 @@ class PeriodoEspecialista:
             return contexto
 
 class Login:
+    def verificarUsuarioLogado(request):
+        try:
+            if request.session['logado']:
+                return request.session['nome_usuario_logado']
+            else:
+                return False
+        except KeyError:
+            Sessao.criarVariaveisSessao(request)
+            Login.verificarUsuarioLogado(request)
+
     def validarLogin(request):
+        usuario = request.POST['usuario']
+        senha = request.POST['senha']
         resultado_busca = Usuario.objects.filter(us_usuario=usuario, us_senha=senha)
 
         if len(resultado_busca.values()) > 0:
@@ -116,7 +122,8 @@ class Login:
             return True
 
         else:
-            messages.success(request, 'E-mail ou senha inválidos.', extra_tags='alert-danger')
+            messages.success(request, 'E-mail ou senha inválido.', extra_tags='alert-danger')
+            return False
 
     def deslogar(request):
         request.session['usuario_logado'] = ''
@@ -124,7 +131,7 @@ class Login:
         request.session['logado'] = False
 
 class Senha:
-    def gerarSenhaRandomica(self):
+    def gerarSenhaRandomica():
         caracters = '0123456789abcdefghijlmnopqrstuwvxzABCDEFGHIJKLMNOPQRSTUVXWYZ'
         senha = ''
         for char in range(10):
@@ -132,20 +139,13 @@ class Senha:
         return senha
 
 class Sessao:
-    def criarVariavelSessao(self, request): 
-        try:
-            if request.session['logado']:
-                pass
-        except KeyError:
-            request.session['logado'] = False
-
-    def verificarUsuarioLogado(self, request):
-        if request.sesstion['logado']:
-            return request.session['nome_usuario_logado']
-        return False
+    def criarVariaveisSessao(request):
+        request.session['usuario_logado'] = ''
+        request.session['nome_usuario_logado'] = ''
+        request.session['logado'] = False
 
 class Data:
-    def desmembrarData(self, data):
+    def desmembrarData(data):
         if '-' in data:
             data = data.replace('-', ' ')
             ano = data.split()[0]
@@ -155,30 +155,33 @@ class Data:
 
         elif '/' in data:
             data = data.replace('/', ' ')
-            ano = data.split()[0]
+            ano = data.split()[2]
             mes = data.split()[1]
-            dia = data.split()[2]
+            dia = data.split()[0]
             return dia, mes, ano
 
-    def dataRetroativa(self, data):
+    def dataRetroativa(request):
+        data = Data.formatarData(request.POST['dia-atendimento'], '/')
         # Convertendo a data enviada em timestamp
         timestamp_data_enviada = datetime.strptime(data,  "%d/%m/%Y")
         timestamp_data_enviada = datetime.timestamp(timestamp_data_enviada)
 
         # Convertendo a data do computador em timestamp
-        data_computador = self.dataDoComputador('/')
+        data_computador = Data.dataDoComputador('/')
         data_computador = datetime.strptime(data_computador,  "%d/%m/%Y")
         timestamp_data_computador = datetime.timestamp(data_computador)
 
         if timestamp_data_enviada < timestamp_data_computador:
+            messages.success(request, 'A data informada é inválida.', extra_tags='alert-danger')
             return True
 
-    def dataVazia(self, request):
+    def dataVazia(request):
         data = request.POST['dia-atendimento']
         if data == '':
+            messages.success(request, 'Informe uma data.', extra_tags='alert-danger')
             return True
     
-    def formatarData(self, data, separador):
+    def formatarData(data, separador):
         if type(data) == str:
             if '-' in data:
                 data = data.replace('-', ' ')
@@ -190,19 +193,43 @@ class Data:
 
             elif '/' in data:
                 data = data.replace('/', ' ')
-                ano = data.split()[0]
+                ano = data.split()[2]
                 mes = data.split()[1]
-                dia = data.split()[2]
+                dia = data.split()[0]
                 data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
                 return data
         else:
             dia = data.strftime("%d")
             mes = data.strftime("%m")
             ano = data.strftime("%Y")
-            data = '{dia}{separador}{mes}{separados}{ano}'.format(dia=dia, mes=meses_ano[mes], ano=ano, separador=separador)
+            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
             return data
 
-    def dataDoComputador(self, separador):
+    def formatarDataComMes(data, separador):
+        if type(data) == str:
+            if '-' in data:
+                data = data.replace('-', ' ')
+                ano = data.split()[0]
+                mes = data.split()[1]
+                dia = data.split()[2]
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+                return data
+
+            elif '/' in data:
+                data = data.replace('/', ' ')
+                ano = data.split()[2]
+                mes = data.split()[1]
+                dia = data.split()[0]
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+                return data
+        else:
+            dia = data.strftime("%d")
+            mes = data.strftime("%m")
+            ano = data.strftime("%Y")
+            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+            return data
+
+    def dataDoComputador(separador):
         data = date.today()
         dia = data.strftime("%d")
         mes = data.strftime("%m")
@@ -213,7 +240,7 @@ class Data:
 
     # Função que retorna o dia da semana a partir
     # de uma string no formato: yyyy-mm-dd
-    def diaDaSemana(self, data):
+    def diaDaSemana(data):
 
         DIAS = [
             'Segunda-feira',
@@ -236,7 +263,7 @@ class Data:
 
         return dia_da_semana
 
-    def mesDoAno(self, dia):
+    def mesDoAno(dia):
         meses_ano = {
             '01': 'Janeiro',
             '02': 'Fevereiro',
@@ -254,10 +281,51 @@ class Data:
 
         return meses_ano[dia]
 
+class Conta:
+    def validarRecuperacaoDeSenha(request):
+        email = request.POST['email']
+        usuario = request.POST['usuario']
+        resultado_busca = Usuario.objects.filter(us_email=email, us_usuario=usuario)
+
+        if len(resultado_busca.values()) > 0:
+            contexto = {
+                'status' : True,
+                'resultado_busca' : resultado_busca,
+                'email' : email,
+                'usuario' : usuario,
+                'especialista' : resultado_busca.values('us_nome')[0]['us_nome']
+            }
+        else:
+            contexto = {
+                'status' : False,
+            }
+            messages.success(request, 'Usuário ou e-mail inválido.', extra_tags='alert-danger')
+        return contexto
+
+class Agendamento:
+    def retornarTodosAgendamentos():
+        return Reserva.objects.all()
+    
+    def agendamentoUnico(request):
+        dia, mes, ano = Data.desmembrarData(request.POST['data-enviada'])
+        data_formatada = Data.formatarDataComMes(request.POST['data-enviada'], ' de ')
+        reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
+
+        if len(reservas.values()) > 0:
+            for index in range(len(reservas.values())):
+                nome_cliente = reservas.values()[index]['res_nome_cliente']
+
+                if nome_cliente == request.POST['nome-cliente']:
+                    messages.success(request, 'Você já possui um agendamento na dia {data} selecionada.'.format(data=data_formatada), extra_tags='alert-danger')
+                    return True
+
+class Servicos:
+    def retornarTodosServicos():
+        return Servico.objects.all()
+
 class Email:
-    def recuperarSenha(self, email_destino, especialista):
-        data = dataDoComputador(' de ')
-        senha = Senha.gerarSenhaRandomica()
+    def recuperarSenha(request, email_destino, especialista, senha):
+        data = Data.dataDoComputador(' de ')
         assunto = 'Recuperar Senha | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Nova Senha</strong>
@@ -270,9 +338,14 @@ class Email:
             Sua nova senha é: <strong>{senha}</strong>
             """.format(especialista=especialista, data=data, senha=senha)
         
-        self.enviarEmail(assunto, self.corpoEmail(titulo, mensagem), email_destino)
+        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
+
+        messages.success(request, 'Nova senha enviada por e-mail.', extra_tags='alert-success')
     
-    def novoAgendamento(self, request):
+    def novoAgendamento(request):
+        periodo_reservado = Periodo.periodos()
+        periodo_reservado = periodo_reservado[request.POST['periodo-atendimento']].lower()
+
         data_agendada = request.POST['data-enviada-por-email']
         nome_cliente = request.POST['nome-cliente']
         nome_especialista = request.POST['nome-especialista']
@@ -285,16 +358,16 @@ class Email:
         mensagem = """\
              Olá <strong>{cliente}.</strong> 
             <br><br>
-            O agendamento do dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi efetuado com sucesso!
+            O agendamento do dia <strong>{data}</strong>, no período <strong>{periodo}</strong> com o especialista <strong>{especialista}</strong>, foi efetuado com sucesso!
             <br><br>
             Os serviços reservados foram: <strong>{servico}</strong>.
-            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, servico=servicos)
+            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos)
         
-        self.enviarEmail(assunto, self.corpoEmail(titulo, mensagem), email_destino)
+        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
 
-    def cancelarAgendamento(self, request):
+    def cancelarAgendamento(request, id_registro):
         resultado_busca = Reserva.objects.filter(id=id_registro)
-        data_agendada = Data.formatarData(resultado_busca.values('res_data_atendimento')[0]['res_data_atendimento'], ' de ')
+        data_agendada = Data.formatarDataComMes(resultado_busca.values('res_data_atendimento')[0]['res_data_atendimento'], ' de ')
 
         nome_cliente = resultado_busca.values('res_nome_cliente')[0]['res_nome_cliente']
         nome_especialista = resultado_busca.values('res_especialista')[0]['res_especialista']
@@ -307,9 +380,9 @@ class Email:
             Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado com sucesso.
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista)
         
-        self.enviarEmail(assunto, self.corpoEmail(titulo, mensagem), email_destino)
+        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
 
-    def enviarEmail(self, assunto, mensagem, email_destino):
+    def enviarEmail(assunto, mensagem, email_destino):
         # conexão com os servidores do google
         smtp_ssl_host = 'smtp.gmail.com'
         smtp_ssl_port = 465
@@ -334,7 +407,7 @@ class Email:
         server.sendmail(from_addr, to_addrs, message.as_string())
         server.quit()
 
-    def corpoEmail(self, titulo, mensagem):
+    def corpoEmail(titulo, mensagem):
         corpo = """\
                     <body class="clean-body" style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #f8f8f9;">
                         <!--[if IE]><div class="ie-browser"><![endif]-->

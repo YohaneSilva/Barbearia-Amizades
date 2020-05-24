@@ -24,7 +24,7 @@ $(document).ready(function(){
         <div class="login-wrapper">
           <h1 class="login-title">Já tem <br><p style="font-size:60px">Conta?</p></h1>
 
-          <form method="POST" action="{% url 'validarLogin' %}">
+          <form method="POST" action="{% url 'acessoLogin' %}">
             {% csrf_token %}
             <div class="form-group">
               <label for="usuario">usuário</label>

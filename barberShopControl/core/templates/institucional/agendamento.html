@@ -14,35 +14,35 @@
     <link rel="stylesheet" href="{% static 'style/css/bootstrap/style.css' %}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-    $(document).ready(function (){
-        var sem_periodo_disponivel = "{{ sem_periodo_disponivel }}";
-        var especialista_indisponivel = "{{ especialista_indisponivel }}";
-        var data_enviada = "{{ data_enviada }}";
+        $(document).ready(function (){
+            var sem_periodo_disponivel = "{{ sem_periodo_disponivel }}";
+            var especialista_indisponivel = "{{ especialista_indisponivel }}";
+            var data_enviada = "{{ data_enviada }}";
 
-        if (sem_periodo_disponivel && especialista_indisponivel == "Chiquinho Oliveira"){
-            $('#formRegistrarAgendamentoDaniel').hide();
-        } else if (sem_periodo_disponivel && especialista_indisponivel == "Sandrinho Santos"){
-            $('#formRegistrarAgendamentoSandro').hide();
-        };
+            if (sem_periodo_disponivel && especialista_indisponivel == "Chiquinho Oliveira"){
+                $('#formRegistrarAgendamentoDaniel').hide();
+            } else if (sem_periodo_disponivel && especialista_indisponivel == "Sandrinho Santos"){
+                $('#formRegistrarAgendamentoSandro').hide();
+            };
 
-        if (data_enviada != ''){
-            $('#formulariosAgendamento').show();
-        } else {
-            $('#formulariosAgendamento').hide();
-        };
+            if (data_enviada != ''){
+                $('#formulariosAgendamento').show();
+            } else {
+                $('#formulariosAgendamento').hide();
+            };
 
-        $("#formRegistrarAgendamentoDaniel").on("submit", function(){
-            $('#submitFormDaniel .spinner-border').removeAttr("hidden");
-            $('#submitFormDaniel').prop( "disabled", true );
-            $('#submitFormSandro').prop( "disabled", true );
+            $("#formRegistrarAgendamentoDaniel").on("submit", function(){
+                $('#submitFormDaniel .spinner-border').removeAttr("hidden");
+                $('#submitFormDaniel').prop( "disabled", true );
+                $('#submitFormSandro').prop( "disabled", true );
+            });
+
+            $("#formRegistrarAgendamentoSandro").on("submit", function(){
+                $('#submitFormSandro .spinner-border').removeAttr("hidden");
+                $('#submitFormDaniel').prop( "disabled", true );
+                $('#submitFormSandro').prop( "disabled", true );
+            });
         });
-
-        $("#formRegistrarAgendamentoSandro").on("submit", function(){
-            $('#submitFormSandro .spinner-border').removeAttr("hidden");
-            $('#submitFormDaniel').prop( "disabled", true );
-            $('#submitFormSandro').prop( "disabled", true );
-        });
-    });
     </script>
 
 </head>
@@ -63,10 +63,11 @@
     <h1 style="color: #2b303a;margin-top:30px" data-aos="fade-up">Agendamento</h1>
 
     <div style="margin-top:50px" class="d-flex justify-content-center">
-        <form class="module-title text-left" action="{% url 'periodosDisponiveisHome' %}" method="POST" id="formPeriodosDisponiveisHome">
+        <form class="module-title text-left" action="{% url 'periodosDisponiveis' %}" method="POST" id="formPeriodosDisponiveisHome">
             {% csrf_token %}
             <label for="diaAtendimento">Qual o dia?</label>
             <div class="input-group">
+                <input type="hidden" name="origem-usuario" value="institucional">
                 <input type="date" id="diaAtendimento" name="dia-atendimento" class="form-control" style="margin-right: 10px;" aria-describedby="ajudaDiaAtendimento">
                 <button type="submit" class="btn btn-primary" form="formPeriodosDisponiveisHome"  style="padding: 5px 30px;" title="Clique para verificar a disponibilidade de horários">Pesquisar</button>
             </div>
@@ -96,7 +97,7 @@
 
     <div class="form-row justify-content-center text-left" id="formulariosAgendamento">
         <!-- Formulário do Chiquinho (Daniel) -->
-        <form class="module-title" action="{% url 'cadastrarAgendamentoHome' %}" method="POST" id="formRegistrarAgendamentoDaniel">
+        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoDaniel">
             {% csrf_token %}
             <div class="card mr-md-3">
                 <img class="card-img-top" src="{% static 'img/perfil_daniel.jpg'%}" alt="Barbeiro Chiquinho Oliveira">
@@ -150,7 +151,7 @@
         </form>
 
         <!-- Formulário do Sandrinho (Sandro) -->
-        <form class="module-title" action="{% url 'cadastrarAgendamentoHome' %}" method="POST" id="formRegistrarAgendamentoSandro">
+        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoSandro">
             {% csrf_token %}
             <div class="card mr-md-3">
                 <img class="card-img-top" src="{% static 'img/perfil_sandro.jpg'%}" alt="Barbeiro Sandrinho Santos">

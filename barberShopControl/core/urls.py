@@ -7,12 +7,9 @@ urlpatterns = [
     # Institucional
     path('', views.home, name="home"),
     path('agendamento', views.agendamento, name="agendamento"),
-    path('agendamento/#', views.periodosDisponiveisHome, name="periodosDisponiveisHome"),
-    path('agendamento/novo-agendamento', views.cadastrarAgendamentoHome, name="cadastrarAgendamentoHome"),
 
     # Login
-    path('login/', views.acesso, name="acesso"),
-    path('login/#', views.validarLogin, name="validarLogin"),
+    path('login/', views.acessoLogin, name="acessoLogin"),
     path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
     path('login/criar-conta/', views.criarConta, name="criarConta"),
 
@@ -30,9 +27,7 @@ urlpatterns = [
 
     # Subsistema: Conta
     path('minhaconta/conta/', views.usuariosCadastrados, name="usuariosCadastrados"),
-    path('minhaconta/conta/cadastro/', views.cadastrarUsuario, name="cadastrarUsuario"),
     path('minhaconta/conta/<int:id>/editar/', views.editarUsuario, name="editarUsuario"),
-    path('minhaconta/conta/<int:id>/', views.excluirUsuario, name="excluirUsuario"),
 
     # Conta Jurídica
     path('minhaconta/conta/<int:id>/editar/estabelecimento', views.editarEstabelecimento, name="editeditarEstabelecimentoarUsuario"),
@@ -41,8 +36,5 @@ urlpatterns = [
     path('minhaconta/agenda/', views.agendamentosCadastrados, name="agendamentosCadastrados"),
     path('minhaconta/agenda/novo-agendamento/', views.cadastrarAgendamento, name="cadastrarAgendamento"),
     path('minhaconta/agenda/novo-agendamento/#', views.periodosDisponiveis, name="periodosDisponiveis"),
-    path('minhaconta/agenda/<int:id_registro>/', views.excluirAgendamento, name="excluirAgendamento"),
-
-    # Cadastrar estabelecimento automaticamente (alterar)
-    path('minhaconta/conta/estab', views.cadastrarEstabelecimento, name="cadastrarEstabelecimento")
+    path('minhaconta/agenda/<int:id_registro>/', views.cancelarAgendamento, name="cancelarAgendamento"),
 ]
