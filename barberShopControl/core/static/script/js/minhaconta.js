@@ -105,4 +105,10 @@ $("#backToTop").click(function () {
 $(document).ready(function () {
   var quantidadeLinhasTabela = $('#tableAllResults tr').length - 1;
   $('#lengthRowTable').html('<strong>Quantidade de Cadastros: </strong> '+quantidadeLinhasTabela);
+
+  // Remover classe da tabela quando acessado pelo mobile
+  var tamanhoJanela = $( window ).width();
+  if (tamanhoJanela <= 768) {
+    $("#listingTable").removeClass("container-fluid");
+  };
 });

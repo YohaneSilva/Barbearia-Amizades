@@ -4,29 +4,29 @@
 {% block module_title %}Agendamentos{% endblock %}
 {% block content %}
 
-<div class="container-fluid">
-<!-- Botão pra atualizar a página -->
-  <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
-    Atualizar Tabela
-  </button>
+  <div class="container-fluid">
+    <!-- Botão pra atualizar a página -->
+    <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
+      Atualizar Tabela
+    </button>
 
-<!-- Botão pra redirecionar para tela de cadastro -->
-  <a class="btn btn-outline-secondary module-title" href="{% url 'cadastrarAgendamento' %}" aria-label="Botão para redirecionar para o cadastro de um novo agendamento" title="Ir para Novo Agendamento">
-    Novo Agendamento
-  </a>
+    <!-- Botão pra redirecionar para tela de cadastro -->
+    <a class="btn btn-outline-secondary module-title" href="{% url 'cadastrarAgendamento' %}" aria-label="Botão para redirecionar para o cadastro de um novo agendamento" title="Ir para Novo Agendamento">
+      Novo Agendamento
+    </a>
 
-{% comment %} <!-- Filtro de busca -->
-  <form method="GET" class="module-title input-group mb-3">
-    <input type="text" class="form-control" name="search" id="search" placeholder="busque pelo nome do serviço">
-    <div class="input-group-prepend">
-      <button class="btn btn-primary" title="Buscar serviço" type="submit" aria-label="Botão para fazer a busca do serviço"><i class="fas fa-search"></i></button>
-    </div>
-  </form>
-   {% endcomment %}
+    {% comment %} <!-- Filtro de busca -->
+    <form method="GET" class="module-title input-group mb-3">
+      <input type="text" class="form-control" name="search" id="search" placeholder="busque pelo nome do serviço">
+      <div class="input-group-prepend">
+        <button class="btn btn-primary" title="Buscar serviço" type="submit" aria-label="Botão para fazer a busca do serviço"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
+    {% endcomment %}
 
-  <p id="lengthRowTable"></p>
-
-  <div id="listingTable">
+    <p id="lengthRowTable"></p>
+  </div>
+  <div id="listingTable" class="container-fluid">
     <div>
       {% for message in messages %}
         <div class="alert {{ message.tags }}" role="alert">
@@ -79,5 +79,4 @@
       </tbody>
     </table>
   </div>
-</div>
 {% endblock %}
