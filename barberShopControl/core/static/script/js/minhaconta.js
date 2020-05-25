@@ -110,30 +110,8 @@ $(document).ready(function () {
   var tamanhoJanela = $( window ).width();
   if (tamanhoJanela <= 768) {
     $("#listingTable").removeClass("container-fluid");
-
-    // Habilitar modal de detalhamento
-    $('tbody tr').on("taphold", function(){
-      var dataAtendimento = $(this)
-        .closest("tr")   // Finds the closest row <tr> 
-        .find("#dataAtendimento")     // Gets a descendent with id="codeService"
-        .text();
-      
-      var nomeCliente = $(this)
-        .closest("tr")   // Finds the closest row <tr> 
-        .find("#nomeCliente")     // Gets a descendent with id="codeService"
-        .text();
-      
-      var periodoAtendimento = $(this)
-        .closest("tr")   // Finds the closest row <tr> 
-        .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
-        .text();
-      $('#dataAtendimento').html(dataAtendimento);
-      $('#nomeCliente').html(nomeCliente);
-      $('#periodoAtendimento').html(periodoAtendimento);
-      $('#modalDetalhesAgendamento').modal('show');
-    })
+    $("#tableAllResults").removeClass("container-fluid");
   };
-
 });
 
 // Habilitar o modal de Mais Informações

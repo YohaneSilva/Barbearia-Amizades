@@ -35,6 +35,7 @@ def deslogar(request):
         request.session['nome_usuario_logado'] = ''
         request.session['logado'] = False
         return redirect('acessoLogin')
+        
     return redirect('acessoLogin')
 
 def recuperarSenha(request):
