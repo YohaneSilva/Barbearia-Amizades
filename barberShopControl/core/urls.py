@@ -11,7 +11,6 @@ urlpatterns = [
     # Login
     path('login/', views.acessoLogin, name="acessoLogin"),
     path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
-    path('login/criar-conta/', views.criarConta, name="criarConta"),
 
     # Deslogar 
     path('deslogar', views.deslogar, name="deslogar"),

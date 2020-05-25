@@ -5,6 +5,29 @@
 {% block content %}
 
   <div class="container-fluid">
+
+    <!-- Modal -->
+    {% for valor in agendamentos_cadastrados %}
+      <div class="modal fade" id="modalDetalhesAgendamento" tabindex="-1" role="dialog" aria-labelledby="modalDetalhesAgendamento" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agendamento: </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <button type="button" class="btn btn-primary">Cancelar Agendamento</button>
+              <button type="button" class="btn btn-primary">Atendimento Efetuado</button>
+            </div>
+            <!--div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div-->
+          </div>
+        </div>
+      </div>
+    {% endfor %}
     <!-- Botão pra atualizar a página -->
     <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
       Atualizar Tabela
@@ -59,11 +82,11 @@
         <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
           <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
           <td class="align-middle">{{ valor.res_data_realizacao }}</td>
-          <td class="align-middle">{{ valor.res_nome_cliente }}</td>
+          <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
           <td class="align-middle">{{ valor.res_email_cliente }}</td>
-          <td class="align-middle">{{ valor.res_data_atendimento }}</td>
-          <td class="align-middle">{{ valor.res_periodo_atendimento }}</td>
+          <td class="align-middle" id="dataAtendimento">{{ valor.res_data_atendimento }}</td>
+          <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
           <td class="align-middle">{{ valor.res_especialista }}</td>
           <td class="align-middle">{{ valor.res_servicos }}</td>
           <td class="align-middle">{{ valor.res_status }}</td>
