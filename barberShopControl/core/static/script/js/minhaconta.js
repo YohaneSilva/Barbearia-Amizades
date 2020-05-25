@@ -145,12 +145,20 @@ $('td #btnMaisInformacoes').click(function () {
     .closest("tr")   // Finds the closest row <tr> 
     .find("#statusAtendimento")     // Gets a descendent with id="codeService"
     .text();
+  
+  var emailCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#emailCliente")     // Gets a descendent with id="codeService"
+    .text();
 
   $('#maisInformacoesDataAtendimento').html(dataAtendimento);
   $('#maisInformacoesNomeCliente').html(nomeCliente);
   $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
   $('#maisInformacoesAgendadoEm').html(agendadoEm);
   $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
-  $('#maisInformacoesIdRegistro').attr('value', idAtendimento);
+  $('#idRegistro').attr('value', idAtendimento);
+  $('#nomeCliente').attr('value', nomeCliente);
+  $('#dataAgendada').attr('value', dataAtendimento);
+  $('#emailCliente').attr('value', emailCliente);
   $('#modalMaisInformacoes').modal('show');
 });

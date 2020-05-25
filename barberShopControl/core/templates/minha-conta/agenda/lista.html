@@ -24,7 +24,10 @@
             <strong>Situação: </strong><span id="maisInformacoesStatusAtendimento"></span><br>
             <form action="{% url 'finalizarAgendamento' %}" method="POST">
               {% csrf_token %}
-              <input hidden id="maisInformacoesIdRegistro" name="id-registro" value=""></input>
+              <input hidden id="idRegistro" name="id-registro" value=""></input>
+              <input hidden id="nomeCliente" name="nome-cliente" value=""></input>
+              <input hidden id="emailCliente" name="email-cliente" value=""></input>
+              <input hidden id="dataAgendada" name="data-agendada" value=""></input>
               <label for="observacao"><strong>Observações: </strong><br>
               <textarea required id="observacao" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
               <hr>
@@ -93,7 +96,7 @@
           <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
           <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
-          <td class="align-middle">{{ valor.res_email_cliente }}</td>
+          <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>
           <td class="align-middle" id="dataAtendimento">{{ valor.res_data_atendimento }}</td>
           <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
           <td class="align-middle">{{ valor.res_servicos }}</td>

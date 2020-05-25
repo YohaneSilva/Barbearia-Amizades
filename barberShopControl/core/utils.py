@@ -324,6 +324,22 @@ class Servicos:
         return Servico.objects.all()
 
 class Email:
+    def finalizarAtendimento(email_destino, nome_cliente, data_agendada):
+        assunto = 'Finalizar Atendimento | Barbearia Amizades S & D'
+        titulo = """\
+                <strong>Atendimento Finalizado</strong>
+            """
+        mensagem = """\
+            Olá <strong>{cliente}.</strong> 
+            <br><br>
+            O agendamento do dia <strong>{data}</strong> foi encerrado com sucesso!
+
+            <br><br>
+            Agradecemos a preferência!
+            """.format(cliente=nome_cliente, data=data_agendada)
+        
+        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
+        
     def recuperarSenha(request, email_destino, especialista, senha):
         data = Data.dataDoComputador(' de ')
         assunto = 'Recuperar Senha | Barbearia Amizades S & D'

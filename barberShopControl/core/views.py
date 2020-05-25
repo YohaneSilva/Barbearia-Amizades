@@ -35,7 +35,7 @@ def deslogar(request):
         request.session['nome_usuario_logado'] = ''
         request.session['logado'] = False
         return redirect('acessoLogin')
-        
+
     return redirect('acessoLogin')
 
 def recuperarSenha(request):
@@ -393,6 +393,10 @@ def finalizarAgendamento(request):
         return redirect('acessoLogin')
 
     if request.method == 'POST':
+        nome_cliente  = request.POST['nome-cliente']
+        email_destino = request.POST['email-cliente']
+        data_agendada = request.POST['data-agendada']
+        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada)
         Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
     return redirect('agendamentosCadastrados')
 
