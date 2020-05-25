@@ -175,6 +175,20 @@ class Data:
             messages.success(request, 'A data informada é inválida.', extra_tags='alert-danger')
             return True
 
+    def dataRetroativaDoBanco(data):
+        data = Data.formatarData(data, '/')
+        # Convertendo a data enviada em timestamp
+        timestamp_data_enviada = datetime.strptime(data,  "%d/%m/%Y")
+        timestamp_data_enviada = datetime.timestamp(timestamp_data_enviada)
+
+        # Convertendo a data do computador em timestamp
+        data_computador = Data.dataDoComputador('/')
+        data_computador = datetime.strptime(data_computador,  "%d/%m/%Y")
+        timestamp_data_computador = datetime.timestamp(data_computador)
+
+        if timestamp_data_enviada < timestamp_data_computador:
+            return True
+
     def dataVazia(request):
         data = request.POST['dia-atendimento']
         if data == '':
@@ -202,7 +216,7 @@ class Data:
             dia = data.strftime("%d")
             mes = data.strftime("%m")
             ano = data.strftime("%Y")
-            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
             return data
 
     def formatarDataComMes(data, separador):
@@ -303,6 +317,16 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def agendamentoPendente():
+        agendamentos_cadastrados = Reserva.objects.all()
+        
+        for valor in agendamentos_cadastrados:
+            data_atendimento = getattr(valor, 'res_data_atendimento')
+            status = getattr(valor, 'res_status')
+            
+            if Data.dataRetroativaDoBanco(data_atendimento) and status == 'Ativo':
+                Reserva.objects.all().update(res_status='Pendente')
+
     def retornarTodosAgendamentos():
         return Reserva.objects.all()
     

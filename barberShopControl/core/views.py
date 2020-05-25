@@ -250,10 +250,13 @@ def editarUsuario(request, id):
 def agendamentosCadastrados(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
+
+    Agendamento.agendamentoPendente()
     
     nome_usuario = request.session['nome_usuario_logado']
 
-    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario)
+    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario)    
+
     contexto = {
         'agendamentos_cadastrados' : agendamentos_cadastrados,
         'nome_usuario' : nome_usuario
