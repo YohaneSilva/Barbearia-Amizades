@@ -111,9 +111,68 @@ $(document).ready(function () {
   if (tamanhoJanela <= 768) {
     $("#listingTable").removeClass("container-fluid");
 
-    $('tbody tr').click(function(){
+    // Habilitar modal de detalhamento
+    $('tbody tr').on("taphold", function(){
+      var dataAtendimento = $(this)
+        .closest("tr")   // Finds the closest row <tr> 
+        .find("#dataAtendimento")     // Gets a descendent with id="codeService"
+        .text();
+      
+      var nomeCliente = $(this)
+        .closest("tr")   // Finds the closest row <tr> 
+        .find("#nomeCliente")     // Gets a descendent with id="codeService"
+        .text();
+      
+      var periodoAtendimento = $(this)
+        .closest("tr")   // Finds the closest row <tr> 
+        .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
+        .text();
+      $('#dataAtendimento').html(dataAtendimento);
+      $('#nomeCliente').html(nomeCliente);
+      $('#periodoAtendimento').html(periodoAtendimento);
       $('#modalDetalhesAgendamento').modal('show');
     })
   };
 
+});
+
+// Habilitar o modal de Mais Informações
+$('td #btnMaisInformacoes').click(function () {
+  var idAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeBooking")     // Gets a descendent with id="codeService"
+    .text();
+
+  var dataAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#dataAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var nomeCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#nomeCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  var periodoAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var agendadoEm = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#agendadoEm")     // Gets a descendent with id="codeService"
+    .text();
+    
+  var statusAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#statusAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+
+  $('#maisInformacoesDataAtendimento').html(dataAtendimento);
+  $('#maisInformacoesNomeCliente').html(nomeCliente);
+  $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
+  $('#maisInformacoesAgendadoEm').html(agendadoEm);
+  $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+  $('#maisInformacoesIdRegistro').attr('value', idAtendimento);
+  $('#modalMaisInformacoes').modal('show');
 });

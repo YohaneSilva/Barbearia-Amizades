@@ -34,7 +34,7 @@ class Usuario(models.Model):
 
 
 class Reserva(models.Model):
-    res_data_realizacao = models.DateTimeField("Data Realização", auto_now=True, auto_now_add=False, null=True)
+    res_agendado_em = models.DateTimeField("Agendado Em", auto_now=True, auto_now_add=False, null=True)
     res_nome_cliente = models.CharField("Nome Cliente", max_length=60)
     res_telefone_cliente = models.CharField("Telefone Cliente", max_length=11)
     res_data_atendimento = models.DateField("Data Atendimento")
@@ -43,3 +43,4 @@ class Reserva(models.Model):
     res_especialista = models.CharField("Especialista", max_length=60)
     res_servicos = models.TextField("Servicos")
     res_status = models.CharField("Situação", max_length=9)
+    res_observacao = models.TextField("Observações")

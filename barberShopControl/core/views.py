@@ -260,7 +260,7 @@ def agendamentosCadastrados(request):
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
-    if request.session['origem-usario'] == 'institucional':        
+    if request.session['origem-usuario'] == 'institucional':        
         if request.method == "POST":
             if Agendamento.agendamentoUnico(request):
                 return redirect('agendamento')
@@ -349,7 +349,7 @@ def cancelarAgendamento(request, id_registro):
 def periodosDisponiveis(request):
     if request.POST['origem-usuario'] == 'institucional':
         if request.method == "POST":
-            request.session['origem-usario'] = 'institucional'
+            request.session['origem-usuario'] = 'institucional'
             sessao = request.session['logado']
             nome_usuario = request.session['nome_usuario_logado']
             
@@ -369,7 +369,7 @@ def periodosDisponiveis(request):
             return redirect('acessoLogin')
 
         if request.method == "POST":
-            request.session['origem-usario'] = 'minha-conta'
+            request.session['origem-usuario'] = 'minha-conta'
             sessao = request.session['logado']
             nome_usuario = request.session['nome_usuario_logado']
             
@@ -387,4 +387,11 @@ def periodosDisponiveis(request):
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
+def finalizarAgendamento(request):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
+
+    if request.method == 'POST':
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
+    return redirect('agendamentosCadastrados')
 
