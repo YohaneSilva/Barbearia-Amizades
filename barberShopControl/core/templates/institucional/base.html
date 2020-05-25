@@ -5,7 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+      href="{% static 'fontawesome/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
     <!-- Favicon -->
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
     <link
@@ -34,6 +38,7 @@
     />
     <link rel="stylesheet" href="{% static 'style/css/bootstrap/aos.css' %}" />
     <link rel="stylesheet" href="{% static 'style/css/login.css' %}" />
+    
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -55,11 +60,11 @@
         role="banner"
       >
         <div class="container">
-          <div class="row align-items-center">
-            <div class="col-6 col-xl-2">
+          <div class="row">
+            <div class="col-lg-2 col-xl-2">
               <a href="{% url 'home' %}" class="h2 mb-0"> </a>
             </div>
-            <div class="col-12 col-md-10 d-none d-xl-block">
+            <div class="col-xl-12 col-lg-12 col-md-10 d-none d-xl-block">
               <nav
                 class="site-navigation position-relative text-right"
                 role="navigation"
@@ -67,6 +72,26 @@
                 <ul
                   class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
                 >
+                  <li>
+                    <!-- DIMINUIR FONTE -->
+                    <button 
+                      id="btnDiminuir" 
+                      name="diminuir-fonte" 
+                      title="Diminuir Fonte" 
+                      alt="Diminuir Fonte">
+                      A-
+                    </button>
+                    
+                    <!-- AUMENTAR FONTE -->
+                    <button 
+                      id="btnAumentar" 
+                      name="aumentar-fonte" 
+                      title="Aumentar Fonte" 
+                      alt="Aumentar Fonte">
+                      A+
+                    </button>
+                    
+                  </li>
                   <li class="relative">
                     <a href="#home-section" class="nav-link">home</a>
                   </li>
@@ -82,21 +107,22 @@
                         <a href="#team-section" class="nav-link">nosso time</a>
                       </li>
                     </ul>
+                    <li class="relative">
+                      <a
+                        href="#booking-section"
+                        class="nav-link"
+                        >agendamento</a
+                      >
+                    </li>
                   </li>
                   <li class="relative">
                     <a href="#contact-section" class="nav-link">contato</a>
                   </li>
+                  
                   <li class="relative">
-                    <a
-                      href="#booking-section"
-                      class="nav-link"
-                      data-toggle="modal"
-                      data-target="#baseModal"
-                      >agendamento</a
+                    <a href="{% url 'acessoLogin' %}" class="nav-link"
+                      >entrar</a
                     >
-                  </li>
-                  <li class="relative">
-                    <a href="{% url 'acessoLogin' %}" class="nav-link">entrar</a>
                   </li>
                 </ul>
               </nav>
@@ -119,31 +145,6 @@
 
       <footer class="font-small bg-dark">
         <div class="container">
-          <!--div class="row text-center d-flex justify-content-center pt-5 mb-3">
-            <div class="col-md-2 mb-3">
-              <h6 class="text-uppercase font-weight-bold">
-                <a href="#!" class="text-secondary">SOBRE NÓS</a>
-              </h6>
-            </div>
-
-            <div class="col-md-2 mb-3">
-              <h6 class="text-uppercase font-weight-bold">
-                <a href="#!" class="text-secondary">SERVIÇOS</a>
-              </h6>
-            </div>
-
-            <div class="col-md-2 mb-3">
-              <h6 class="text-uppercase font-weight-bold">
-                <a href="#!" class="text-secondary">Awards</a>
-              </h6>
-            </div>
-
-            <div class="col-md-2 mb-3">
-              <h6 class="text-uppercase font-weight-bold">
-                <a href="#!" class="text-secondary">Contato</a>
-              </h6>
-            </div>
-          </div-->
           <hr class="rgba-white-light" style="margin: 0 15%;" />
 
           <div
@@ -151,7 +152,8 @@
           >
             <div class="col-md-8 col-12 mt-5">
               <p style="line-height: 1.7rem;">
-                "Pinto os cabelos de preto para os encontros amorosos e de branco para as reuniões de negócios."
+                "Pinto os cabelos de preto para os encontros amorosos e de
+                branco para as reuniões de negócios."
               </p>
               <p>Aristóteles Onassis</p>
             </div>
@@ -165,12 +167,21 @@
             <div class="col-md-12">
               <div class="mb-5 text-center">
                 <!--Instagram-->
-                <a href="https://www.instagram.com/barbeariaamizades/" class="text-dark-yellow">
-                  <i class="fab fa-instagram" style="font-size: 2em"></i>
+                <a
+                  href="https://www.instagram.com/barbeariaamizades/"
+                  class="text-dark-yellow"
+                >
+                  <i class="fab fa-instagram" style="font-size: 2em;"></i>
                 </a>
                 <!-- Facebook -->
-                <a href="https://www.facebook.com/barbeariaamizades/" class="text-dark-yellow">
-                  <i class="fab fa-facebook-square" style="font-size: 2em; padding:10px;"></i>
+                <a
+                  href="https://www.facebook.com/barbeariaamizades/"
+                  class="text-dark-yellow"
+                >
+                  <i
+                    class="fab fa-facebook-square"
+                    style="font-size: 2em; padding: 10px;"
+                  ></i>
                 </a>
               </div>
             </div>
@@ -199,5 +210,22 @@
     <script src="{% static 'js/bootstrap/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/main.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
+    <script type="text/javascript">
+      var $btnAumentar = $("#btnAumentar");
+      var $btnDiminuir = $("#btnDiminuir");
+      var $elemento = $("body p");
+
+      function obterTamnhoFonte() {
+        return parseFloat($elemento.css('font-size'));
+      }
+
+      $btnAumentar.on('click', function() {
+        $elemento.css('font-size', obterTamnhoFonte() + 1);
+      });
+
+      $btnDiminuir.on('click', function() {
+        $elemento.css('font-size', obterTamnhoFonte() - 1);
+      });
+    </script>
   </body>
 </html>

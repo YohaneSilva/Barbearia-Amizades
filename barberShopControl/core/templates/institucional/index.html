@@ -3,7 +3,7 @@
 {% block title %}Home | Barbearia Amizades S & D{% endblock %}
 {% block content %}
 
-  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  <body class="content" data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
   
     <!-- LOADER -->
 
@@ -22,7 +22,7 @@
 
       <div class="container">
         <div class="row pt-4">
-          <div class="col">
+          <div class="col-lg col-xl-11">
             <div class="pl-0 ml-3 mt-5 mb-5">
               <img 
               src="{% static 'img/logotipo-barbearia-amizades-branco.png' %}" 
@@ -37,8 +37,8 @@
               </h1>
               <div class="line-shape mb-3"></div>
               <div class="col-6 pl-0 pt-3">
-                <p class="mb-5 mr-30 desc"  data-aos="fade-up" data-aos-delay="100">
-                  Venha conhecer a barbearia mais tradicional de Campo Limpo
+                <p class="mb-5 mr-30 desc">
+                  Agende seu horário na barbearia mais tradicional do Campo Limpo.
                 </p>
               </div>
             </div>
@@ -66,22 +66,22 @@
             >
           </div>
           <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
-            <div class="mb-4 mt-5 pt-5 pl-5">
+            <div class="mb-4 mt-5 pl-5">
               <h1 class="text-dark is-text-title">
-                Sobre
+                Barba, cabelo, bigode e parceria.
               </h1>
               <div class="line-shape-dark"></div>
-              <h5 class="text-dark-yellow mt-3">Um pouco da nossa história</h5>
+              <h5 class="text-dark-yellow mt-3">Aqui é lugar de amizade.</h5>
               <p>
-                A Barbearia Amizades S & D foi idealizada por Sandoval Santos Silva Filho 
-                e por seu sócio Daniel Ramos de Oliveira com o intuito de criar um espaço 
-                com serviços de qualidade com o preço acessível. Nasce então no dia dez 
-                de Maio de dois mil e quinze a “Barbearia Amizades S & D” com sede na 
-                Estrada Bragantina, no número mil quatrocentos e noventa e sete, segundo 
-                andar, sala dezessete, no Parque Internacional em Campo Limpo Paulista, 
-                com foco em proporcionar ótimos serviços de barbearia e estética, em um 
-                ambiente descontraído onde novas amizades são geradas e as existentes são 
-                fortalecidas.
+                A Barberia Amizades S&D foi fundada em 2015 para ser a referência 
+                em estilo na região do Campo Limpo. Com foco em oferecer um serviço 
+                de alta qualidade com preço acessível, nos unimos para criar um salão 
+                que vai muito além de dar um tapa no visual. 
+              </p>
+              <p>
+                Nosso espaço oferece mesa de bilhar, internet wi-fi e TV a cabo, 
+                tudo para criar o ambiente perfeito para relaxar, escolher um novo 
+                corte e curtir.
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@
         <div class="row ml-3 pt-5">
           <div class="col-lg-5 p-5" data-aos="fade-up" data-aos-delay="100">
             <h1 class="mb-4 text-dark is-text-title">
-              Serviços
+              Nossas especialidades
             </h1>
             <div class="line-shape-dark"></div>
 
@@ -323,38 +323,35 @@
     </section>
 
     <!-- AGENDA -->
-    
- <section class="site-section p-0" id="booking-section">
-      <div class="container-fluid pt-5">
-        <div class="row ml-3 pt-5">
-          <div class="col-lg-5 p-5" data-aos="fade-up" data-aos-delay="100">
-            <h1 class="mb-4 text-dark is-text-title">
-              Agendamento
-            </h1>
-            <div class="line-shape-dark"></div>
 
-            <div>
+    <section class="site-section" id="booking-section" style="margin:0; padding:0; border:0;">
+      <div class="container pr-0">
+        <div class="row" >
+          
+          <div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4 mt-5 pl-5">
+              <h1 class="mb-4 text-dark is-text-title">
+                Agendamento
+              </h1>
+              <div class="line-shape-dark"></div>
               <h5 class="text-dark-yellow mt-3">Hora de Cortar!</h5>
               <p>
                 Agende agora com um dos nossos especialistas clicando
               </p>
               <a type="button" href="{% url 'agendamento' %}" class="btn btn-primary" title="Ir para Agendamento">Nesse botão</a>
-
-            </div>            
-          </div>
-          <div class="col-lg-7" data-aos="fade-up">
-             <div class="owl-carousel slide-one-item-alt pt-5" style="margin-right:0; padding-right:0; border:0;">
-              <img 
-              src="{% static 'img/home-agendamento.jpg' %}" 
-              width="50%" 
-              alt="Image" 
-              class="img-fluid"
-              >
             </div>
           </div>
+          <div class="col-lg-7 pt-5" data-aos="fade-up" >
+            <img 
+            src="{% static 'img/home-agendamento.jpg' %}" 
+            alt="acessórios de barbearia" 
+            class="img-fluid"
+            >
+          </div>
         </div>
-      </div>
+      </div>  
     </section>
+    
 
     <!--CONTATO--> 
   
@@ -395,7 +392,7 @@
                       R. Edmundo Antônio Pernetti, 212, 2° andar
                     </span>
                   </span>
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr" width="600" height="190" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr" width="400" height="190" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                 </a>
               </div>
             </div>
