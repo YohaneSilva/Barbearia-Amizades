@@ -11,7 +11,6 @@ urlpatterns = [
     # Login
     path('login/', views.acessoLogin, name="acessoLogin"),
     path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
-    path('login/criar-conta/', views.criarConta, name="criarConta"),
 
     # Deslogar 
     path('deslogar', views.deslogar, name="deslogar"),
@@ -37,4 +36,5 @@ urlpatterns = [
     path('minhaconta/agenda/novo-agendamento/', views.cadastrarAgendamento, name="cadastrarAgendamento"),
     path('minhaconta/agenda/novo-agendamento/#', views.periodosDisponiveis, name="periodosDisponiveis"),
     path('minhaconta/agenda/<int:id_registro>/', views.cancelarAgendamento, name="cancelarAgendamento"),
+    path('minhaconta/agenda/finalizar', views.finalizarAgendamento, name="finalizarAgendamento"),
 ]

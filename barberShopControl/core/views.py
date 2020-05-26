@@ -13,6 +13,7 @@ from .forms import *
 from .models import *
 from .utils import *
 
+# Login
 def acessoLogin(request):
     if Login.verificarUsuarioLogado(request) == False:
         if request.method == 'POST':
@@ -25,22 +26,17 @@ def acessoLogin(request):
 
     return render(request, 'minha-conta/dashboard.html')
 
-def home(request):
-    return render(request, 'institucional/index.html')
-
-def agendamento(request):
-    return render(request, 'institucional/agendamento.html')
-   
-def dashboard(request):
+def deslogar(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
     
-    nome_usuario = request.session['nome_usuario_logado']
+    if request.method == 'POST':
+        request.session['usuario_logado'] = ''
+        request.session['nome_usuario_logado'] = ''
+        request.session['logado'] = False
+        return redirect('acessoLogin')
 
-    contexto = {
-        'nome_usuario' : nome_usuario
-    }
-    return render(request, 'minha-conta/dashboard.html', contexto)
+    return redirect('acessoLogin')
 
 def recuperarSenha(request):
     if Login.verificarUsuarioLogado(request) == False:
@@ -55,10 +51,25 @@ def recuperarSenha(request):
         return render(request, 'login/recuperarsenha.html')
 
     return redirect('acessoLogin')
+
+# Institucional
+def home(request):
+    return render(request, 'institucional/index.html')
+
+def agendamento(request):
+    return render(request, 'institucional/agendamento.html')
+
+# Subsistema: Minha Conta
+def dashboard(request):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
     
-### Cadastrar Usuário
-def criarConta(request):
-    return render(request, 'login/criarconta.html')
+    nome_usuario = request.session['nome_usuario_logado']
+
+    contexto = {
+        'nome_usuario' : nome_usuario
+    }
+    return render(request, 'minha-conta/dashboard.html', contexto)
 
 # Subsistema: Conta | Jurídica
 def editarEstabelecimento(request, id):
@@ -235,13 +246,17 @@ def editarUsuario(request, id):
     }
     return render(request, 'minha-conta/conta/editar.html', contexto)
 
+# Subsistema: Agenda
 def agendamentosCadastrados(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
+
+    Agendamento.agendamentoPendente()
     
     nome_usuario = request.session['nome_usuario_logado']
 
-    agendamentos_cadastrados = Reserva.objects.all()
+    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario)    
+
     contexto = {
         'agendamentos_cadastrados' : agendamentos_cadastrados,
         'nome_usuario' : nome_usuario
@@ -249,7 +264,7 @@ def agendamentosCadastrados(request):
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
-    if request.session['origem-usario'] == 'institucional':        
+    if request.session['origem-usuario'] == 'institucional':        
         if request.method == "POST":
             if Agendamento.agendamentoUnico(request):
                 return redirect('agendamento')
@@ -338,7 +353,7 @@ def cancelarAgendamento(request, id_registro):
 def periodosDisponiveis(request):
     if request.POST['origem-usuario'] == 'institucional':
         if request.method == "POST":
-            request.session['origem-usario'] = 'institucional'
+            request.session['origem-usuario'] = 'institucional'
             sessao = request.session['logado']
             nome_usuario = request.session['nome_usuario_logado']
             
@@ -358,7 +373,7 @@ def periodosDisponiveis(request):
             return redirect('acessoLogin')
 
         if request.method == "POST":
-            request.session['origem-usario'] = 'minha-conta'
+            request.session['origem-usuario'] = 'minha-conta'
             sessao = request.session['logado']
             nome_usuario = request.session['nome_usuario_logado']
             
@@ -376,13 +391,15 @@ def periodosDisponiveis(request):
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
-def deslogar(request):
+def finalizarAgendamento(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
-    
+
     if request.method == 'POST':
-        request.session['usuario_logado'] = ''
-        request.session['nome_usuario_logado'] = ''
-        request.session['logado'] = False
-        return redirect('acessoLogin')
-    return redirect('acessoLogin')
+        nome_cliente  = request.POST['nome-cliente']
+        email_destino = request.POST['email-cliente']
+        data_agendada = request.POST['data-agendada']
+        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada)
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
+    return redirect('agendamentosCadastrados')
+
