@@ -315,7 +315,8 @@ def cadastrarAgendamento(request):
                 res_especialista = request.POST['nome-especialista'],
                 res_servicos = servicos,
                 res_status = 'Ativo',
-                res_codigo_verificacao = codigo_verificacao
+                res_codigo_verificacao = codigo_verificacao,
+                res_observacao = request.POST['observacao-atendimento']
             )
 
             mensagem_agendamento_sucesso = """\
@@ -357,7 +358,8 @@ def cadastrarAgendamento(request):
                 res_especialista = request.POST['nome-especialista'],
                 res_servicos = servicos,
                 res_status = 'Ativo',
-                res_codigo_verificacao = codigo_verificacao
+                res_codigo_verificacao = codigo_verificacao,
+                res_observacao = request.POST['observacao-atendimento']
             )
 
             mensagem_agendamento_sucesso = """\
@@ -462,7 +464,7 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
             for resultado in request.POST:
                 if request.POST[resultado] == 'Sim':
                     messages.success(request, 'Agendamento cancenlado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
-                    reserva.update(res_status='Cancelado')
+                    reserva.update(res_status='Cancelado', res_observacao="Cancelado pelo usuário.")
                     Email.cancelarAgendamento(request, getattr(item, 'id'))
                     contexto = {
                         'status' : True,
@@ -470,6 +472,10 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
                     }
 
     return render(request, 'institucional/cancelamento.html', contexto)
+
+def editarAgendamento(request):
+    print(request.POST['id-registro'])
+    return redirect('agendamentosCadastrados')
 
 # Subsistema: Relatório
 def relatorios(request):

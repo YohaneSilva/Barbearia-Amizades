@@ -78,7 +78,7 @@ $('td #btnEditUser').click(function () {
 });
 
 // Cancelar Agendamento: Pegar o id do registro do Agendamento e enviar para a view
-$('td #btnCancelarAgendamento').click(function () {
+$('#btnCancelarAgendamento').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
     .find("#codeBooking")     // Gets a descendent with id="codeService"
@@ -151,14 +151,81 @@ $('td #btnMaisInformacoes').click(function () {
     .find("#emailCliente")     // Gets a descendent with id="codeService"
     .text();
 
+  var observacaoCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoCliente")     // Gets a descendent with id="codeService"
+    .text();
+
   $('#maisInformacoesDataAtendimento').html(dataAtendimento);
   $('#maisInformacoesNomeCliente').html(nomeCliente);
   $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
   $('#maisInformacoesAgendadoEm').html(agendadoEm);
   $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+  $('#maisInformacoesObservacaoCliente').html(observacaoCliente);
   $('#idRegistro').attr('value', idAtendimento);
+  $('#idRegistroObservacao').attr('value', idAtendimento);
   $('#nomeCliente').attr('value', nomeCliente);
   $('#dataAgendada').attr('value', dataAtendimento);
   $('#emailCliente').attr('value', emailCliente);
+  $('#observacaoCliente').attr('value', emailCliente);
   $('#modalMaisInformacoes').modal('show');
+});
+
+// Habilitar modal com duplo clique na linha de registro
+$(document).ready(function (){
+  $('#tableAllResults td').dblclick(function (){
+    var idAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#codeBooking")     // Gets a descendent with id="codeService"
+    .text();
+
+  var dataAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#dataAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var nomeCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#nomeCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  var periodoAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var agendadoEm = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#agendadoEm")     // Gets a descendent with id="codeService"
+    .text();
+    
+  var statusAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#statusAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var emailCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#emailCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  var observacaoCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  $('#maisInformacoesDataAtendimento').html(dataAtendimento);
+  $('#maisInformacoesNomeCliente').html(nomeCliente);
+  $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
+  $('#maisInformacoesAgendadoEm').html(agendadoEm);
+  $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+  $('#maisInformacoesObservacaoCliente').html(observacaoCliente);
+  $('#idRegistro').attr('value', idAtendimento);
+  $('#idRegistroObservacao').attr('value', idAtendimento);
+  $('#nomeCliente').attr('value', nomeCliente);
+  $('#dataAgendada').attr('value', dataAtendimento);
+  $('#emailCliente').attr('value', emailCliente);
+  $('#observacaoCliente').attr('value', emailCliente);
+  $('#modalMaisInformacoes').modal('show');
+  })
 });
