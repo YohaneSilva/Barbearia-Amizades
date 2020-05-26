@@ -33,18 +33,18 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1 {
   font-family: "Abril Fatface";
 }
+h2,
+h3,
+h4,
 h5 {
   font-family: "Raleway", sans-serif !important;
   font-style: italic;
   font-weight: normal;
   letter-spacing: 3px;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .border-2 {
@@ -76,9 +76,10 @@ body:after {
   box-shadow: none !important;
 }
 .btn.btn-primary {
-  background: #007bff;
-  border-color: #007bff;
-  color: #fff;
+  background: #d9a23d;
+  border-color: #d9a23d;
+  color: #000000;
+  font-weight: 500;
 }
 .btn.btn-primary:hover {
   background: #000;
@@ -121,6 +122,7 @@ body:after {
 @media (min-width: 768px) {
   .site-section {
     padding: 3em 0;
+    height: auto;
   }
 }
 .site-section.site-section-sm {
@@ -131,6 +133,18 @@ body:after {
   padding: 1em 0;
   background: #333333;
 }
+
+.booking {
+  height: 450px;
+  background-size: 140%;
+  background-repeat: no-repeat;
+  background-position: 50% 20%;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin-top: 50px;
+}
+
 @media (min-width: 768px) {
   .site-footer {
     padding: 2em 0;
@@ -1519,8 +1533,8 @@ body:after {
   position: relative;
   z-index: 99;
   position: absolute;
-  left: 38px;
-  top: 40%;
+  left: 5px;
+  top: 18%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -1905,11 +1919,17 @@ figure figcaption {
 }
 
 .flaticon-placeholder:before {
-  font-size: 38px;
+  font-size: 35px;
 }
 
 /* LOGO */
 
 .logo img {
   width: 18% !important;
+}
+
+.paddingless {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
 }
