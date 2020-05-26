@@ -9,6 +9,129 @@ from datetime import date, datetime
 
 from .models import *
 
+class Relatorio:
+    def agendamentosDoMes():
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+        
+        return reservas_mes
+
+    def agendamentosCancelados():
+        return Reserva.objects.filter(res_status='Cancelado')
+    
+    def agendamentosPendentes():
+        return Reserva.objects.filter(res_status='Pendente')
+    
+    def agendamentosFinalizados():
+        return Reserva.objects.filter(res_status='Finalizado')
+
+    def agendamentosAtivos():
+        return Reserva.objects.filter(res_status='Ativo')
+    
+    def agendamentosEspecialista(especialista):
+        return  Reserva.objects.filter(res_especialista=especialista)
+
+
+
+    # Totalizadores
+    def totalAgendamentos():
+        total = 0
+        resultado = Reserva.objects.all()
+        
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+
+    def totalAgendamentosDoAno():
+        total = 0
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano)
+        
+        for index in range(len(reservas_mes)):
+            total += 1
+        
+        return total
+
+    def totalAgendamentosDoMes():
+        total = 0
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+        
+        for index in range(len(reservas_mes)):
+            total += 1
+        
+        return total
+    
+    def totalAgendamentosCancelados():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Cancelado')
+
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+    
+    def totalAgendamentosPendentes():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Pendente')
+        
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+    
+    def totalAgendamentosFinalizados():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Finalizado')
+
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+
+    def totalAgendamentosAtivos():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Ativo')
+
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+
+    def totalAgendamentosChiquinho():
+        total = 0
+        resultado = Reserva.objects.filter(res_especialista='Chiquinho Oliveira')
+
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+
+    def totalAgendamentosSandrinho():
+        total = 0
+        resultado = Reserva.objects.filter(res_especialista='Sandrinho Santos')
+
+        for index in range(len(resultado)):
+            total += 1
+        
+        return total
+    
+    def totalAgendamentoPorServico():
+        servicos = Servico.objects.all()
+        total = {}
+        contador = 0
+        for servico in servicos:
+            servico = str(servico)
+            total[servico] = ''
+            reservas = Reserva.objects.filter(res_servicos__icontains=servico)
+            contador = len(reservas)
+            total[servico] = str(contador)
+
+        return total
+
+            
+
 class Telefone:
     def quantidadeCaracteres(telefone):
         if len(telefone) > 11:

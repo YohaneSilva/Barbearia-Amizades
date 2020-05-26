@@ -52,15 +52,6 @@
       Novo Agendamento
     </a>
 
-    {% comment %} <!-- Filtro de busca -->
-    <form method="GET" class="module-title input-group mb-3">
-      <input type="text" class="form-control" name="search" id="search" placeholder="busque pelo nome do serviço">
-      <div class="input-group-prepend">
-        <button class="btn btn-primary" title="Buscar serviço" type="submit" aria-label="Botão para fazer a busca do serviço"><i class="fas fa-search"></i></button>
-      </div>
-    </form>
-    {% endcomment %}
-
     <p id="lengthRowTable"></p>
   </div>
   <div id="listingTable" class="container-fluid">
@@ -78,7 +69,6 @@
     <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
       <thead>
         <tr>
-          <th scope="col" class="align-middle">Código</th>
           <th scope="col" class="align-middle">Nome <br> Cliente</th>
           <th scope="col" class="align-middle">Telefone <br> Cliente</th>
           <th scope="col" class="align-middle">E-mail <br> Cliente</th>
@@ -93,7 +83,7 @@
       <tbody>
       {% for valor in agendamentos_cadastrados %}
         <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
-          <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
+          <td hidden class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
           <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
           <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>

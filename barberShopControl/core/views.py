@@ -66,8 +66,29 @@ def dashboard(request):
     
     nome_usuario = request.session['nome_usuario_logado']
 
+    total_agendamento_chiquinho = Relatorio.totalAgendamentosChiquinho()
+    total_agendamento_sandrinho = Relatorio.totalAgendamentosSandrinho()
+    total_agendamentos_ativos = Relatorio.totalAgendamentosAtivos()
+    total_agendamentos_cancelados = Relatorio.totalAgendamentosCancelados()
+    total_agendamentos_finalizados = Relatorio.totalAgendamentosFinalizados()
+    total_agendamentos_pendentes = Relatorio.totalAgendamentosPendentes()
+    total_agendamentos_mes = Relatorio.totalAgendamentosDoMes()
+    total_agendamentos_ano = Relatorio.totalAgendamentosDoAno()
+    total_agendamentos = Relatorio.totalAgendamentos()
+    total_agendamentos_por_servico = Relatorio.totalAgendamentoPorServico()
+
     contexto = {
-        'nome_usuario' : nome_usuario
+        'nome_usuario' : nome_usuario,
+        'total_agendamento_chiquinho' : total_agendamento_chiquinho,
+        'total_agendamento_sandrinho' : total_agendamento_sandrinho,
+        'total_agendamentos_ativos' : total_agendamentos_ativos,
+        'total_agendamentos_cancelados' : total_agendamentos_cancelados,
+        'total_agendamentos_finalizados' : total_agendamentos_finalizados,
+        'total_agendamentos_pendentes' : total_agendamentos_pendentes,
+        'total_agendamentos_mes' : total_agendamentos_mes,
+        'total_agendamentos' : total_agendamentos,
+        'total_agendamentos_ano' : total_agendamentos_ano,
+        'total_agendamentos_por_servico': total_agendamentos_por_servico
     }
     return render(request, 'minha-conta/dashboard.html', contexto)
 
@@ -264,6 +285,7 @@ def agendamentosCadastrados(request):
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
+    nome_usuario = request.session['nome_usuario_logado']
     if request.session['origem-usuario'] == 'institucional':        
         if request.method == "POST":
             if Agendamento.agendamentoUnico(request):
@@ -301,9 +323,10 @@ def cadastrarAgendamento(request):
         
     else:
         nome_usuario = request.session['nome_usuario_logado']
+        if Login.verificarUsuarioLogado(request) == False:
+            return redirect('acessoLogin')
+
         if request.method == "POST":
-            if Login.verificarUsuarioLogado(request) == False:
-                return redirect('acessoLogin')
 
             if Agendamento.agendamentoUnico(request):
                 return redirect('cadastrarAgendamento')
@@ -337,6 +360,9 @@ def cadastrarAgendamento(request):
             novo_agendamento.save()
             Email.novoAgendamento(request)
             return redirect('agendamentosCadastrados')
+
+            contexto = {'nome_usuario' : nome_usuario}
+            return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
@@ -403,3 +429,61 @@ def finalizarAgendamento(request):
         Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
     return redirect('agendamentosCadastrados')
 
+# Subsistema: Relatório
+def relatorios(request):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    agendamentos_cadastrados = Reserva.objects.all()
+
+    contexto = {
+        'agendamentos_cadastrados' : agendamentos_cadastrados,
+        'nome_usuario' : nome_usuario,
+    }
+
+    if request.method == 'POST':
+        for valor in request.POST:
+            if request.POST[valor] == 'Agendamentos do Mês':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosDoMes(),
+                    'nome_usuario' : nome_usuario,
+                }
+
+            if request.POST[valor] == 'Agendamentos Ativos':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosAtivos(),
+                    'nome_usuario' : nome_usuario,
+                }
+            
+            if request.POST[valor] == 'Agendamentos Finalizados':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosFinalizados(),
+                    'nome_usuario' : nome_usuario,
+                }
+            
+            if request.POST[valor] == 'Agendamentos Pendentes':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosPendentes(),
+                    'nome_usuario' : nome_usuario,
+                }
+            
+            if request.POST[valor] == 'Agendamentos Cancelados':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCancelados(),
+                    'nome_usuario' : nome_usuario,
+                }
+            
+            if request.POST[valor] == 'Chiquinho Oliveira':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Chiquinho Oliveira'),
+                    'nome_usuario' : nome_usuario,
+                }
+            
+            if request.POST[valor] == 'Sandrinho Santos':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Sandrinho Santos'),
+                    'nome_usuario' : nome_usuario,
+                }
+
+    return render(request, 'minha-conta/relatorio/lista.html', contexto)

@@ -37,4 +37,7 @@ urlpatterns = [
     path('minhaconta/agenda/novo-agendamento/#', views.periodosDisponiveis, name="periodosDisponiveis"),
     path('minhaconta/agenda/<int:id_registro>/', views.cancelarAgendamento, name="cancelarAgendamento"),
     path('minhaconta/agenda/finalizar', views.finalizarAgendamento, name="finalizarAgendamento"),
+
+    # Relatórios
+    path('minhaconta/relatório/', views.relatorios, name="relatorios"),
 ]
