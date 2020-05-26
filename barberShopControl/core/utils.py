@@ -1,11 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import FileResponse, HttpResponse
 
+import io
 import smtplib
 import hashlib
 import random
 from email.mime.text import MIMEText
 from datetime import date, datetime
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .models import *
 
@@ -30,8 +36,9 @@ class Relatorio:
     
     def agendamentosEspecialista(especialista):
         return  Reserva.objects.filter(res_especialista=especialista)
-
-
+    
+    def agendamentosPorServico(servico):
+        return  Reserva.objects.filter(res_servicos__icontains=servico)
 
     # Totalizadores
     def totalAgendamentos():
@@ -129,8 +136,6 @@ class Relatorio:
             total[servico] = str(contador)
 
         return total
-
-            
 
 class Telefone:
     def quantidadeCaracteres(telefone):
@@ -469,6 +474,16 @@ class Agendamento:
 class Servicos:
     def retornarTodosServicos():
         return Servico.objects.all()
+    
+    def retornarListaServicos():
+        servicos_cadastrados = Servico.objects.all()
+        servicos = []
+        contador = 0
+        for servico in servicos_cadastrados:
+            servico = str(servico)
+            servicos.append(servico)
+
+        return servicos
 
 class Email:
     def finalizarAtendimento(email_destino, nome_cliente, data_agendada):
@@ -505,7 +520,7 @@ class Email:
 
         messages.success(request, 'Nova senha enviada por e-mail.', extra_tags='alert-success')
     
-    def novoAgendamento(request):
+    def novoAgendamento(request, codigo_verificacao):
         periodo_reservado = Periodo.periodos()
         periodo_reservado = periodo_reservado[request.POST['periodo-atendimento']].lower()
 
@@ -524,7 +539,9 @@ class Email:
             O agendamento do dia <strong>{data}</strong>, no período <strong>{periodo}</strong> com o especialista <strong>{especialista}</strong>, foi efetuado com sucesso!
             <br><br>
             Os serviços reservados foram: <strong>{servico}</strong>.
-            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos)
+            <br><br>
+            Para cancelar o agendamento <a href="http://127.0.0.1:8000/{codigo}">clique aqui</a>
+            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos, codigo=codigo_verificacao)
         
         Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
 

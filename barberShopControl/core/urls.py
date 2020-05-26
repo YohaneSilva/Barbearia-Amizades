@@ -7,6 +7,7 @@ urlpatterns = [
     # Institucional
     path('', views.home, name="home"),
     path('agendamento', views.agendamento, name="agendamento"),
+    path('<slug:codigo_verificacao>', views.cancelarAgendamentoEmail, name="cancelarAgendamentoEmail"),
 
     # Login
     path('login/', views.acessoLogin, name="acessoLogin"),
@@ -39,5 +40,6 @@ urlpatterns = [
     path('minhaconta/agenda/finalizar', views.finalizarAgendamento, name="finalizarAgendamento"),
 
     # Relatórios
-    path('minhaconta/relatório/', views.relatorios, name="relatorios"),
+    path('minhaconta/relatorio/', views.relatorios, name="relatorios"),
+    path('minhaconta/relatorio/exportar', views.exportarRelatorio, name="exportarRelatorio"),
 ]

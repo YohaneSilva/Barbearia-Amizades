@@ -2,12 +2,18 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.generic import View
 from django.core import serializers
+from django.http import FileResponse, HttpResponse
 
+import io
 import smtplib
 import hashlib
 import random
 from email.mime.text import MIMEText
 from datetime import date, datetime
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .forms import *
 from .models import *
@@ -60,7 +66,7 @@ def agendamento(request):
     return render(request, 'institucional/agendamento.html')
 
 # Subsistema: Minha Conta
-def dashboard(request):
+def dashboard(request):   
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
     
@@ -297,6 +303,7 @@ def cadastrarAgendamento(request):
 
             # Retirando os elementos do array e os separando por vírgula
             servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
+            codigo_verificacao = Senha.gerarSenhaRandomica()
 
             # Salvando o novo agendamento
             novo_agendamento = Reserva(
@@ -307,7 +314,8 @@ def cadastrarAgendamento(request):
                 res_email_cliente = request.POST['email-cliente'],
                 res_especialista = request.POST['nome-especialista'],
                 res_servicos = servicos,
-                res_status = 'Ativo'
+                res_status = 'Ativo',
+                res_codigo_verificacao = codigo_verificacao
             )
 
             mensagem_agendamento_sucesso = """\
@@ -318,7 +326,7 @@ def cadastrarAgendamento(request):
             messages.success(request, mensagem_agendamento_sucesso, extra_tags='alert-success')
 
             novo_agendamento.save()
-            Email.novoAgendamento(request)
+            Email.novoAgendamento(request, codigo_verificacao)
             return redirect('agendamento')
         
     else:
@@ -337,6 +345,7 @@ def cadastrarAgendamento(request):
 
             # Retirando os elementos do array e os separando por vírgula
             servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
+            codigo_verificacao = Senha.gerarSenhaRandomica()
 
             # Salvando o novo agendamento
             novo_agendamento = Reserva(
@@ -347,7 +356,8 @@ def cadastrarAgendamento(request):
                 res_email_cliente = request.POST['email-cliente'],
                 res_especialista = request.POST['nome-especialista'],
                 res_servicos = servicos,
-                res_status = 'Ativo'
+                res_status = 'Ativo',
+                res_codigo_verificacao = codigo_verificacao
             )
 
             mensagem_agendamento_sucesso = """\
@@ -358,11 +368,11 @@ def cadastrarAgendamento(request):
             messages.success(request, mensagem_agendamento_sucesso, extra_tags='alert-success')
 
             novo_agendamento.save()
-            Email.novoAgendamento(request)
+            Email.novoAgendamento(request, codigo_verificacao)
             return redirect('agendamentosCadastrados')
 
-            contexto = {'nome_usuario' : nome_usuario}
-            return render(request, 'minha-conta/agenda/cadastro.html', contexto)
+        contexto = {'nome_usuario' : nome_usuario}
+        return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
@@ -429,17 +439,47 @@ def finalizarAgendamento(request):
         Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
     return redirect('agendamentosCadastrados')
 
+def cancelarAgendamentoEmail(request, codigo_verificacao):
+    reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+
+    for item in reserva:
+        nome_cliente = getattr(item, 'res_nome_cliente')
+        data_atendimento = getattr(item, 'res_data_atendimento')
+        especialista = getattr(item, 'res_especialista')
+
+        if getattr(item, 'res_status') == 'Ativo':
+            contexto = {
+                'status' : False,
+                'reserva' : reserva
+            }
+        else:
+            contexto = {
+                'status' : True,
+                'reserva' : reserva
+            }
+
+        if request.method == 'POST':
+            for resultado in request.POST:
+                if request.POST[resultado] == 'Sim':
+                    messages.success(request, 'Agendamento cancenlado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
+                    reserva.update(res_status='Cancelado')
+                    Email.cancelarAgendamento(request, getattr(item, 'id'))
+                    contexto = {
+                        'status' : True,
+                        'reserva' : reserva
+                    }
+
+    return render(request, 'institucional/cancelamento.html', contexto)
+
 # Subsistema: Relatório
 def relatorios(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
-    
-    nome_usuario = request.session['nome_usuario_logado']
-    agendamentos_cadastrados = Reserva.objects.all()
 
     contexto = {
-        'agendamentos_cadastrados' : agendamentos_cadastrados,
-        'nome_usuario' : nome_usuario,
+        'agendamentos_cadastrados' : Reserva.objects.all(),
+        'servicos_cadastrados' : Servicos.retornarListaServicos(),
+        'nome_usuario' : request.session['nome_usuario_logado'],
     }
 
     if request.method == 'POST':
@@ -447,43 +487,100 @@ def relatorios(request):
             if request.POST[valor] == 'Agendamentos do Mês':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosDoMes(),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
 
             if request.POST[valor] == 'Agendamentos Ativos':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosAtivos(),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
             
             if request.POST[valor] == 'Agendamentos Finalizados':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosFinalizados(),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
             
             if request.POST[valor] == 'Agendamentos Pendentes':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosPendentes(),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
             
             if request.POST[valor] == 'Agendamentos Cancelados':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosCancelados(),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
             
             if request.POST[valor] == 'Chiquinho Oliveira':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Chiquinho Oliveira'),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
             
             if request.POST[valor] == 'Sandrinho Santos':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Sandrinho Santos'),
-                    'nome_usuario' : nome_usuario,
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
                 }
 
+            if request.POST[valor] in Servicos.retornarListaServicos():
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosPorServico(request.POST[valor]),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                }
+            
+
     return render(request, 'minha-conta/relatorio/lista.html', contexto)
+
+def exportarRelatorio(request):
+    print(request.POST)
+    pdf = io.BytesIO()
+
+    doc = SimpleDocTemplate(pdf, pagesize=letter)
+    # container for the 'Flowable' objects
+    elements = []
+    data= [[
+        'Código', 
+        'Agendado Em', 
+        'Nome', 
+        'Telefone', 
+        'E-mail', 
+        'Data Atendimento', 
+        'Especialista', 
+        'Período Atendimento',
+        'Serviço',
+        'Situação',
+        'Observação'
+    ],
+    ['10', '11', '12', '13', '14'],
+    ['20', '21', '22', '23', '24'],
+    ['30', '31', '32', '33', '34']]
+    t=Table(data,20*[0.7*inch], 4*[0.7*inch])
+    t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+        ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+        ('VALIGN',(0,0),(0,-1),'TOP'),
+        ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+        ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+        ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+        ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+    ]))
+
+    elements.append(t)
+    # write the document to disk
+    doc.build(elements)
+    pdf.seek(0)
+
+    return FileResponse(pdf, as_attachment=True, filename='hello.pdf')

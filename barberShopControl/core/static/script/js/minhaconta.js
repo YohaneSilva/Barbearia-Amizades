@@ -104,7 +104,7 @@ $("#backToTop").click(function () {
 // Contador das linhas da tabela
 $(document).ready(function () {
   var quantidadeLinhasTabela = $('#tableAllResults tr').length - 1;
-  $('#lengthRowTable').html('<strong>Quantidade de Cadastros: </strong> '+quantidadeLinhasTabela);
+  $('#lengthRowTable').html('<strong>Quantidade de Registros: </strong> '+quantidadeLinhasTabela);
 
   // Remover classe da tabela quando acessado pelo mobile
   var tamanhoJanela = $( window ).width();
