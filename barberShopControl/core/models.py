@@ -45,4 +45,6 @@ class Reserva(models.Model):
     res_status = models.CharField("Situação", max_length=9)
     res_observacao = models.TextField("Observações")
     res_observacao_especialista = models.TextField("Observações")
-    res_codigo_verificacao = models.CharField("Código de Verificação", max_length=254)
+    res_codigo_verificacao = models.CharField("Código de Verificação", max_length=10)
+    res_avaliacao = models.CharField("Avaliar Atendimento", max_length=2)
+    res_observacao_avaliacao = models.CharField("Código de Verificação", max_length=254)

@@ -379,15 +379,6 @@ def cadastrarAgendamento(request):
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
-def cancelarAgendamento(request, id_registro):
-    if Login.verificarUsuarioLogado(request) == False:
-        return redirect('acessoLogin')
-
-    Email.cancelarAgendamento(request, id_registro)
-    Reserva.objects.filter(id=id_registro).update(res_status='Cancelado')
-    messages.success(request, 'Agendamento cancelado.', extra_tags='alert-success')
-    return redirect('agendamentosCadastrados')
-
 def periodosDisponiveis(request):
     if request.POST['origem-usuario'] == 'institucional':
         if request.method == "POST":
@@ -429,18 +420,6 @@ def periodosDisponiveis(request):
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
-def finalizarAgendamento(request):
-    if Login.verificarUsuarioLogado(request) == False:
-        return redirect('acessoLogin')
-
-    if request.method == 'POST':
-        nome_cliente  = request.POST['nome-cliente']
-        email_destino = request.POST['email-cliente']
-        data_agendada = request.POST['data-agendada']
-        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada)
-        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao=request.POST['observacao-atendimento'], res_status='Finalizado')
-    return redirect('agendamentosCadastrados')
-
 def cancelarAgendamentoEmail(request, codigo_verificacao):
     reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
 
@@ -473,9 +452,21 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
 
     return render(request, 'institucional/cancelamento.html', contexto)
 
-def editarAgendamento(request):
-    print(request.POST['id-registro'])
+def finalizarCancelar(request):
+    if Login.verificarUsuarioLogado(request) == False:
+            return redirect('acessoLogin')
+    
+    if request.method == 'POST':
+        if 'finalizar-atendimento' in request.POST:
+            Agendamento.finalizarAgendamento(request)
+
+        if 'cancelar-atendimento' in request.POST:
+            Agendamento.cancelarAgendamento(request)
+        
     return redirect('agendamentosCadastrados')
+
+def avaliarAtendimento(request, codigo_verificacao):
+    return render(request, 'institucional/avaliacao.html')
 
 # Subsistema: Relatório
 def relatorios(request):

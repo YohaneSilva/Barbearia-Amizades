@@ -15,6 +15,10 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .models import *
 
+class Avaliacao:
+    def grauAvaliacao():
+        pass
+
 class Relatorio:
     def agendamentosDoMes():
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
@@ -445,6 +449,19 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def finalizarAgendamento(request):
+        nome_cliente  = request.POST['nome-cliente']
+        email_destino = request.POST['email-cliente']
+        data_agendada = request.POST['data-agendada']
+
+        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada)
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
+
+    def cancelarAgendamento(request):
+        Email.cancelarAgendamento(request, request.POST['id-registro'])
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'],res_status='Cancelado')
+        messages.success(request, 'Agendamento cancelado.', extra_tags='alert-success')
+
     def agendamentoPendente():
         agendamentos_cadastrados = Reserva.objects.all()
         
@@ -486,7 +503,7 @@ class Servicos:
         return servicos
 
 class Email:
-    def finalizarAtendimento(email_destino, nome_cliente, data_agendada):
+    def finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao):
         assunto = 'Finalizar Atendimento | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Atendimento Finalizado</strong>
@@ -495,10 +512,12 @@ class Email:
             Olá <strong>{cliente}.</strong> 
             <br><br>
             O agendamento do dia <strong>{data}</strong> foi encerrado com sucesso!
+            <br><br>
+            Ficaríamos felizes se você avaliasse nosso atendimento. Muito simples e rápido. Basta <strong><a href="http://127.0.0.1:8000/{codigo}/avaliacao"> clicar aqui</a></strong>.            
 
             <br><br>
             Agradecemos a preferência!
-            """.format(cliente=nome_cliente, data=data_agendada)
+            """.format(cliente=nome_cliente, data=data_agendada, codigo=codigo_verificacao)
         
         Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
         

@@ -77,18 +77,6 @@ $('td #btnEditUser').click(function () {
   window.location.href = url;
 });
 
-// Cancelar Agendamento: Pegar o id do registro do Agendamento e enviar para a view
-$('#btnCancelarAgendamento').click(function () {
-  var $idSelectedItem = $(this)
-    .closest("tr")   // Finds the closest row <tr> 
-    .find("#codeBooking")     // Gets a descendent with id="codeService"
-    .text();         // Retrieves the text within <td>
-  
-  var url = 'http://127.0.0.1:8000/minhaconta/agenda/'+$idSelectedItem;
-
-  window.location.href = url;
-});
-
 // Refresh da tabela de serviços
 $(document).ready(function (){
   $("#btnRefreshPage").click(function(){
@@ -228,4 +216,16 @@ $(document).ready(function (){
   $('#observacaoCliente').attr('value', emailCliente);
   $('#modalMaisInformacoes').modal('show');
   })
+});
+
+$(document).ready(function (){
+  $('#btnFinalizarAtendimento').click(function (){
+    $('#btnFinalizarAtendimento').attr('name', 'finalizar-atendimento');
+    $('#btnCancelarAgendamento').removeAttr('name');
+  });
+
+  $('#btnCancelarAgendamento').click(function (){
+    $('#btnCancelarAgendamento').attr('name', 'cancelar-atendimento');
+    $('#btnFinalizarAtendimento').removeAttr('name');
+  });
 });

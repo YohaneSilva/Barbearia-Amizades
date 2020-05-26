@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('agendamento', views.agendamento, name="agendamento"),
     path('<slug:codigo_verificacao>', views.cancelarAgendamentoEmail, name="cancelarAgendamentoEmail"),
+    path('<slug:codigo_verificacao>/avaliacao', views.avaliarAtendimento, name="avaliarAtendimento"),
 
     # Login
     path('login/', views.acessoLogin, name="acessoLogin"),
@@ -36,9 +37,7 @@ urlpatterns = [
     path('minhaconta/agenda/', views.agendamentosCadastrados, name="agendamentosCadastrados"),
     path('minhaconta/agenda/novo-agendamento/', views.cadastrarAgendamento, name="cadastrarAgendamento"),
     path('minhaconta/agenda/novo-agendamento/#', views.periodosDisponiveis, name="periodosDisponiveis"),
-    path('minhaconta/agenda/<int:id_registro>/', views.cancelarAgendamento, name="cancelarAgendamento"),
-    path('minhaconta/agenda/finalizar', views.finalizarAgendamento, name="finalizarAgendamento"),
-    path('minhaconta/agenda/editar', views.editarAgendamento, name="editarAgendamento"),
+    path('minhaconta/agenda/editar', views.finalizarCancelar, name="finalizarCancelar"),
 
     # Relatórios
     path('minhaconta/relatorio/', views.relatorios, name="relatorios"),

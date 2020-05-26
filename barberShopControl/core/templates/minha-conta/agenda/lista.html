@@ -23,7 +23,9 @@
             <strong>Agendado em: </strong><span id="maisInformacoesAgendadoEm"></span><br>
             <strong>Situação: </strong><span id="maisInformacoesStatusAtendimento"></span><br>
             <strong>Observação do Cliente: </strong><span id="maisInformacoesObservacaoCliente"></span><br>
-            <form action="{% url 'finalizarAgendamento' %}" method="POST">
+            {% comment %} {% url 'finalizarAgendamento' %}
+            id="btnCancelarAgendamento" {% endcomment %}
+            <form action="{% url 'finalizarCancelar' %}" method="POST">
               {% csrf_token %}
               <input hidden id="idRegistro" name="id-registro" value=""></input>
               <input hidden id="nomeCliente" name="nome-cliente" value=""></input>
@@ -32,11 +34,9 @@
               <label for="observacao"><strong>Observações do Especialista: </strong><br>
               <textarea required id="observacao" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
               <hr>
-              <button type="submit" class="btn btn-success module-title col-md-5">Finalizar Atendimento</button>
-              <button type="button" id="btnCancelarAgendamento" class="btn btn-danger module-title col-md-5" title="Cancelar Agendamento">
+              <input type="submit" id="btnFinalizarAtendimento" value="Finalizar Atendimento"class="btn btn-success module-title" title="Finalizar Atendimento">
+              <input type="submit" id="btnCancelarAgendamento" value="Cancelar Agendamento" class="btn btn-danger module-title" title="Cancelar Agendamento">
                 <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Cancelar Agendamento
-              </button>
             </form>
           </div>
           <div class="modal-footer">
