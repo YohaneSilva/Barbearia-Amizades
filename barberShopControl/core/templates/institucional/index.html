@@ -21,22 +21,22 @@
     <div class="site-blocks-cover overlay" style="background-image: url(static/img/home-section-home.png);" data-aos="fade" id="home-section">
 
       <div class="container">
-        <div class="row pt-4">
+        <div class="row pt-lg-4">
           <div class="col-lg col-xl-11">
-            <div class="pl-0 ml-3 mt-5 mb-5">
+            <div class="pl-0 ml-3 mt-5 pt-lg-3 pt-md-5 mb-5 logo">
               <img 
               src="{% static 'img/logotipo-barbearia-amizades-branco.png' %}" 
-              width="18%"
               alt="Logotipo da Barbearia Amizades"
+              class="logotipo"
               >
             </div>
-            <div class="pl-3 pt-4">
+            <div class="pl-3 pt-lg-3">
               <h1>
                 Respeito</br> 
                 pela tradição.
               </h1>
               <div class="line-shape mb-3"></div>
-              <div class="col-6 pl-0 pt-3">
+              <div class="col-lg-6 col-sm-12 pl-0 pt-3">
                 <p class="mb-5 mr-30 desc">
                   Agende seu horário na barbearia mais tradicional do Campo Limpo.
                 </p>
@@ -56,17 +56,17 @@
     <!-- SOBRE-->  
     
     <section class="site-section cta-big-image" id="about-section">
-      <div class="container paddingless">
-        <div class="row">
-          <div class="col-lg-7 pt-5">
+      <div class="container-fluid paddingless">
+        <div class="row pt-lg-5">
+          <div class="col-lg-7 pr-lg-5">
             <img 
             src="{% static 'img/home-section-sobre.jpg' %}" 
             alt="Corte de Barba na Barbearia Amizades" 
             class="img-fluid"
             >
           </div>
-          <div class="col-lg-5 ml-auto">
-            <div class="mb-4 mt-5 pl-5">
+          <div class="col-lg-5">
+            <div class="mb-lg-4 pl-lg-2 pr-lg-5 p-4">
               <h1 class="text-dark is-text-title">
                 Barba, cabelo, bigode e parceria.
               </h1>
@@ -91,10 +91,10 @@
 
     <!--SERVIÇOS--> 
 
-    <section class="site-section p-0 pt-5" id="services-section">
-      <div class="container-fluid pt-5 pr-0">
-        <div class="row ml-3">
-          <div class="col-lg-5 pl-5 pr-5">
+    <section class="site-section pt-lg-5" id="services-section">
+      <div class="container-fluid pt-lg-5 pr-0">
+        <div class="row ml-lg-3">
+          <div class="col-lg-5 pl-lg-5 pl-md-4 pr-md-4">
             <h1 class="mb-4 text-dark is-text-title">
               Nossas especialidades
             </h1>
@@ -232,7 +232,7 @@
             </div>
             
           </div>
-          <div class="col-lg-7">
+          <div class="col-lg-7 col-md-12">
             <div class="custom-direction">
               <a href="#" class="custom-prev">
                 <span><span class="icon-angle-left"></span></span>
@@ -242,7 +242,7 @@
               </a>
             </div>
             
-            <div class="owl-carousel slide-one-item-alt pl-5 mb-5" style="padding-right: 0; margin-right: 0; border-right: 0;">
+            <div class="owl-carousel slide-one-item-alt pl-lg-5 pl-md-0 mb-lg-5">
               <img 
               src="{% static 'img/bancada-itens-barbearia.jpg' %}" 
               alt="Itens no Balcão da Barbearia Amizades" 
@@ -267,14 +267,14 @@
     <!--NOSSO TIME--> 
     
     <section class="site-section cta-big-image" id="team-section">
-      <div class="container-fluid pt-5">
+      <div class="container-fluid pt-lg-5">
         <div class="row">
           <div class="col">
-            <div class="pl-5 col-lg-6 ml-auto">
-                <h1 class="text-dark is-text-title ml-4">
+            <div class="pl-lg-5 col-lg-6 ml-auto">
+                <h1 class="text-dark is-text-title ml-lg-4">
                   Nosso time
                 </h1>
-                <div class="line-shape-dark mb-4 ml-4"></div>
+                <div class="line-shape-dark mb-4 ml-lg-4"></div>
             </div>
           </div>
         </div>
@@ -286,10 +286,10 @@
             class="img-fluid"
             style="filter: brightness(100%);" 
             >
-            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+            <div class="barber-image">
               <h1 class="text-gray">Chiquinho Oliveira</h1>
-              <div class="line-shape-gray mb-4"></div>
-              <h2 class="text-dark-yellow mt-3">barbeiro</h2>
+              <div class="line-shape-gray mb-lg-4"></div>
+              <h2 class="text-dark-yellow mt-lg-3">barbeiro</h2>
             </div>
           </div>
           <div class="col-lg-6 paddingless">
@@ -299,10 +299,10 @@
             class="img-fluid"
             style="filter: brightness(80%);" 
             >
-            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+            <div class="col-md-4 barber-image">
               <h1 class="text-white">Sandrinho Santos</h1>
-              <div class="line-shape-white mb-4"></div>
-              <h2 class="text-dark-yellow mt-3">barbeiro</h2>
+              <div class="line-shape-white mb-lg-4"></div>
+              <h2 class="text-dark-yellow mt-lg-3">barbeiro</h2>
             </div>
           </div>
 
@@ -314,50 +314,57 @@
     <!-- AGENDA -->
 
     <section class="site-section" id="booking-section">
+      
       <div class="container-fluid paddingless">
-        <div class="site-section booking d-flex align-items-center justify-content-center" style="background-image: url(static/img/booking-section-background.jpg);">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="booking-content text-center">
-                <h1 class="mb-4 text-white is-text-title">
-                  Agende seu corte!
-                </h1>
-                <h2 class="text-white font-weight-bold">
-                  Escolha o melhor dia e hora para você </br>
-                  dar um tapa no visual.
-                </h2>
-                <div class="mt-5">
-                  <a 
-                  type="button" 
-                  href="{% url 'agendamento' %}" 
-                  class="btn btn-primary" 
-                  title="Ir para Agendamento"
-                  aria-label="botão para agendar">
-                  Agendar Corte
-                </a>
+        <a type="button" 
+          href="{% url 'agendamento' %}" 
+          title="Ir para Agendamento"
+          aria-label="botão para agendar">
+          <div class="site-section booking d-flex align-items-center justify-content-center" style="background-image: url(static/img/booking-section-background.jpg);">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="booking-content text-center">
+                  <h1 class="mb-lg-4 text-white is-text-title">
+                    Agende seu corte!
+                  </h1>
+                  <h2 class="text-white font-weight-bold">
+                    Escolha o melhor dia e hora para você </br>
+                    dar um tapa no visual.
+                  </h2>
+                  <div class="mt-lg-5 mt-md-5">
+                    <a 
+                      type="button" 
+                      href="{% url 'agendamento' %}" 
+                      class="btn btn-primary" 
+                      title="Ir para Agendamento"
+                      aria-label="botão para agendar">
+                      Agendar Corte
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>  
+    
     </section>
     
 
     <!--CONTATO--> 
   
     <section class="site-section" id="contact-section">
-      <div class="container pt-5 paddingless">
+      <div class="container pt-lg-5 paddingless">
         <div class="row">
-          <div class="col-lg-7 mb-5">
+          <div class="col-lg-7 mb-lg-5">
             <img 
             src="{% static 'img/home-section-contato.png' %}" 
             alt="Acessórios da Barbearia Amizades" 
             class="img-fluid"
             >
           </div>
-          <div class="col-lg-5 ml-auto">
-            <div class="mb-4 pl-5">
+          <div class="col-lg-5">
+            <div class="mb-4 pl-lg-5 p-4">
               <h1 class="mb-4 text-dark is-text-title">
                 Contato
               </h1>
@@ -367,15 +374,14 @@
                   <span class="flaticon-email"><span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">barbeariaamizades@gmail.com</span></span>
                 </a>
               </div>
-              <div>
-                <a>
+              <div class="local">
+                
                   <span class="flaticon-placeholder">
                     <span class="text-dark" style="vertical-align: 8px;">
                       R. Edmundo Antônio Pernetti, 212, 2° andar - SP
                     </span>
                   </span>
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr" width="400" height="190" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                </a>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr"  frameborder="0" allowfullscreen aria-hidden="false" tabindex="0"></iframe>
               </div>
             </div>
           </div>

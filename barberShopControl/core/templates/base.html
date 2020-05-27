@@ -42,7 +42,9 @@
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+   
     <!-- MENU MOBILE -->
+
     <div class="site-wrap">
       <div class="site-mobile-menu site-navbar-target">
         <div class="site-mobile-menu-header">
@@ -60,11 +62,11 @@
         role="banner"
       >
         <div class="container">
-          <div class="row">
-            <div class="col-lg-2 col-xl-2">
+          <div class="row align-items-center">
+            <div class="col-6 col-xl-2">
               <a href="{% url 'home' %}" class="h2 mb-0"> </a>
             </div>
-            <div class="col-xl-12 col-lg-12 col-md-10 d-none d-xl-block">
+            <div class="col-12 col-xl-12 col-lg-12 col-md-10 d-none d-xl-block">
               <nav
                 class="site-navigation position-relative text-right"
                 role="navigation"
@@ -215,16 +217,16 @@
       var $btnDiminuir = $("#btnDiminuir");
       var $elemento = $("body p");
 
-      function obterTamnhoFonte() {
+      function obterTamanhoFonte() {
         return parseFloat($elemento.css('font-size'));
       }
 
       $btnAumentar.on('click', function() {
-        $elemento.css('font-size', obterTamnhoFonte() + 1);
+        $elemento.css('font-size', obterTamanhoFonte() + 1);
       });
 
       $btnDiminuir.on('click', function() {
-        $elemento.css('font-size', obterTamnhoFonte() - 1);
+        $elemento.css('font-size', obterTamanhoFonte() - 1);
       });
     </script>
   </body>
