@@ -504,6 +504,7 @@ def relatorios(request):
         'agendamentos_cadastrados' : Reserva.objects.all(),
         'servicos_cadastrados' : Servicos.retornarListaServicos(),
         'nome_usuario' : request.session['nome_usuario_logado'],
+        'relatorio_selecionado' : 'Todos'
     }
 
     if request.method == 'POST':
@@ -513,6 +514,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosDoMes(),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos do Mês'
                 }
 
             if request.POST[valor] == 'Agendamentos Ativos':
@@ -520,6 +522,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosAtivos(),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Ativos'
                 }
             
             if request.POST[valor] == 'Agendamentos Finalizados':
@@ -527,6 +530,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosFinalizados(),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Finalizados'
                 }
             
             if request.POST[valor] == 'Agendamentos Pendentes':
@@ -534,6 +538,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosPendentes(),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Pendentes'
                 }
             
             if request.POST[valor] == 'Agendamentos Cancelados':
@@ -541,20 +546,23 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosCancelados(),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados'
                 }
             
-            if request.POST[valor] == 'Chiquinho Oliveira':
+            if request.POST[valor] in 'Chiquinho Oliveira':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Chiquinho Oliveira'),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Especialista'
                 }
             
-            if request.POST[valor] == 'Sandrinho Santos':
+            if request.POST[valor] in 'Sandrinho Santos':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Sandrinho Santos'),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Especialista'
                 }
 
             if request.POST[valor] in Servicos.retornarListaServicos():
@@ -562,6 +570,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosPorServico(request.POST[valor]),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Serviço: {servico}'.format(servico=request.POST[valor])
                 }
             
 

@@ -38,7 +38,7 @@
           <div class="modal-body">
             <strong>Cliente: </strong><span id="maisInformacoesNomeCliente"></span><br>
             <strong>Avaliação: </strong><span id="maisInformacoesAvaliacao"></span><br>
-            <strong>Obsevações do Atendimento: </strong><span id="maisInformacoesObservacaoAvaliacao"></span><br>
+            <strong>Obsevações da Avaliação: </strong><span id="maisInformacoesObservacaoAvaliacao"></span><br>
 
             <hr>
             <h5 class="modal-title" id="exampleModalLongTitle">Mais Informações</h5>
@@ -88,8 +88,8 @@
                 </select>
             </div>
             <div class="col-4" id="divRelatorioServico">
-                <label for="relatorioEspecialista">Qual o serviço: </label>
-                <select id="relatorioEspecialista" name="especialista" class="form-control">
+                <label for="relatorioServico">Qual o serviço: </label>
+                <select id="relatorioServico" name="servico" class="form-control">
                     <option>Selecione um serviço</option>
                     {% for valor in servicos_cadastrados %}
                         <option>{{valor}}</option>
@@ -101,6 +101,9 @@
     </form>
 
     <p id="lengthRowTable"></p>
+    <div class="module-title">
+        <span><strong>Relatório Selecionado: </strong>{{ relatorio_selecionado }}</span>
+    </div>
 
     <!--button type="submit" title="Exportar Relatório" class="btn btn-secondary module-title" form="formExportarRelatorio">Exportar Relatório</button-->
 

@@ -167,7 +167,8 @@ $('td #btnMaisInformacoes').click(function () {
   $('#modalMaisInformacoes').modal('show');
 });
 
-// Habilitar modal de Cancelamento e Finalizar Atendimento
+// Habilitar modal de Cancelamento e Finalizar Atendimento 
+// e modal de Avaliação do Cliente
 // com duplo clique na linha de registro
 $(document).ready(function (){
   $('#tableAllResults td').dblclick(function (){
@@ -210,6 +211,26 @@ $(document).ready(function (){
       .closest("tr")   // Finds the closest row <tr> 
       .find("#observacaoCliente")     // Gets a descendent with id="codeService"
       .text();
+    
+    var avaliacaoCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#avaliacaoCliente")     // Gets a descendent with id="codeService"
+      .text();
+      
+    var observacaoAgendamento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoAgendamento")     // Gets a descendent with id="codeService"
+      .text();
+  
+    var observacaoEspecialista = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoEspecialista")     // Gets a descendent with id="codeService"
+      .text();
+  
+    var observacaoAvaliacaoCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoAvaliacaoCliente")     // Gets a descendent with id="codeService"
+      .text();
 
     $('#maisInformacoesDataAtendimento').html(dataAtendimento);
     $('#maisInformacoesNomeCliente').html(nomeCliente);
@@ -223,6 +244,10 @@ $(document).ready(function (){
     $('#dataAgendada').attr('value', dataAtendimento);
     $('#emailCliente').attr('value', emailCliente);
     $('#observacaoCliente').attr('value', emailCliente);
+    $('#maisInformacoesObservacaoAgendamento').html(observacaoAgendamento);
+    $('#maisInformacoesObservacaoEspecialista').html(observacaoEspecialista);
+    $('#maisInformacoesAvaliacao').html(avaliacaoCliente);
+    $('#maisInformacoesObservacaoAvaliacao').html(observacaoAvaliacaoCliente);
 
     if(statusAtendimento == 'Finalizado' || statusAtendimento == 'Cancelado'){
       $('#formFinalizarCancelar').hide();
@@ -230,11 +255,13 @@ $(document).ready(function (){
       $('#formFinalizarCancelar').show();
     }
 
+    $('#modalAvaliacaoAtendimento').modal('show');
     $('#modalMaisInformacoes').modal('show');
   });
 });
 
 // Habilitar o modal de Avaliação do Cliente
+// através do clique no botão Mostrar Avaliação
 $('td #btnMostrarAvaliacao').click(function () {
 
   var dataAtendimento = $(this)
