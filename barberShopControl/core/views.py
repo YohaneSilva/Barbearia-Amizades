@@ -32,7 +32,7 @@ def acessoLogin(request):
 
     return render(request, 'minha-conta/dashboard.html')
 
-def deslogar(request):
+def deslogarMinhaConta(request):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
     
@@ -418,9 +418,22 @@ def periodosDisponiveis(request):
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
+def finalizarCancelar(request):
+    if Login.verificarUsuarioLogado(request) == False:
+            return redirect('acessoLogin')
+    
+    if request.method == 'POST':
+        if 'finalizar-atendimento' in request.POST:
+            Agendamento.finalizarAgendamento(request)
+
+        if 'cancelar-atendimento' in request.POST:
+            Agendamento.cancelarAgendamento(request)
+        
+    return redirect('agendamentosCadastrados')
+
 def cancelarAgendamentoEmail(request, codigo_verificacao):
     reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
-
+ 
     for item in reserva:
         nome_cliente = getattr(item, 'res_nome_cliente')
         data_atendimento = getattr(item, 'res_data_atendimento')
@@ -437,34 +450,50 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
                 'reserva' : reserva
             }
 
-        if request.method == 'POST':
-            for resultado in request.POST:
-                if request.POST[resultado] == 'Sim':
-                    messages.success(request, 'Agendamento cancenlado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
-                    reserva.update(res_status='Cancelado', res_observacao="Cancelado pelo usuário.")
-                    Email.cancelarAgendamento(request, getattr(item, 'id'))
-                    contexto = {
-                        'status' : True,
-                        'reserva' : reserva
-                    }
-
-    return render(request, 'institucional/cancelamento.html', contexto)
-
-def finalizarCancelar(request):
-    if Login.verificarUsuarioLogado(request) == False:
-            return redirect('acessoLogin')
-    
     if request.method == 'POST':
-        if 'finalizar-atendimento' in request.POST:
-            Agendamento.finalizarAgendamento(request)
+        for resultado in request.POST:
+            if request.POST[resultado] == 'Sim':
+                messages.success(request, 'Agendamento cancenlado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
+                reserva.update(res_status='Cancelado', res_observacao="Cancelado pelo usuário.")
+                Email.cancelarAgendamento(request, getattr(item, 'id'))
+                contexto = {
+                    'status' : True,
+                    'reserva' : reserva
+                }
 
-        if 'cancelar-atendimento' in request.POST:
-            Agendamento.cancelarAgendamento(request)
-        
-    return redirect('agendamentosCadastrados')
+        return render(request, 'institucional/cancelamento.html', contexto)
+    return HttpResponse('Ta caindo aqui, pq?')        
 
 def avaliarAtendimento(request, codigo_verificacao):
-    return render(request, 'institucional/avaliacao.html')
+    reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+    
+    # http://127.0.0.1:8000/hhtfea3Gcg/avaliacao
+
+    contexto = {
+        'status' : False,
+        'reserva' : reserva
+    }
+
+    if Agendamento.agendamentoNaoFinalizado(reserva, codigo_verificacao):
+        return redirect('home')
+
+    for item in reserva:
+        if getattr(item, 'res_avaliacao') > 0:
+            contexto = {
+                'status' : True,
+                'reserva' : reserva
+            }
+
+    if request.method == 'POST':
+        reserva.update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
+        messages.success(request, 'Obrigado pela avaliação!', extra_tags='alert-success')
+
+        contexto = {
+            'status' : True,
+            'reserva' : reserva
+        }
+
+    return render(request, 'institucional/avaliacao.html', contexto)
 
 # Subsistema: Relatório
 def relatorios(request):

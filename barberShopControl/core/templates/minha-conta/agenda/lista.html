@@ -3,15 +3,16 @@
 {% block title %} Agendamentos | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Agendamentos{% endblock %}
 {% block content %}
+
   <div class="container-fluid">
 
     <!-- Modal de Mais Informações-->
-    <div class="modal fade" id="modalMaisInformacoes" tabindex="-1" role="dialog" aria-labelledby="modalMaisInformacoes" aria-hidden="true">
+    <div class="modal fade" id="modalMaisInformacoes" tabindex="-1" role="dialog" aria-labelledby="modalMaisInformacoes" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Mais Informações</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="btnFecharEnvioModal" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -22,25 +23,30 @@
             <hr>
             <strong>Agendado em: </strong><span id="maisInformacoesAgendadoEm"></span><br>
             <strong>Situação: </strong><span id="maisInformacoesStatusAtendimento"></span><br>
-            <strong>Observação do Cliente: </strong><span id="maisInformacoesObservacaoCliente"></span><br>
-            {% comment %} {% url 'finalizarAgendamento' %}
-            id="btnCancelarAgendamento" {% endcomment %}
-            <form action="{% url 'finalizarCancelar' %}" method="POST">
+            <strong>Observações do Agendamento: </strong><span id="maisInformacoesObservacaoCliente"></span><br>
+            
+            <form action="{% url 'finalizarCancelar' %}" method="POST" id="formFinalizarCancelar">
               {% csrf_token %}
               <input hidden id="idRegistro" name="id-registro" value=""></input>
               <input hidden id="nomeCliente" name="nome-cliente" value=""></input>
               <input hidden id="emailCliente" name="email-cliente" value=""></input>
               <input hidden id="dataAgendada" name="data-agendada" value=""></input>
+              <input hidden id="inputBotaoEnvio" value=""></input>
               <label for="observacao"><strong>Observações do Especialista: </strong><br>
-              <textarea required id="observacao" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
+              <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
               <hr>
-              <input type="submit" id="btnFinalizarAtendimento" value="Finalizar Atendimento"class="btn btn-success module-title" title="Finalizar Atendimento">
-              <input type="submit" id="btnCancelarAgendamento" value="Cancelar Agendamento" class="btn btn-danger module-title" title="Cancelar Agendamento">
-                <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <button type="button" id="btnFinalizarAtendimento" class="btn btn-success module-title" title="Finalizar Atendimento">
+                <span hidden class="text-center spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Finalizar Atendimento
+              </button>
+              <button type="button" id="btnCancelarAgendamento" class="btn btn-danger module-title" title="Cancelar Agendamento">
+                <span hidden class="text-center spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Cancelar Agendamento
+              </button>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" id="btnCancelarEnvioModal" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
       </div>
@@ -81,8 +87,8 @@
           <th scope="col" class="align-middle">Período <br> Atendimento</th>
           <th scope="col" class="align-middle">Serviço</th>
           <th scope="col" class="align-middle">Situação</th>
-          <th scope="col" class="align-middle">Observação <br> Cliente</th>
-          <th scope="col" class="align-middle">Observação <br> Especialista</th>
+          <th scope="col" class="align-middle">Observações <br> Agendamento</th>
+          <th scope="col" class="align-middle">Observações <br> Especialista</th>
         </tr>
       </thead>
       <tbody>

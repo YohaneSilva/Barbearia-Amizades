@@ -25,6 +25,43 @@
     });
 </script>
   <div class="container-fluid">
+    <!-- Modal de Mais Informações-->
+    <div class="modal fade" id="modalAvaliacaoAtendimento" tabindex="-1" role="dialog" aria-labelledby="modalAvaliacaoAtendimento" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Avaliação do Cliente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <strong>Cliente: </strong><span id="maisInformacoesNomeCliente"></span><br>
+            <strong>Avaliação: </strong><span id="maisInformacoesAvaliacao"></span><br>
+            <strong>Obsevações do Atendimento: </strong><span id="maisInformacoesObservacaoAvaliacao"></span><br>
+
+            <hr>
+            <h5 class="modal-title" id="exampleModalLongTitle">Mais Informações</h5>
+            <br>
+
+            <strong>Agendamento: </strong><span id="maisInformacoesDataAtendimento"></span><br>
+            <strong>Período: </strong><span id="maisInformacoesPeriodoAtendimento"></span><br>
+            <strong>Agendado em: </strong><span id="maisInformacoesAgendadoEm"></span><br>
+            <strong>Situação: </strong><span id="maisInformacoesStatusAtendimento"></span><br>
+            <strong>Observações do Agendamento: </strong><span id="maisInformacoesObservacaoAgendamento"></span><br>
+            <strong>Observações do Especialista: </strong><span id="maisInformacoesObservacaoEspecialista"></span><br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão pra atualizar a página -->
+    <button class="btn btn-primary module-title" aria-label="Botão para atualizar tabela de agendamentos cadastrados" id="btnRefreshPage" title="Atualizar tabela de agendamentos">
+      Atualizar Tabela
+    </button>
 
     <form action="{% url 'relatorios' %}" method="POST">
         {% csrf_token %}
@@ -84,33 +121,48 @@
         <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
         <thead>
             <tr>
-            <th scope="col" class="align-middle">Código</th>
-            <th scope="col" class="align-middle">Agendado <br> Em</th>
-            <th scope="col" class="align-middle">Nome</th>
-            <th scope="col" class="align-middle">Telefone</th>
-            <th scope="col" class="align-middle">E-mail</th>
-            <th scope="col" class="align-middle">Data <br> Atendimento</th>
-            <th scope="col" class="align-middle">Especialista <br> </th>
-            <th scope="col" class="align-middle">Período <br> Atendimento</th>
-            <th scope="col" class="align-middle">Serviço</th>
-            <th scope="col" class="align-middle">Situação</th>
-            <th scope="col" class="align-middle">Observação</th>
+                <th scope="col" class="align-middle">Avaliação</th>
+                <th scope="col" class="align-middle">Código</th>
+                <th scope="col" class="align-middle">Agendado <br> Em</th>
+                <th scope="col" class="align-middle">Nome</th>
+                <th scope="col" class="align-middle">Telefone</th>
+                <th scope="col" class="align-middle">E-mail</th>
+                <th scope="col" class="align-middle">Data <br> Atendimento</th>
+                <th scope="col" class="align-middle">Especialista <br> </th>
+                <th scope="col" class="align-middle">Período <br> Atendimento</th>
+                <th scope="col" class="align-middle">Serviço</th>
+                <th scope="col" class="align-middle">Situação</th>
+                <th scope="col" class="align-middle">Observações <br> Agendamento</th>
             </tr>
         </thead>
         <tbody>
         {% for valor in agendamentos_cadastrados %}
             <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
-            <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
-            <td class="align-middle" id="agendadoEm">{{ valor.res_agendado_em }}</td>
-            <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
-            <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
-            <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>
-            <td class="align-middle" id="dataAtendimento">{{ valor.res_data_atendimento }}</td>
-            <td class="align-middle">{{ valor.res_especialista }}</td>
-            <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
-            <td class="align-middle">{{ valor.res_servicos }}</td>
-            <td class="align-middle" id="statusAtendimento">{{ valor.res_status }}</td>
-            <td class="align-middle">{{ valor.res_observacao }}</td>
+                <td class="align-middle">
+                    {% if valor.res_status == 'Finalizado'%}
+                        <button type="button" id="btnMostrarAvaliacao" class="btn bg-warning text-white mr-2" title="Avaliação do Atendimento">
+                            <i class="fas fa-star"></i>
+                        </button>
+                    {% endif %}
+                </td>
+                <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
+                <td class="align-middle" id="agendadoEm">{{ valor.res_agendado_em }}</td>
+                <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
+                <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
+                <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>
+                <td class="align-middle" id="dataAtendimento">{{ valor.res_data_atendimento }}</td>
+                <td class="align-middle">{{ valor.res_especialista }}</td>
+                <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
+                <td class="align-middle">{{ valor.res_servicos }}</td>
+                <td class="align-middle" id="statusAtendimento">{{ valor.res_status }}</td>
+                <td class="align-middle" id="observacaoAgendamento">{{ valor.res_observacao }}</td>
+                {% if valor.res_avaliacao == 0%}
+                    <td hidden class="align-middle" id="avaliacaoCliente">Sem avaliação</td>
+                {% else%}
+                    <td hidden class="align-middle" id="avaliacaoCliente">{{ valor.res_avaliacao }}</td>
+                {% endif %}
+                <td hidden class="align-middle" id="observacaoAvaliacaoCliente">{{ valor.res_observacao_avaliacao }}</td>
+                <td hidden class="align-middle" id="observacaoEspecialista">{{ valor.res_observacao_especialista }}</td>
             </tr>
         {% endfor %}
         </tbody>

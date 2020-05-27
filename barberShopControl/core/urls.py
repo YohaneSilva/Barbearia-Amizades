@@ -15,7 +15,7 @@ urlpatterns = [
     path('login/recuperar-senha/', views.recuperarSenha, name="recuperarSenha"),
 
     # Deslogar 
-    path('deslogar', views.deslogar, name="deslogar"),
+    path('minhaconta/deslogar', views.deslogarMinhaConta, name="deslogarMinhaConta"),
 
     # Rota principal módulo admin
     path('minhaconta/dashboard/', views.dashboard, name="dashboard"),

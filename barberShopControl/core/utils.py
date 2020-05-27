@@ -16,8 +16,11 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from .models import *
 
 class Avaliacao:
-    def grauAvaliacao():
-        pass
+    def jaFoiAvaliado(request, codigo_verificacao):
+        reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+
+        # for item in reserva:
+        #     if getattr(item, 'res_avaliacao') != ''
 
 class Relatorio:
     def agendamentosDoMes():
@@ -449,12 +452,22 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def agendamentoNaoFinalizado(reserva: object, codigo_verificacao):   
+        for item in reserva:
+            if getattr(item, 'res_status') != 'Finalizado':
+                return True
+
     def finalizarAgendamento(request):
         nome_cliente  = request.POST['nome-cliente']
         email_destino = request.POST['email-cliente']
         data_agendada = request.POST['data-agendada']
+        reserva = Reserva.objects.filter(id=request.POST['id-registro'])
 
-        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada)
+        for item in reserva:
+            codigo_verificacao = getattr(item, 'res_codigo_verificacao')
+
+
+        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao)
         Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
 
     def cancelarAgendamento(request):
@@ -513,7 +526,7 @@ class Email:
             <br><br>
             O agendamento do dia <strong>{data}</strong> foi encerrado com sucesso!
             <br><br>
-            Ficaríamos felizes se você avaliasse nosso atendimento. Muito simples e rápido. Basta <strong><a href="http://127.0.0.1:8000/{codigo}/avaliacao"> clicar aqui</a></strong>.            
+            Teria um minuto para avaliar nosso atendimento? Basta <strong><a href="http://127.0.0.1:8000/{codigo}/avaliacao"> clicar aqui</a></strong>.            
 
             <br><br>
             Agradecemos a preferência!
@@ -576,7 +589,7 @@ class Email:
                 <strong>Agendamento Cancelado</strong>
             """
         mensagem = """\
-            Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado com sucesso.
+            Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado.
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista)
         
         Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
