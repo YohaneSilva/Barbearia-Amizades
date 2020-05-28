@@ -354,8 +354,6 @@ def periodosDisponiveis(request):
     if request.POST['origem-usuario'] == 'institucional':
         if request.method == "POST":
             request.session['origem-usuario'] = 'institucional'
-            sessao = request.session['logado']
-            nome_usuario = request.session['nome_usuario_logado']
             
             # Validando se a data não foi enviada vazia
             if Data.dataVazia(request):
