@@ -561,7 +561,7 @@ class Email:
         nome_especialista = request.POST['nome-especialista']
         email_destino = request.POST['email-cliente']
         servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
-        assunto = 'Realizar Agendamento | Barbearia Amizades S & D'
+        assunto = 'Novo Agendamento | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Agendamento Realizado</strong>
             """
