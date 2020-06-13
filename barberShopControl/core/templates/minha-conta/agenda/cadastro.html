@@ -100,16 +100,19 @@ $(document).ready(function (){
                     </div>
 
                     <div class="form-group">
-                        <label for="observacao">Observações</label>
-                        <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
-                    </div>
-
-                    <div class="form-group">
                         <label> Qual(is) serviço(s)</label><br>
                         {% for valor in servicos_cadastrados %}
                             <input type="checkbox" id="{{ valor }}Daniel" name="servicos-selecionados" value="{{ valor }}">
                             <label for="{{ valor }}Daniel">{{ valor }}</label><br>
                         {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#observacaoDaniel" aria-expanded="false" title="Inserir observações para o especialista">
+                            Observações
+                        </button><br>
+                        <small class="module-title">Clique no botão acima para inserir alguma observação.</small>
+                        <textarea id="observacaoDaniel" class="form-control collapse" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
                     </div>
                 </div>
                 <button type="submit" id="submitFormDaniel" class="btn btn-primary" title="Confirmar agendamento">
@@ -159,16 +162,19 @@ $(document).ready(function (){
                     </div>
 
                     <div class="form-group">
-                        <label for="observacao">Observações</label>
-                        <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
-                    </div>
-
-                    <div class="form-group">
                         <label> Qual(is) serviço(s)</label><br>
                         {% for valor in servicos_cadastrados %}
                             <input type="checkbox" id="{{ valor }}Sandro" name="servicos-selecionados" value="{{ valor }}">
                             <label for="{{ valor }}Sandro">{{ valor }}</label><br>
                         {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#observacaoSandro" aria-expanded="false" title="Inserir observações para o especialista">
+                            Observações
+                        </button><br>
+                        <small class="module-title">Clique no botão acima inserir alguma observação.</small>
+                        <textarea id="observacaoSandro" class="form-control collapse" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
                     </div>
                 </div>
                 <button type="submit" id="submitFormSandro" class="btn btn-primary" title="Confirmar agendamento">
