@@ -1,4 +1,4 @@
-{% extends 'login/base.html' %}
+{% extends 'login/base-login.html' %}
 {% load static %}
 {% block title %}Recuperar Senha | Barbearia Amizades S & D{% endblock %}
 {% block content %}
@@ -11,27 +11,53 @@
     });
   });
 </script>
-  <main>
+  
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6 login-section-wrapper">
+      <div class="row align-items-center">
+        <div class="col-sm-6 section-wrapper">
           <div class="brand-wrapper">
-            <a href="#" title="Retornar a página inicial"><img src="{% static 'img/logo.png' %}" alt="logo da Barbearia Amizades S & D" class="logo"></a>
+            <a
+              href="{% url 'home' %}" 
+              title="Retornar a página inicial"
+              class="logo-preta"
+              ><img 
+                src="{% static 'img/logotipo-barbearia-amizades-preto.png' %}" 
+                alt="logotipo da Barbearia Amizades S & D" 
+                class="logotipo" 
+            /></a>
           </div>
           <div class="login-wrapper">
-            <h1 class="login-title">Recuperar <br><p style="font-size:60px">Conta</p></h1>
-
-            <form method="POST" action="{% url 'recuperarSenha' %}" id="formRecuperarSenha">
+            <h1 class="is-text-title text-dark">Recuperar</br>senha</h1>
+            <form class="mb-2" method="POST" action="{% url 'recuperarSenha' %}" id="formRecuperarSenha">
               {% csrf_token %}
               <div class="form-group">
-                <label for="usuario">usuário</label>
-                <input required type="text" maxlength="60" name="usuario" id="usuario" class="form-control" title="digite o usuário" placeholder="digite o usuário">
+                <label class="text-dark-yellow" for="usuario"
+                ><h3 class="mb-0">Usuário</h3></label
+                >
+                <input 
+                  required 
+                  type="text" 
+                  maxlength="60" 
+                  name="usuario" 
+                  id="usuario" 
+                  class="form-control" 
+                  title="digite seu usuário" 
+                  placeholder="digite seu usuário" 
+                />
               </div>
               <div class="form-group">
-                <label for="email">e-mail</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="email@exemplo.com">
+                <label class="text-dark-yellow" for="email"
+                ><h3 class="mb-0">E-mail</h3></label
+                >
+                <input 
+                  type="email" 
+                  name="email" 
+                  id="email" 
+                  class="form-control" 
+                  placeholder="email@exemplo.com"
+                >
               </div>
-              <button type="submit" class="btn btn-block login-btn" id="enviarFormulario">
+              <button type="submit" class="btn btn btn-primary btn-block" id="enviarFormulario">
                 <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Enviar
               </button>
@@ -46,15 +72,20 @@
                 </div>
               {% endfor %}
             </div>
-            <a href="{% url 'acessoLogin'%}" class="forgot-password-link">Retornar ao login</a><br>
-          <a href="{% url 'home'%}" class="text-secondary" title="Ir para página principal">Retornar para Home</a>
+            <div>
+              <i class="fas fa-chevron-left"></i>
+              <a href="{% url 'acessoLogin'%}" class="forgot-password-link">Retornar ao login</a><br>
+            </div>
           </div>
         </div>
         <div class="col-sm-6 px-0 d-none d-sm-block">
-          <img src="{% static 'img/login.jpg' %}" alt="Imagem do rosto de um capaz com os olhos corbertos por uma toalha umedecida. Há um outro homem se preparando para cortar a barbar, do rapaz com os olhos vendados, com o auxílio de uma navalha." class="login-img">
+          <img
+            src="{% static 'img/booking-section-background.jpg' %}"
+            alt="Barbearia Amizades"
+            class="img-fluid"
+          />
         </div>
-      </div>
     </div>
   </div>
-</main>
+
 {% endblock %}

@@ -11,16 +11,15 @@
       type="text/css"
     />
     <!-- Favicon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"
+    />
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
     <link
       rel="stylesheet"
       href="{% static 'fonts/flaticon/font/flaticon.css' %}"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"
-    />
-
     <!-- Arquivos CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -36,8 +35,9 @@
       rel="stylesheet"
       href="{% static 'style/css/bootstrap/owl.carousel.min.css' %}"
     />
-    <link rel="stylesheet" href="{% static 'style/css/bootstrap/aos.css' %}" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="{% static 'style/css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/css/contrast.css' %}" />
     
   </head>
 
@@ -75,56 +75,64 @@
                   class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
                 >
                   <li>
-                    <!-- DIMINUIR FONTE -->
-                    <button 
-                      id="btnDiminuir" 
-                      name="diminuir-fonte" 
-                      title="Diminuir Fonte" 
-                      aria-label="botão para diminuir tamanho dos textos">
-                      A-
+                    <button
+                    type="button"
+                    class="btn-1 button-acessibilidade"
+                    id="altocontraste" 
+                    accesskey="3" 
+                    onclick="window.toggleContrast()" 
+                    onkeydown="window.toggleContrast()">
+                      <i class="fas fa-adjust"></i>&nbsp;contraste
                     </button>
-                    
+                  </li>
+                  <li>
+                    <!-- DIMINUIR FONTE -->
+                    <button
+                    class="btn-1 button-acessibilidade"
+                    id="btnDiminuir" 
+                    name="diminuir-fonte" 
+                    title="Diminuir Fonte" 
+                    aria-label="botão para diminuir tamanho dos textos">
+                      <i class="fas fa-font"></i>-
+                    </button>
+                  </li>
+                  <li>
                     <!-- AUMENTAR FONTE -->
-                    <button 
-                      id="btnAumentar" 
-                      name="aumentar-fonte" 
-                      title="Aumentar Fonte" 
-                      aria-label="botão para aumentar tamanho dos textos">
-                      A+
+                    <button
+                    class="btn-1 button-acessibilidade"
+                    id="btnAumentar" 
+                    name="aumentar-fonte" 
+                    title="Aumentar Fonte" 
+                    aria-label="botão para aumentar tamanho dos textos">
+                      <i class="fas fa-font"></i>+
                     </button>
                     
                   </li>
                   <li class="relative">
-                    <a href="#home-section" class="nav-link">home</a>
+                    <a href="{% url 'home' %}#home-section" class="nav-link-login">home</a>
                   </li>
                   <li class="has-children">
-                    <a href="#about-section" class="nav-link">sobre</a>
+                    <a href="{% url 'home' %}#about-section" class="nav-link-login">sobre</a>
                     <ul class="dropdown">
                       <li>
-                        <a href="#services-section" class="nav-link"
+                        <a href="{% url 'home' %}#services-section" class="nav-link-login"
                           >serviços</a
                         >
                       </li>
                       <li>
-                        <a href="#team-section" class="nav-link">nosso time</a>
+                        <a href="{% url 'home' %}#team-section" class="nav-link-login">nosso time</a>
                       </li>
                     </ul>
                     <li class="relative">
                       <a
-                        href="#booking-section"
-                        class="nav-link"
+                        href="{% url 'agendamento' %}"
+                        class="nav-link-login"
                         >agendamento</a
                       >
                     </li>
                   </li>
                   <li class="relative">
-                    <a href="#contact-section" class="nav-link">contato</a>
-                  </li>
-                  
-                  <li class="relative">
-                    <a href="{% url 'acessoLogin' %}" class="nav-link"
-                      >entrar</a
-                    >
+                    <a href="{% url 'home' %}#contact-section" class="nav-link-login">contato</a>
                   </li>
                 </ul>
               </nav>
@@ -206,28 +214,16 @@
     <script src="{% static 'js/bootstrap/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.countdown.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'js/bootstrap/aos.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.fancybox.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/jquery.sticky.js' %}"></script>
     <script src="{% static 'js/bootstrap/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/main.js' %}"></script>
     <script src="{% static 'script/js/login.js' %}"></script>
-    <script type="text/javascript">
-      var $btnAumentar = $("#btnAumentar");
-      var $btnDiminuir = $("#btnDiminuir");
-      var $elemento = $("body p");
-
-      function obterTamanhoFonte() {
-        return parseFloat($elemento.css('font-size'));
-      }
-
-      $btnAumentar.on('click', function() {
-        $elemento.css('font-size', obterTamanhoFonte() + 1);
-      });
-
-      $btnDiminuir.on('click', function() {
-        $elemento.css('font-size', obterTamanhoFonte() - 1);
-      });
+    <script src="{% static 'script/js/alto-contraste.js' %}"></script>
+    <script src="{% static 'script/js/aumenta-fonte.js' %}"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
     </script>
   </body>
 </html>
