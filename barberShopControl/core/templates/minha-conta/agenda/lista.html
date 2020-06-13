@@ -61,7 +61,30 @@
     <a class="btn btn-outline-secondary module-title" href="{% url 'cadastrarAgendamento' %}" aria-label="Botão para redirecionar para o cadastro de um novo agendamento" title="Ir para Novo Agendamento">
       Novo Agendamento
     </a>
-
+     <form action="{% url 'agendamentosCadastrados' %}" method="POST">
+        {% csrf_token %}
+        <div class="row module-title">
+            <div class="col-2">
+                <label for="qualMes">Qual o mês?</label>
+                <select id="qualMes" name="mes-selecionado" class="form-control">
+                    <option selected>Todos</option>
+                    <option value='1'>Janeiro</option>
+                    <option value='2'>Fevereiro</option>
+                    <option value='3'>Março</option>
+                    <option value='4'>Abril</option>
+                    <option value='5'>Maio</option>
+                    <option value='6'>Junho</option>
+                    <option value='7'>Julho</option>
+                    <option value='8'>Agosto</option>
+                    <option value='9'>Setembro</option>
+                    <option value='10'>Outubro</option>
+                    <option value='11'>Novembro</option>
+                    <option value='12'>Dezembro</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary module-title">Filtrar</button>
+    </form>
     <p id="lengthRowTable"></p>
   </div>
   <div id="listingTable" class="container-fluid">
@@ -75,31 +98,11 @@
         </div>
       {% endfor %}
     </div>
-
-    <form action="{% url 'relatorios' %}" method="POST">
-        {% csrf_token %}
-        <div class="row module-title">
-            <div class="col-4">
-                <label for="qualRelatorio">Qual o mês?</label>
-                <select id="qualRelatorio" name="qual-relatorio" onchange="verifica(this.value)" class="form-control">
-                    <option selected>Todos</option>
-                    <option>Agendamentos por Especialista</option>
-                    <option>Agendamentos por Serviço</option>
-                    <option>Agendamentos do Mês</option>
-                    <option>Agendamentos Ativos</option>
-                    <option>Agendamentos Finalizados</option>
-                    <option>Agendamentos Cancelados</option>
-                    <option>Agendamentos Cancelados Pelo Usuário</option>
-                    <option>Agendamentos Cancelados Pelo Especialista</option>
-                    <option>Agendamentos Pendentes</option>
-                </select>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary module-title">Filtrar</button>
-    </form>
-
     <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
       <thead>
+        <tr>
+          <th colspan="10" class="align-middle">Mês Selecionado: {{ relatorio_selecionado }}</th>
+        </tr>
         <tr>
           <th scope="col" class="align-middle">Ações</th>
           <th scope="col" class="align-middle">Nome <br> Cliente</th>

@@ -23,35 +23,41 @@ class Avaliacao:
         #     if getattr(item, 'res_avaliacao') != ''
 
 class Relatorio:
+    def agendamentosPorMes(numero):
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_por_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=int(numero)).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
+        
+        return reservas_por_mes
+
     def agendamentosDoMes():
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
-        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+        reservas_do_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes).order_by('res_data_atendimento')
         
-        return reservas_mes
+        return reservas_do_mes
 
     def agendamentosCancelados():
-        return Reserva.objects.filter(res_status__icontains='Cancelado')
+        return Reserva.objects.filter(res_status__icontains='Cancelado').order_by('res_data_atendimento')
 
     def agendamentosCanceladosPeloUsuario():
-        return Reserva.objects.filter(res_status='Cancelado pelo usuário')
+        return Reserva.objects.filter(res_status='Cancelado pelo usuário').order_by('res_data_atendimento')
 
     def agendamentosCanceladosPeloEspecialista():
-        return Reserva.objects.filter(res_status='Cancelado pelo especialista')
+        return Reserva.objects.filter(res_status='Cancelado pelo especialista').order_by('res_data_atendimento')
     
     def agendamentosPendentes():
-        return Reserva.objects.filter(res_status='Pendente')
+        return Reserva.objects.filter(res_status='Pendente').order_by('res_data_atendimento')
     
     def agendamentosFinalizados():
-        return Reserva.objects.filter(res_status='Finalizado')
+        return Reserva.objects.filter(res_status='Finalizado').order_by('res_data_atendimento')
 
     def agendamentosAtivos():
-        return Reserva.objects.filter(res_status='Ativo')
+        return Reserva.objects.filter(res_status='Ativo').order_by('res_data_atendimento')
     
     def agendamentosEspecialista(especialista):
-        return  Reserva.objects.filter(res_especialista=especialista)
+        return  Reserva.objects.filter(res_especialista=especialista).order_by('res_data_atendimento')
     
     def agendamentosPorServico(servico):
-        return  Reserva.objects.filter(res_servicos__icontains=servico)
+        return  Reserva.objects.filter(res_servicos__icontains=servico).order_by('res_data_atendimento')
 
     # Totalizadores
     def totalAgendamentos():
@@ -419,7 +425,7 @@ class Data:
 
         return dia_da_semana
 
-    def mesDoAno(dia):
+    def mesDoAno(numero):
         meses_ano = {
             '01': 'Janeiro',
             '02': 'Fevereiro',
@@ -430,12 +436,21 @@ class Data:
             '07': 'Julho',
             '08': 'Agosto',
             '09': 'Setembro',
+            '1': 'Janeiro',
+            '2': 'Fevereiro',
+            '3': 'Março',
+            '4': 'Abril',
+            '5': 'Maio',
+            '6': 'Junho',
+            '7': 'Julho',
+            '8': 'Agosto',
+            '9': 'Setembro',
             '10': 'Outubro',
             '11': 'Novembro',
             '12': 'Dezembro'
         }
 
-        return meses_ano[dia]
+        return meses_ano[numero]
 
 class Conta:
     def validarRecuperacaoDeSenha(request):
@@ -459,6 +474,10 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def todosAgendamentos(nome_usuario):
+        agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
+        return agendamentos_cadastrados
+
     def agendamentoNaoFinalizado(reserva: object, codigo_verificacao):   
         for item in reserva:
             if getattr(item, 'res_status') != 'Finalizado':
@@ -491,8 +510,6 @@ class Agendamento:
         
             if Data.dataRetroativaDoBanco(data_atendimento) == True and status_agendamento == 'Ativo':
                 Reserva.objects.filter(id=id_agendamento).update(res_status='Pendente')
-                
-
 
     def retornarTodosAgendamentos():
         return Reserva.objects.all()

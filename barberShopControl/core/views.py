@@ -17,7 +17,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .forms import *
-from .models import *
 from .utils import *
 
 # Login
@@ -278,15 +277,22 @@ def agendamentosCadastrados(request):
         return redirect('acessoLogin')
 
     Agendamento.agendamentoPendente()
-    
     nome_usuario = request.session['nome_usuario_logado']
 
-    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario).order_by('res_data_atendimento')
-
     contexto = {
-        'agendamentos_cadastrados' : agendamentos_cadastrados,
-        'nome_usuario' : nome_usuario
+        'agendamentos_cadastrados' : Agendamento.todosAgendamentos(nome_usuario),
+        'nome_usuario' : nome_usuario,
+        'relatorio_selecionado' : 'Todos'
     }
+
+    if request.method == 'POST':
+        if request.POST['mes-selecionado'] != 'Todos':
+            contexto = {
+                'agendamentos_cadastrados' : Relatorio.agendamentosPorMes(request.POST['mes-selecionado']),
+                'nome_usuario' : nome_usuario,
+                'relatorio_selecionado' : Data.mesDoAno(request.POST['mes-selecionado'])
+            }
+
     return render(request, 'minha-conta/agenda/lista.html', contexto)
 
 def cadastrarAgendamento(request):
