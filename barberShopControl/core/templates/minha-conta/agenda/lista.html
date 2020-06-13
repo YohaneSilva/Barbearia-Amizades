@@ -3,15 +3,16 @@
 {% block title %} Agendamentos | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Agendamentos{% endblock %}
 {% block content %}
+
   <div class="container-fluid">
 
     <!-- Modal de Mais Informações-->
-    <div class="modal fade" id="modalMaisInformacoes" tabindex="-1" role="dialog" aria-labelledby="modalMaisInformacoes" aria-hidden="true">
+    <div class="modal fade" id="modalMaisInformacoes" tabindex="-1" role="dialog" aria-labelledby="modalMaisInformacoes" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Mais Informações</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="btnFecharEnvioModal" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -22,21 +23,30 @@
             <hr>
             <strong>Agendado em: </strong><span id="maisInformacoesAgendadoEm"></span><br>
             <strong>Situação: </strong><span id="maisInformacoesStatusAtendimento"></span><br>
-            <form action="{% url 'finalizarAgendamento' %}" method="POST">
+            <strong>Observações do Agendamento: </strong><span id="maisInformacoesObservacaoCliente"></span><br>
+            
+            <form action="{% url 'finalizarCancelar' %}" method="POST" id="formFinalizarCancelar">
               {% csrf_token %}
               <input hidden id="idRegistro" name="id-registro" value=""></input>
               <input hidden id="nomeCliente" name="nome-cliente" value=""></input>
               <input hidden id="emailCliente" name="email-cliente" value=""></input>
               <input hidden id="dataAgendada" name="data-agendada" value=""></input>
-              <label for="observacao"><strong>Observações: </strong><br>
-              <textarea required id="observacao" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
+              <input hidden id="inputBotaoEnvio" value=""></input>
+              <label for="observacao"><strong>Observações do Especialista: </strong><br>
+              <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
               <hr>
-              <button type="submit" class="btn btn-success">Finalizar Atendimento</button>
+              <button type="button" id="btnFinalizarAtendimento" class="btn btn-success module-title" title="Finalizar Atendimento">
+                <span hidden class="text-center spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Finalizar Atendimento
+              </button>
+              <button type="button" id="btnCancelarAgendamento" class="btn btn-danger module-title" title="Cancelar Agendamento">
+                <span hidden class="text-center spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Cancelar Agendamento
+              </button>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <button type="button" id="btnCancelarEnvioModal" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
       </div>
@@ -51,15 +61,6 @@
     <a class="btn btn-outline-secondary module-title" href="{% url 'cadastrarAgendamento' %}" aria-label="Botão para redirecionar para o cadastro de um novo agendamento" title="Ir para Novo Agendamento">
       Novo Agendamento
     </a>
-
-    {% comment %} <!-- Filtro de busca -->
-    <form method="GET" class="module-title input-group mb-3">
-      <input type="text" class="form-control" name="search" id="search" placeholder="busque pelo nome do serviço">
-      <div class="input-group-prepend">
-        <button class="btn btn-primary" title="Buscar serviço" type="submit" aria-label="Botão para fazer a busca do serviço"><i class="fas fa-search"></i></button>
-      </div>
-    </form>
-    {% endcomment %}
 
     <p id="lengthRowTable"></p>
   </div>
@@ -78,7 +79,7 @@
     <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
       <thead>
         <tr>
-          <th scope="col" class="align-middle">Código</th>
+          <th scope="col" class="align-middle">Ações</th>
           <th scope="col" class="align-middle">Nome <br> Cliente</th>
           <th scope="col" class="align-middle">Telefone <br> Cliente</th>
           <th scope="col" class="align-middle">E-mail <br> Cliente</th>
@@ -86,14 +87,19 @@
           <th scope="col" class="align-middle">Período <br> Atendimento</th>
           <th scope="col" class="align-middle">Serviço</th>
           <th scope="col" class="align-middle">Situação</th>
-          <th scope="col" class="align-middle">Observação</th>
-          <th scope="col" class="align-middle">Ações</th>
+          <th scope="col" class="align-middle">Observações <br> Agendamento</th>
+          <th scope="col" class="align-middle">Observações <br> Especialista</th>
         </tr>
       </thead>
       <tbody>
       {% for valor in agendamentos_cadastrados %}
         <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
-          <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
+          <td class="align-middle">
+            {% if valor.res_status != 'Cancelado' and valor.res_status != 'Cancelado pelo usuário' and valor.res_status != 'Finalizado'%}
+              <button type="button" id="btnMaisInformacoes" class="btn bg-primary text-white mr-2" title="Mais Informações"><i class="fas fa-ellipsis-v"></i></button>
+            {% endif %}
+          </td>
+          <td hidden class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
           <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
           <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
           <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>
@@ -101,17 +107,9 @@
           <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
           <td class="align-middle">{{ valor.res_servicos }}</td>
           <td class="align-middle" id="statusAtendimento">{{ valor.res_status }}</td>
-          <td class="align-middle">{{ valor.res_observacao }}</td>
+          <td class="align-middle" id="observacaoCliente">{{ valor.res_observacao }}</td>
+          <td class="align-middle">{{ valor.res_observacao_especialista }}</td>
           <td hidden class="align-middle" id="agendadoEm">{{ valor.res_agendado_em }}</td>
-          <td class="align-middle d-flex justify-content-start">
-            {% if valor.res_status != 'Cancelado' and valor.res_status != 'Finalizado'%}
-              <button type="button" id="btnMaisInformacoes" class="btn bg-primary text-white mr-2" title="Mais Informações"><i class="fas fa-ellipsis-v"></i></button>
-              <button type="button" id="btnCancelarAgendamento" class="btn btn-danger" title="Cancelar Agendamento">
-                <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <i class="fas fa-times"></i>
-              </button>
-            {% endif %}
-          </td>
         </tr>
       {% endfor %}
       </tbody>

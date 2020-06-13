@@ -1,11 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import FileResponse, HttpResponse
 
+import io
 import smtplib
 import hashlib
 import random
 from email.mime.text import MIMEText
 from datetime import date, datetime
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .models import *
 
@@ -109,7 +115,7 @@ class Login:
     def verificarUsuarioLogado(request):
         try:
             if request.session['logado']:
-                return request.session['nome_usuario_logado']
+                return True
             else:
                 return False
         except KeyError:
@@ -342,6 +348,31 @@ class Conta:
 
 
 class Agendamento:
+    def agendamentoNaoFinalizado(reserva: object, codigo_verificacao):
+        for item in reserva:
+            if getattr(item, 'res_status') != 'Finalizado':
+                return True
+
+    def finalizarAgendamento(request):
+        nome_cliente = request.POST['nome-cliente']
+        email_destino = request.POST['email-cliente']
+        data_agendada = request.POST['data-agendada']
+        reserva = Reserva.objects.filter(id=request.POST['id-registro'])
+
+        for item in reserva:
+            codigo_verificacao = getattr(item, 'res_codigo_verificacao')
+        Email.finalizarAtendimento(
+            email_destino, nome_cliente, data_agendada, codigo_verificacao)
+        Reserva.objects.filter(id=request.POST['id-registro']).update(
+            res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
+
+    def cancelarAgendamento(request):
+        Email.cancelarAgendamento(request, request.POST['id-registro'])
+        Reserva.objects.filter(id=request.POST['id-registro']).update(
+            res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Cancelado pelo especialista')
+        messages.success(request, 'Agendamento cancelado.',
+                         extra_tags='alert-success')
+
     def agendamentoPendente():
         agendamentos_cadastrados = Reserva.objects.all()
 
@@ -374,26 +405,22 @@ class Agendamento:
 
 class Servicos:
     def retornarTodosServicos():
-        servicos_disponiveis = {
-            'Barba',
-            'Corte na Tesoura',
-            'Corte na Máquina',
-            'Corte Dimil',
-            'Desenho',
-            'Luzes',
-            'Limpeza de Pele',
-            'Pezinho',
-            'Progressiva',
-            'Platinado',
-            'Sobrancelha',
-        }
+        return Servico.objects.all()
 
-        return servicos_disponiveis
+    def retornarListaServicos():
+        servicos_cadastrados = Servico.objects.all()
+        servicos = []
+        contador = 0
+        for servico in servicos_cadastrados:
+            servico = str(servico)
+            servicos.append(servico)
+
+        return servicos
 
 
 class Email:
-    def finalizarAtendimento(email_destino, nome_cliente, data_agendada):
-        assunto = 'Finalizar Atendimento | Barbearia Amizades S & D'
+    def finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao):
+        assunto = 'Atendimento Finalizado | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Atendimento Finalizado</strong>
             """
@@ -401,6 +428,8 @@ class Email:
             Olá <strong>{cliente}.</strong> 
             <br><br>
             O agendamento do dia <strong>{data}</strong> foi encerrado com sucesso!
+            <br><br>
+            Teria um minuto para avaliar nosso atendimento? Basta <strong><a href="http://127.0.0.1:8000/{codigo}/avaliacao"> clicar aqui</a></strong>.            
 
             <br><br>
             Agradecemos a preferência!
@@ -438,7 +467,7 @@ class Email:
         nome_especialista = request.POST['nome-especialista']
         email_destino = request.POST['email-cliente']
         servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
-        assunto = 'Realizar Agendamento | Barbearia Amizades S & D'
+        assunto = 'Novo Agendamento | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Agendamento Realizado</strong>
             """
@@ -469,7 +498,7 @@ class Email:
                 <strong>Agendamento Cancelado</strong>
             """
         mensagem = """\
-            Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado com sucesso.
+            Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado.
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista)
 
         Email.enviarEmail(assunto, Email.corpoEmail(

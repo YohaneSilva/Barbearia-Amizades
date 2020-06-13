@@ -47,7 +47,7 @@ $('td #btnEditarServico').click(function () {
     .find("#codeService")     // Gets a descendent with id="codeService"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'/editar';
+  var url = 'http://127.0.0.1:8000/minha-conta/servicos/'+$idSelectedItem+'/editar';
 
   window.location.href = url;
 });
@@ -59,7 +59,7 @@ $('td #btnExcluirServico').click(function () {
     .find("#codeService")     // Gets a descendent with id="codeService"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'';
+  var url = 'http://127.0.0.1:8000/minha-conta/servicos/'+$idSelectedItem+'';
 
   window.location.href = url;
 });
@@ -72,19 +72,7 @@ $('td #btnEditUser').click(function () {
     .find("#codeUser")     // Gets a descendent with id="codeUser"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/conta/'+$idSelectedItem+'/editar';
-
-  window.location.href = url;
-});
-
-// Cancelar Agendamento: Pegar o id do registro do Agendamento e enviar para a view
-$('td #btnCancelarAgendamento').click(function () {
-  var $idSelectedItem = $(this)
-    .closest("tr")   // Finds the closest row <tr> 
-    .find("#codeBooking")     // Gets a descendent with id="codeService"
-    .text();         // Retrieves the text within <td>
-  
-  var url = 'http://127.0.0.1:8000/minhaconta/agenda/'+$idSelectedItem;
+  var url = 'http://127.0.0.1:8000/minha-conta/conta/'+$idSelectedItem+'/editar';
 
   window.location.href = url;
 });
@@ -104,7 +92,7 @@ $("#backToTop").click(function () {
 // Contador das linhas da tabela
 $(document).ready(function () {
   var quantidadeLinhasTabela = $('#tableAllResults tr').length - 1;
-  $('#lengthRowTable').html('<strong>Quantidade de Cadastros: </strong> '+quantidadeLinhasTabela);
+  $('#lengthRowTable').html('<strong>Quantidade de Registros: </strong> '+quantidadeLinhasTabela);
 
   // Remover classe da tabela quando acessado pelo mobile
   var tamanhoJanela = $( window ).width();
@@ -114,7 +102,8 @@ $(document).ready(function () {
   };
 });
 
-// Habilitar o modal de Mais Informações
+// Habilitar o modal de Cancelamento e Finalizar Atendimento 
+// através do clique no botão Mais Informações
 $('td #btnMaisInformacoes').click(function () {
   var idAtendimento = $(this)
     .closest("tr")   // Finds the closest row <tr> 
@@ -151,14 +140,211 @@ $('td #btnMaisInformacoes').click(function () {
     .find("#emailCliente")     // Gets a descendent with id="codeService"
     .text();
 
+  var observacaoCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoCliente")     // Gets a descendent with id="codeService"
+    .text();
+
   $('#maisInformacoesDataAtendimento').html(dataAtendimento);
   $('#maisInformacoesNomeCliente').html(nomeCliente);
   $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
   $('#maisInformacoesAgendadoEm').html(agendadoEm);
   $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+  $('#maisInformacoesObservacaoCliente').html(observacaoCliente);
   $('#idRegistro').attr('value', idAtendimento);
+  $('#idRegistroObservacao').attr('value', idAtendimento);
   $('#nomeCliente').attr('value', nomeCliente);
   $('#dataAgendada').attr('value', dataAtendimento);
   $('#emailCliente').attr('value', emailCliente);
+  $('#observacaoCliente').attr('value', emailCliente);
+
+  if(statusAtendimento == 'Finalizado' || statusAtendimento == 'Cancelado'){
+    $('#formFinalizarCancelar').hide();
+  } else {
+    $('#formFinalizarCancelar').show();
+  }
+
   $('#modalMaisInformacoes').modal('show');
+});
+
+// Habilitar modal de Cancelamento e Finalizar Atendimento 
+// e modal de Avaliação do Cliente
+// com duplo clique na linha de registro
+$(document).ready(function (){
+  $('#tableAllResults td').dblclick(function (){
+    var idAtendimento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#codeBooking")     // Gets a descendent with id="codeService"
+      .text();
+
+    var dataAtendimento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#dataAtendimento")     // Gets a descendent with id="codeService"
+      .text();
+    
+    var nomeCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#nomeCliente")     // Gets a descendent with id="codeService"
+      .text();
+
+    var periodoAtendimento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
+      .text();
+    
+    var agendadoEm = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#agendadoEm")     // Gets a descendent with id="codeService"
+      .text();
+      
+    var statusAtendimento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#statusAtendimento")     // Gets a descendent with id="codeService"
+      .text();
+    
+    var emailCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#emailCliente")     // Gets a descendent with id="codeService"
+      .text();
+
+    var observacaoCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoCliente")     // Gets a descendent with id="codeService"
+      .text();
+    
+    var avaliacaoCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#avaliacaoCliente")     // Gets a descendent with id="codeService"
+      .text();
+      
+    var observacaoAgendamento = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoAgendamento")     // Gets a descendent with id="codeService"
+      .text();
+  
+    var observacaoEspecialista = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoEspecialista")     // Gets a descendent with id="codeService"
+      .text();
+  
+    var observacaoAvaliacaoCliente = $(this)
+      .closest("tr")   // Finds the closest row <tr> 
+      .find("#observacaoAvaliacaoCliente")     // Gets a descendent with id="codeService"
+      .text();
+
+    $('#maisInformacoesDataAtendimento').html(dataAtendimento);
+    $('#maisInformacoesNomeCliente').html(nomeCliente);
+    $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
+    $('#maisInformacoesAgendadoEm').html(agendadoEm);
+    $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+    $('#maisInformacoesObservacaoCliente').html(observacaoCliente);
+    $('#idRegistro').attr('value', idAtendimento);
+    $('#idRegistroObservacao').attr('value', idAtendimento);
+    $('#nomeCliente').attr('value', nomeCliente);
+    $('#dataAgendada').attr('value', dataAtendimento);
+    $('#emailCliente').attr('value', emailCliente);
+    $('#observacaoCliente').attr('value', emailCliente);
+    $('#maisInformacoesObservacaoAgendamento').html(observacaoAgendamento);
+    $('#maisInformacoesObservacaoEspecialista').html(observacaoEspecialista);
+    $('#maisInformacoesAvaliacao').html(avaliacaoCliente);
+    $('#maisInformacoesObservacaoAvaliacao').html(observacaoAvaliacaoCliente);
+
+    if(statusAtendimento == 'Finalizado' || statusAtendimento == 'Cancelado'){
+      $('#formFinalizarCancelar').hide();
+    } else {
+      $('#formFinalizarCancelar').show();
+    }
+
+    $('#modalAvaliacaoAtendimento').modal('show');
+    $('#modalMaisInformacoes').modal('show');
+  });
+});
+
+// Habilitar o modal de Avaliação do Cliente
+// através do clique no botão Mostrar Avaliação
+$('td #btnMostrarAvaliacao').click(function () {
+
+  var dataAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#dataAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var nomeCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#nomeCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  var periodoAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#periodoAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+  
+  var agendadoEm = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#agendadoEm")     // Gets a descendent with id="codeService"
+    .text();
+    
+  var statusAtendimento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#statusAtendimento")     // Gets a descendent with id="codeService"
+    .text();
+
+    
+  var avaliacaoCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#avaliacaoCliente")     // Gets a descendent with id="codeService"
+    .text();
+    
+  var observacaoAgendamento = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoAgendamento")     // Gets a descendent with id="codeService"
+    .text();
+
+  var observacaoEspecialista = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoEspecialista")     // Gets a descendent with id="codeService"
+    .text();
+
+  var observacaoAvaliacaoCliente = $(this)
+    .closest("tr")   // Finds the closest row <tr> 
+    .find("#observacaoAvaliacaoCliente")     // Gets a descendent with id="codeService"
+    .text();
+
+  $('#maisInformacoesDataAtendimento').html(dataAtendimento);
+  $('#maisInformacoesNomeCliente').html(nomeCliente);
+  $('#maisInformacoesPeriodoAtendimento').html(periodoAtendimento);
+  $('#maisInformacoesAgendadoEm').html(agendadoEm);
+  $('#maisInformacoesStatusAtendimento').html(statusAtendimento);
+  $('#maisInformacoesObservacaoAgendamento').html(observacaoAgendamento);
+  $('#maisInformacoesObservacaoEspecialista').html(observacaoEspecialista);
+  $('#maisInformacoesAvaliacao').html(avaliacaoCliente);
+  $('#maisInformacoesObservacaoAvaliacao').html(observacaoAvaliacaoCliente);
+
+  $('#modalAvaliacaoAtendimento').modal('show');
+});
+
+// Desabilitar os botões de Finalizar e Cancelar 
+// o atendimento
+$(document).ready(function (){
+  $('#btnFinalizarAtendimento').click(function (){
+    $('#inputBotaoEnvio').attr('name', 'finalizar-atendimento');
+    $('#btnCancelarAgendamento').removeAttr('name');
+    $('#btnFinalizarAtendimento .spinner-border').removeAttr("hidden");
+    $('#btnFinalizarAtendimento').prop( "disabled", true );
+    $('#btnCancelarAgendamento').prop( "disabled", true );
+    $('#btnCancelarEnvioModal').prop('disabled', true);
+    $('#btnFecharEnvioModal').prop('disabled', true);
+    $('#formFinalizarCancelar').submit();
+  });
+
+  $('#btnCancelarAgendamento').click(function (){
+    $('#inputBotaoEnvio').attr('name', 'cancelar-atendimento');
+    $('#btnFinalizarAtendimento').removeAttr('name');
+    $('#btnCancelarAgendamento .spinner-border').removeAttr("hidden");
+    $('#btnFinalizarAtendimento').prop( "disabled", true );
+    $('#btnCancelarAgendamento').prop( "disabled", true );
+    $('#btnCancelarEnvioModal').prop('disabled', true);
+    $('#btnFecharEnvioModal').prop('disabled', true);
+    $('#formFinalizarCancelar').submit();
+  });
 });
