@@ -1,3 +1,11 @@
 #diaAtendimento {
   visibility: hidden;
 }
+.card a {
+  color: #444 !important;
+}
+.card a:hover {
+  color: white !important;
+  text-decoration: none !important;
+  background-color: #a66d03;
+}

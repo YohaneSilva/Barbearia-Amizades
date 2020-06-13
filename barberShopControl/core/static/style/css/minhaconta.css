@@ -509,15 +509,15 @@ mark,
   max-height: 500px;
 }
 
-.estrelas input[type=radio] {
+.estrelas input[type="radio"] {
   display: none;
 }
 .estrelas label i.fa:before {
-  content:'\f005';
-  color: #FC0;
+  content: "\f005";
+  color: #fc0;
 }
-.estrelas input[type=radio]:checked ~ label i.fa:before {
-  color: #CCC;
+.estrelas input[type="radio"]:checked ~ label i.fa:before {
+  color: #ccc;
 }
 
 .list-unstyled {
@@ -4794,6 +4794,13 @@ input[type="button"].btn-block {
     display: inline-block;
     width: 100%;
   }
+}
+.card a {
+  color: black !important;
+}
+.card a:hover {
+  color: grey !important;
+  text-decoration: none !important;
 }
 
 .accordion > .card {

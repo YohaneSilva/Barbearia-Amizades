@@ -94,10 +94,11 @@ body:after {
 .btn:hover,
 .btn:active,
 .btn:focus {
-  background-color: #333333 !important;
+  background-color: #a66d03 !important;
   outline: none;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
+  border: #a66d03 1px solid;
 }
 .btn.btn-primary {
   background: #d9a23d;

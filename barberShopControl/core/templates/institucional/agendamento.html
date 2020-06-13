@@ -179,7 +179,7 @@
                   type="submit"
                   class="btn btn-primary"
                   form="formPeriodosDisponiveisHome"
-                  style="padding: 10px 30px;float-right"
+                  style="padding: 10px 30px; margin-left: 50%;"
                   title="Clique para verificar a disponibilidade de horários"
                 >
                   Pesquisar
@@ -220,6 +220,7 @@
             >
               {% csrf_token %}
               <div class="card mr-md-3">
+                <a href="#formularioChiquinho" data-toggle="collapse">
                 <div class="row align-items-center">
                   <div class="col-3">
                     <img
@@ -232,8 +233,9 @@
                     <div class="line-shape-dark"></div>
                   </div>
                 </div>
+              </a>
                 
-                <div class="card-body">
+                <div class="card-body collapse"  id="formularioChiquinho">
                   <input
                     type="hidden"
                     name="nome-especialista"
@@ -339,8 +341,9 @@
                   Agendar
                 </button>
               </div>
-            </form>
             </div>
+            </form>
+              
 
             <!-- Formulário do Sandrinho (Sandro) -->
 
@@ -352,6 +355,7 @@
             >
               {% csrf_token %}
               <div class="card mr-md-3">
+                <a href="#formularioSandro" data-toggle="collapse">
                 <div class="row align-items-center">
                   <div class="col-3">
                     <img
@@ -365,8 +369,9 @@
                     <div class="line-shape-dark"></div>
                   </div>
                 </div>
+              </a>
 
-                <div class="card-body">
+                <div class="card-body collapse" id="formularioSandro">
                   <input
                     type="hidden"
                     name="nome-especialista"
