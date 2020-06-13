@@ -76,6 +76,28 @@
       {% endfor %}
     </div>
 
+    <form action="{% url 'relatorios' %}" method="POST">
+        {% csrf_token %}
+        <div class="row module-title">
+            <div class="col-4">
+                <label for="qualRelatorio">Qual o mês?</label>
+                <select id="qualRelatorio" name="qual-relatorio" onchange="verifica(this.value)" class="form-control">
+                    <option selected>Todos</option>
+                    <option>Agendamentos por Especialista</option>
+                    <option>Agendamentos por Serviço</option>
+                    <option>Agendamentos do Mês</option>
+                    <option>Agendamentos Ativos</option>
+                    <option>Agendamentos Finalizados</option>
+                    <option>Agendamentos Cancelados</option>
+                    <option>Agendamentos Cancelados Pelo Usuário</option>
+                    <option>Agendamentos Cancelados Pelo Especialista</option>
+                    <option>Agendamentos Pendentes</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary module-title">Filtrar</button>
+    </form>
+
     <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
       <thead>
         <tr>

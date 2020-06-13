@@ -328,7 +328,8 @@ class Data:
         timestamp_data_computador = datetime.timestamp(data_computador)
 
         if timestamp_data_enviada < timestamp_data_computador:
-            return True
+            return True   
+        return False
 
     def dataVazia(request):
         data = request.POST['dia-atendimento']
@@ -483,13 +484,15 @@ class Agendamento:
 
     def agendamentoPendente():
         agendamentos_cadastrados = Reserva.objects.all()
-        
         for valor in agendamentos_cadastrados:
+            id_agendamento = getattr(valor, 'id')
             data_atendimento = getattr(valor, 'res_data_atendimento')
-            status = getattr(valor, 'res_status')
-            
-            if Data.dataRetroativaDoBanco(data_atendimento) and status == 'Ativo':
-                Reserva.objects.all().update(res_status='Pendente')
+            status_agendamento = getattr(valor, 'res_status')
+        
+            if Data.dataRetroativaDoBanco(data_atendimento) == True and status_agendamento == 'Ativo':
+                Reserva.objects.filter(id=id_agendamento).update(res_status='Pendente')
+                
+
 
     def retornarTodosAgendamentos():
         return Reserva.objects.all()

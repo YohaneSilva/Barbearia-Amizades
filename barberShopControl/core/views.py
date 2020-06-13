@@ -281,7 +281,7 @@ def agendamentosCadastrados(request):
     
     nome_usuario = request.session['nome_usuario_logado']
 
-    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario)    
+    agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario).order_by('res_data_atendimento')
 
     contexto = {
         'agendamentos_cadastrados' : agendamentos_cadastrados,
