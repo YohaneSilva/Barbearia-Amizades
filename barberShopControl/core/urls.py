@@ -24,7 +24,7 @@ urlpatterns = [
     path('minha-conta/servicos/', views.servicosCadastrados, name="servicosCadastrados"),
     path('minha-conta/servicos/cadastro/', views.cadastrarServico, name="cadastrarServico"),
     path('minha-conta/servicos/<int:id>/editar/', views.editarServico, name="editarServico"),
-    path('minha-conta/servicos/<int:id>/', views.excluirServico, name="excluirServico"),
+    path('minha-conta/servicos/<int:id>/', views.habilitarDesabilitarServico, name="habilitarDesabilitarServico"),
 
     # Subsistema: Conta
     path('minha-conta/conta/', views.usuariosCadastrados, name="usuariosCadastrados"),

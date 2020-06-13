@@ -27,7 +27,6 @@ class FormularioServico(forms.ModelForm):
         model = Servico
         fields = [
             'serv_nome',
-            'serv_valor'
         ]
 
 class FormularioUsuario(forms.ModelForm):

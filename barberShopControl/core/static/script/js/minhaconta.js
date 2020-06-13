@@ -53,7 +53,7 @@ $('td #btnEditarServico').click(function () {
 });
 
 // Excluir Serviço: Pegar o id do registro do Serviço e enviar para a view
-$('td #btnExcluirServico').click(function () {
+$('td #btnEditarSituacaoServico').click(function () {
   var $idSelectedItem = $(this)
     .closest("tr")   // Finds the closest row <tr> 
     .find("#codeService")     // Gets a descendent with id="codeService"
@@ -67,7 +67,7 @@ $('td #btnExcluirServico').click(function () {
 
 // Editar Usuário: Pegar o id do registro do Usuário e enviar para  view
 $('td #btnEditUser').click(function () {
-  var $idSelectedItem = $(this)
+  var $idSelectedItem = $(this) 
     .closest("tr")   // Finds the closest row <tr> 
     .find("#codeUser")     // Gets a descendent with id="codeUser"
     .text();         // Retrieves the text within <td>

@@ -262,13 +262,11 @@ def editarServico(request, id):
     }
     return render(request, 'minha-conta/servicos/editar.html', contexto)
 
-def excluirServico(request, id):
+def habilitarDesabilitarServico(request, id):
     if Login.verificarUsuarioLogado(request) == False:
         return redirect('acessoLogin')
-    
-    resultado_busca = Servico.objects.get(id=id)
-    resultado_busca.delete()
 
+    Servicos.atualizarStatus(id)
     return redirect('servicosCadastrados')
 
 # Subsistema: Agenda

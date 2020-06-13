@@ -197,7 +197,7 @@ class Periodo:
         periodos_sandrinho = Periodo.periodos()
         data_enviada_formatada = Data.formatarDataComMes(request.POST['dia-atendimento'],' de ')
         data_enviada = Data.formatarData(request.POST['dia-atendimento'],'/')
-        servicos_cadastrados = Servicos.retornarTodosServicos()
+        servicos_cadastrados = Servicos.retornarServicosHabilitados()
 
         # Se houver algum resultado é verificado qual o 
         # período está reservado por especialista e o período
@@ -528,8 +528,25 @@ class Agendamento:
                     return True
 
 class Servicos:
+    def atualizarStatus(id_servico):
+        servicos_cadastrados = Servico.objects.filter(id=id_servico)
+        
+        for valor in servicos_cadastrados:
+            status_servico = getattr(valor, 'serv_status')
+            
+            if status_servico == 'Habilitado':
+                Servico.objects.filter(id=id_servico).update(serv_status='Desabilitado')
+            else:
+                Servico.objects.filter(id=id_servico).update(serv_status='Habilitado')
+        
+        return True
+
+
     def retornarTodosServicos():
         return Servico.objects.all()
+    
+    def retornarServicosHabilitados():
+        return Servico.objects.filter(serv_status='Habilitado')
     
     def retornarListaServicos():
         servicos_cadastrados = Servico.objects.all()

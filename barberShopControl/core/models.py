@@ -17,6 +17,7 @@ class Estabelecimento(models.Model):
 class Servico(models.Model):
     serv_nome = models.CharField("Nome", max_length=40)
     serv_valor = models.DecimalField("Valor", max_digits=7, decimal_places=2)
+    serv_status = models.CharField("Situação", max_length=9, default="Habilitado")
 
     def __str__(self):
         return self.serv_nome
