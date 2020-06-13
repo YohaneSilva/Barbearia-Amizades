@@ -176,15 +176,15 @@ class Telefone:
 class Periodo:
     def periodos():
         periodos_disponiveis = {
-            '9-10': 'Das 9hr as 10hrs',
-            '10-11': 'Das 10hr as 11hrs',
-            '13-14': 'Das 13hr as 14hrs',
-            '14-15': 'Das 14hr as 15hrs',
-            '15-16': 'Das 15hr as 16hrs',
-            '16-17': 'Das 16hr as 17hrs',
-            '17-18': 'Das 17hr as 18hrs',
-            '18-19': 'Das 18hr as 19hrs',
-            '19-20': 'Das 19hr as 20hrs'
+            '9-10': '9h às 10h ',
+            '10-11': '10h às 11h ',
+            '13-14': '13h às 14h ',
+            '14-15': '14h às 15h ',
+            '15-16': '15h às 16h ',
+            '16-17': '16h às 17h ',
+            '17-18': '17h às 18h ',
+            '18-19': '18h às 19h ',
+            '19-20': '19h às 20h '
         }
 
         return periodos_disponiveis
@@ -777,7 +777,7 @@ class Email:
                                                                     </tbody>
                                                                 </table>
                                                                 <div align="center" class="img-container center fixedwidth" style="padding-right: 40px;padding-left: 40px;">
-                                                                <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><img align="center" alt="Logo Barbearia Amizades S & D" border="0" class="center fixedwidth" src="https://i.ibb.co/4dRPWtz/logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 352px; display: block;" title="Logo Barbearia Amizades S & D" width="352"/>
+                                                                <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><img align="center" alt="Logo Barbearia Amizades S & D" border="0" class="center fixedwidth" src="https://i.ibb.co/4dRPWtz/logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 150px; max-width: 150px; display: block;" title="Logo Barbearia Amizades S & D" width="352"/>
                                                                 <!--[if mso]></td></tr></table><![endif]-->
                                                                 </div>
                                                                 <table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
