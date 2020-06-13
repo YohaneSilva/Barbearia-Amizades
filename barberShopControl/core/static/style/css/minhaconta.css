@@ -4795,13 +4795,6 @@ input[type="button"].btn-block {
     width: 100%;
   }
 }
-.card a {
-  color: black !important;
-}
-.card a:hover {
-  color: grey !important;
-  text-decoration: none !important;
-}
 
 .accordion > .card {
   overflow: hidden;

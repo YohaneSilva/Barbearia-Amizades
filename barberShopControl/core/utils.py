@@ -16,6 +16,147 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from .models import *
 
 
+class Avaliacao:
+    def jaFoiAvaliado(request, codigo_verificacao):
+        reserva = Reserva.objects.filter(
+            res_codigo_verificacao=codigo_verificacao)
+
+        # for item in reserva:
+        #     if getattr(item, 'res_avaliacao') != ''
+
+
+class Relatorio:
+    def agendamentosDoMes():
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(
+            res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+
+        return reservas_mes
+
+    def agendamentosCancelados():
+        return Reserva.objects.filter(res_status__icontains='Cancelado')
+
+    def agendamentosCanceladosPeloUsuario():
+        return Reserva.objects.filter(res_status='Cancelado pelo usuário')
+
+    def agendamentosCanceladosPeloEspecialista():
+        return Reserva.objects.filter(res_status='Cancelado pelo especialista')
+
+    def agendamentosPendentes():
+        return Reserva.objects.filter(res_status='Pendente')
+
+    def agendamentosFinalizados():
+        return Reserva.objects.filter(res_status='Finalizado')
+
+    def agendamentosAtivos():
+        return Reserva.objects.filter(res_status='Ativo')
+
+    def agendamentosEspecialista(especialista):
+        return Reserva.objects.filter(res_especialista=especialista)
+
+    def agendamentosPorServico(servico):
+        return Reserva.objects.filter(res_servicos__icontains=servico)
+
+    # Totalizadores
+    def totalAgendamentos():
+        total = 0
+        resultado = Reserva.objects.all()
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosDoAno():
+        total = 0
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano)
+
+        for index in range(len(reservas_mes)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosDoMes():
+        total = 0
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        reservas_mes = Reserva.objects.filter(
+            res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+
+        for index in range(len(reservas_mes)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosCancelados():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Cancelado')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosPendentes():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Pendente')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosFinalizados():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Finalizado')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosAtivos():
+        total = 0
+        resultado = Reserva.objects.filter(res_status='Ativo')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosChiquinho():
+        total = 0
+        resultado = Reserva.objects.filter(
+            res_especialista='Chiquinho Oliveira')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentosSandrinho():
+        total = 0
+        resultado = Reserva.objects.filter(res_especialista='Sandrinho Santos')
+
+        for index in range(len(resultado)):
+            total += 1
+
+        return total
+
+    def totalAgendamentoPorServico():
+        servicos = Servico.objects.all()
+        total = {}
+        contador = 0
+        for servico in servicos:
+            servico = str(servico)
+            total[servico] = ''
+            reservas = Reserva.objects.filter(res_servicos__icontains=servico)
+            contador = len(reservas)
+            total[servico] = str(contador)
+
+        return total
+
+
 class Telefone:
     def quantidadeCaracteres(telefone):
         if len(telefone) > 11:
@@ -35,15 +176,15 @@ class Telefone:
 class Periodo:
     def periodos():
         periodos_disponiveis = {
-            '9-10': '9h às 10h',
-            '10-11': '10h às 11h',
-            '13-14': '13h às 14h',
-            '14-15': '14h às 15h',
-            '15-16': '15h às 16h',
-            '16-17': '16h às 17h',
-            '17-18': '17h às 18h',
-            '18-19': '18h às 19h',
-            '19-20': '19h às 20h',
+            '9-10': 'Das 9hr as 10hrs',
+            '10-11': 'Das 10hr as 11hrs',
+            '13-14': 'Das 13hr as 14hrs',
+            '14-15': 'Das 14hr as 15hrs',
+            '15-16': 'Das 15hr as 16hrs',
+            '16-17': 'Das 16hr as 17hrs',
+            '17-18': 'Das 17hr as 18hrs',
+            '18-19': 'Das 18hr as 19hrs',
+            '19-20': 'Das 19hr as 20hrs'
         }
 
         return periodos_disponiveis
@@ -433,7 +574,7 @@ class Email:
 
             <br><br>
             Agradecemos a preferência!
-            """.format(cliente=nome_cliente, data=data_agendada)
+            """.format(cliente=nome_cliente, data=data_agendada, codigo=codigo_verificacao)
 
         Email.enviarEmail(assunto, Email.corpoEmail(
             titulo, mensagem), email_destino)
@@ -458,7 +599,7 @@ class Email:
         messages.success(request, 'Nova senha enviada por e-mail.',
                          extra_tags='alert-success')
 
-    def novoAgendamento(request):
+    def novoAgendamento(request, codigo_verificacao):
         periodo_reservado = Periodo.periodos()
         periodo_reservado = periodo_reservado[request.POST['periodo-atendimento']].lower()
 
@@ -477,7 +618,9 @@ class Email:
             O agendamento do dia <strong>{data}</strong>, no período <strong>{periodo}</strong> com o especialista <strong>{especialista}</strong>, foi efetuado com sucesso!
             <br><br>
             Os serviços reservados foram: <strong>{servico}</strong>.
-            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos)
+            <br><br>
+            Para cancelar o agendamento <a href="http://127.0.0.1:8000/{codigo}">clique aqui</a>
+            """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos, codigo=codigo_verificacao)
 
         Email.enviarEmail(assunto, Email.corpoEmail(
             titulo, mensagem), email_destino)
@@ -493,7 +636,7 @@ class Email:
             0]['res_especialista']
         email_destino = resultado_busca.values('res_email_cliente')[
             0]['res_email_cliente']
-        assunto = 'Cancelar Agendamento | Barbearia Amizades S & D'
+        assunto = 'Agendamento Cancelado | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Agendamento Cancelado</strong>
             """

@@ -78,3 +78,12 @@
     border: 1px solid white !important;
     color: white !important;
 }
+
+.contrast .form-control,
+.contrast .form-group {
+    background-color: black !important;
+    color: white !important;
+}
+.contrast .card {
+    border: 1px solid white;
+}
