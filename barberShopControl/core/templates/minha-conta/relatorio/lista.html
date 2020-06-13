@@ -76,6 +76,8 @@
                     <option>Agendamentos Ativos</option>
                     <option>Agendamentos Finalizados</option>
                     <option>Agendamentos Cancelados</option>
+                    <option>Agendamentos Cancelados Pelo Usuário</option>
+                    <option>Agendamentos Cancelados Pelo Especialista</option>
                     <option>Agendamentos Pendentes</option>
                 </select>
             </div>
@@ -101,11 +103,8 @@
     </form>
 
     <p id="lengthRowTable"></p>
-    <div class="module-title">
-        <span><strong>Relatório Selecionado: </strong>{{ relatorio_selecionado }}</span>
-    </div>
 
-    <!--button type="submit" title="Exportar Relatório" class="btn btn-secondary module-title" form="formExportarRelatorio">Exportar Relatório</button-->
+    <button type="submit" title="Exportar Relatório" class="btn btn-secondary module-title" form="formExportarRelatorio">Exportar Relatório</button>
 
   </div>
   <div id="listingTable" class="container-fluid">
@@ -122,53 +121,101 @@
     <form action="{% url 'exportarRelatorio' %}" method="POST" id="formExportarRelatorio">
         {% csrf_token %}
         <table class="table table-striped table-dark table-hover text-center" id="tableAllResults">
-        <thead>
-            <tr>
-                <th scope="col" class="align-middle">Avaliação</th>
-                <th scope="col" class="align-middle">Código</th>
-                <th scope="col" class="align-middle">Agendado <br> Em</th>
-                <th scope="col" class="align-middle">Nome</th>
-                <th scope="col" class="align-middle">Telefone</th>
-                <th scope="col" class="align-middle">E-mail</th>
-                <th scope="col" class="align-middle">Data <br> Atendimento</th>
-                <th scope="col" class="align-middle">Especialista <br> </th>
-                <th scope="col" class="align-middle">Período <br> Atendimento</th>
-                <th scope="col" class="align-middle">Serviço</th>
-                <th scope="col" class="align-middle">Situação</th>
-                <th scope="col" class="align-middle">Observações <br> Agendamento</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for valor in agendamentos_cadastrados %}
-            <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
-                <td class="align-middle">
-                    {% if valor.res_status == 'Finalizado'%}
-                        <button type="button" id="btnMostrarAvaliacao" class="btn bg-warning text-white mr-2" title="Avaliação do Atendimento">
-                            <i class="fas fa-star"></i>
-                        </button>
-                    {% endif %}
-                </td>
-                <td class="align-middle" scope="row" id="codeBooking">{{ valor.id }}</td>
-                <td class="align-middle" id="agendadoEm">{{ valor.res_agendado_em }}</td>
-                <td class="align-middle" id="nomeCliente">{{ valor.res_nome_cliente }}</td>
-                <td class="align-middle">{{ valor.res_telefone_cliente }}</td>
-                <td class="align-middle" id="emailCliente">{{ valor.res_email_cliente }}</td>
-                <td class="align-middle" id="dataAtendimento">{{ valor.res_data_atendimento }}</td>
-                <td class="align-middle">{{ valor.res_especialista }}</td>
-                <td class="align-middle" id="periodoAtendimento">{{ valor.res_periodo_atendimento }}</td>
-                <td class="align-middle">{{ valor.res_servicos }}</td>
-                <td class="align-middle" id="statusAtendimento">{{ valor.res_status }}</td>
-                <td class="align-middle" id="observacaoAgendamento">{{ valor.res_observacao }}</td>
-                {% if valor.res_avaliacao == 0%}
-                    <td hidden class="align-middle" id="avaliacaoCliente">Sem avaliação</td>
-                {% else%}
-                    <td hidden class="align-middle" id="avaliacaoCliente">{{ valor.res_avaliacao }}</td>
-                {% endif %}
-                <td hidden class="align-middle" id="observacaoAvaliacaoCliente">{{ valor.res_observacao_avaliacao }}</td>
-                <td hidden class="align-middle" id="observacaoEspecialista">{{ valor.res_observacao_especialista }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
+            <thead>
+                <tr>
+                    <th colspan="12" class="align-middle">{{ relatorio_selecionado }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="align-middle">Avaliação</th>
+                    <th scope="col" class="align-middle">Código</th>
+                    <th scope="col" class="align-middle">Agendado <br> Em</th>
+                    <th scope="col" class="align-middle">Nome</th>
+                    <th scope="col" class="align-middle">Telefone</th>
+                    <th scope="col" class="align-middle">E-mail</th>
+                    <th scope="col" class="align-middle">Data <br> Atendimento</th>
+                    <th scope="col" class="align-middle">Especialista <br> </th>
+                    <th scope="col" class="align-middle">Período <br> Atendimento</th>
+                    <th scope="col" class="align-middle">Serviço</th>
+                    <th scope="col" class="align-middle">Situação</th>
+                    <th scope="col" class="align-middle">Observações <br> Agendamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for valor in agendamentos_cadastrados %}
+                    <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
+                        <td class="align-middle">
+                            {% if valor.res_status == 'Finalizado'%}
+                                <button type="button" id="btnMostrarAvaliacao" class="btn bg-warning text-white mr-2" title="Avaliação do Atendimento">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                        <td class="align-middle" scope="row" id="codeBooking">
+                            {{ valor.id }}
+                            <input type="hidden" name="codigo" value="{{ valor.id }}">
+                        </td>
+                        <td class="align-middle" id="agendadoEm">
+                            {{ valor.res_agendado_em }}
+                            <input type="hidden" name="agendado-em" value="{{ valor.res_agendado_em }}">
+                        </td>
+                        <td class="align-middle" id="nomeCliente">
+                            {{ valor.res_nome_cliente }}
+                            <input type="hidden" name="nome-cliente" value="{{ valor.res_nome_cliente }}">
+                        </td>
+                        <td class="align-middle">
+                            {{ valor.res_telefone_cliente }}
+                            <input type="hidden" name="telefone-cliente" value="{{ valor.res_telefone_cliente }}">
+                        </td>
+                        <td class="align-middle" id="emailCliente">
+                            {{ valor.res_email_cliente }}
+                            <input type="hidden" name="email-cliente" value="{{ valor.res_email_cliente }}">
+                        </td>
+                        <td class="align-middle" id="dataAtendimento">
+                            {{ valor.res_data_atendimento }}
+                            <input type="hidden" name="data-atendimento" value="{{ valor.res_data_atendimento }}">
+                        </td>
+                        <td class="align-middle">
+                            {{ valor.res_especialista }}
+                            <input type="hidden" name="nome-especialista" value="{{ valor.res_especialista }}">
+                        </td>
+                        <td class="align-middle" id="periodoAtendimento">
+                            {{ valor.res_periodo_atendimento }}
+                            <input type="hidden" name="periodo-atendimento" value="{{ valor.res_periodo_atendimento }}">
+                        </td>
+                        <td class="align-middle">
+                            {{ valor.res_servicos }}
+                            <input type="hidden" name="servicos" value="{{ valor.res_servicos }}">
+                        </td>
+                        <td class="align-middle" id="statusAtendimento">
+                            {{ valor.res_status }}
+                            <input type="hidden" name="status-atendimento" value="{{ valor.res_status }}">
+                        </td>
+                        <td class="align-middle" id="observacaoAgendamento">
+                            {{ valor.res_observacao }}
+                            <input type="hidden" name="observacao-agendamento" value="{{ valor.res_observacao }}">
+                        </td>
+                        {% if valor.res_avaliacao == 0%}
+                            <td hidden class="align-middle" id="avaliacaoCliente">
+                                Sem avaliação
+                                <input type="hidden" name="avaliacao-cliente" value="Sem avaliação">
+                            </td>
+                        {% else%}
+                            <td hidden class="align-middle" id="avaliacaoCliente">
+                                {{ valor.res_avaliacao }}
+                                <input type="hidden" name="avaliacao-cliente" value="{{ valor.res_avaliacao }}">
+                            </td>
+                        {% endif %}
+                        <td hidden class="align-middle" id="observacaoAvaliacaoCliente">
+                            {{ valor.res_observacao_avaliacao }}
+                            <input type="hidden" name="observacao-avaliacao-cliente" value="{{ valor.res_observacao_avaliacao }}">
+                        </td>
+                        <td hidden class="align-middle" id="observacaoEspecialista">
+                            {{ valor.res_observacao_especialista }}
+                            <input type="hidden" name="observacao-especialista" value="{{ valor.res_observacao_especialista }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </form>
   </div>

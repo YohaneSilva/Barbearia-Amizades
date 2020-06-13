@@ -30,7 +30,13 @@ class Relatorio:
         return reservas_mes
 
     def agendamentosCancelados():
-        return Reserva.objects.filter(res_status='Cancelado')
+        return Reserva.objects.filter(res_status__icontains='Cancelado')
+
+    def agendamentosCanceladosPeloUsuario():
+        return Reserva.objects.filter(res_status='Cancelado pelo usuário')
+
+    def agendamentosCanceladosPeloEspecialista():
+        return Reserva.objects.filter(res_status='Cancelado pelo especialista')
     
     def agendamentosPendentes():
         return Reserva.objects.filter(res_status='Pendente')
@@ -237,7 +243,7 @@ class Login:
     def verificarUsuarioLogado(request):
         try:
             if request.session['logado']:
-                return request.session['nome_usuario_logado']
+                return True
             else:
                 return False
         except KeyError:
@@ -472,7 +478,7 @@ class Agendamento:
 
     def cancelarAgendamento(request):
         Email.cancelarAgendamento(request, request.POST['id-registro'])
-        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'],res_status='Cancelado')
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'],res_status='Cancelado pelo especialista')
         messages.success(request, 'Agendamento cancelado.', extra_tags='alert-success')
 
     def agendamentoPendente():
@@ -517,7 +523,7 @@ class Servicos:
 
 class Email:
     def finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao):
-        assunto = 'Finalizar Atendimento | Barbearia Amizades S & D'
+        assunto = 'Atendimento Finalizado | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Atendimento Finalizado</strong>
             """
@@ -584,7 +590,7 @@ class Email:
         nome_cliente = resultado_busca.values('res_nome_cliente')[0]['res_nome_cliente']
         nome_especialista = resultado_busca.values('res_especialista')[0]['res_especialista']
         email_destino = resultado_busca.values('res_email_cliente')[0]['res_email_cliente']
-        assunto = 'Cancelar Agendamento | Barbearia Amizades S & D'
+        assunto = 'Agendamento Cancelado | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Agendamento Cancelado</strong>
             """

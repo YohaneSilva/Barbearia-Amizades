@@ -47,7 +47,7 @@ $('td #btnEditarServico').click(function () {
     .find("#codeService")     // Gets a descendent with id="codeService"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'/editar';
+  var url = 'http://127.0.0.1:8000/minha-conta/servicos/'+$idSelectedItem+'/editar';
 
   window.location.href = url;
 });
@@ -59,7 +59,7 @@ $('td #btnExcluirServico').click(function () {
     .find("#codeService")     // Gets a descendent with id="codeService"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/servicos/'+$idSelectedItem+'';
+  var url = 'http://127.0.0.1:8000/minha-conta/servicos/'+$idSelectedItem+'';
 
   window.location.href = url;
 });
@@ -72,7 +72,7 @@ $('td #btnEditUser').click(function () {
     .find("#codeUser")     // Gets a descendent with id="codeUser"
     .text();         // Retrieves the text within <td>
   
-  var url = 'http://127.0.0.1:8000/minhaconta/conta/'+$idSelectedItem+'/editar';
+  var url = 'http://127.0.0.1:8000/minha-conta/conta/'+$idSelectedItem+'/editar';
 
   window.location.href = url;
 });

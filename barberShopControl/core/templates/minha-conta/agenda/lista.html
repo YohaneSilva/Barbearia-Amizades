@@ -95,7 +95,7 @@
       {% for valor in agendamentos_cadastrados %}
         <tr data-toggle="modal" data-target="#modaEditDeleteBooking">
           <td class="align-middle">
-            {% if valor.res_status != 'Cancelado' and valor.res_status != 'Finalizado'%}
+            {% if valor.res_status != 'Cancelado' and valor.res_status != 'Cancelado pelo usuário' and valor.res_status != 'Finalizado'%}
               <button type="button" id="btnMaisInformacoes" class="btn bg-primary text-white mr-2" title="Mais Informações"><i class="fas fa-ellipsis-v"></i></button>
             {% endif %}
           </td>

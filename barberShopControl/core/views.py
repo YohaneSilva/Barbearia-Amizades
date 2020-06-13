@@ -8,6 +8,7 @@ import io
 import smtplib
 import hashlib
 import random
+import xlwt
 from email.mime.text import MIMEText
 from datetime import date, datetime
 from reportlab.pdfgen import canvas
@@ -21,16 +22,14 @@ from .utils import *
 
 # Login
 def acessoLogin(request):
-    if Login.verificarUsuarioLogado(request) == False:
-        if request.method == 'POST':
-            if Login.validarLogin(request):
-                return redirect('dashboard')
-            else:
-                return redirect('acessoLogin')
-
-        return render(request, 'login/acesso.html')
-
-    return render(request, 'minha-conta/dashboard.html')
+    if Login.verificarUsuarioLogado(request) == True:
+        return redirect('dashboard')
+    
+    if request.method == 'POST':
+        if Login.validarLogin(request):
+            return redirect('dashboard')
+    
+    return render(request, 'login/acesso.html')
 
 def deslogarMinhaConta(request):
     if Login.verificarUsuarioLogado(request) == False:
@@ -56,7 +55,7 @@ def recuperarSenha(request):
         
         return render(request, 'login/recuperarsenha.html')
 
-    return redirect('acessoLogin')
+    return render(request, 'login/recuperarsenha.html')
 
 # Institucional
 def home(request):
@@ -64,6 +63,89 @@ def home(request):
 
 def agendamento(request):
     return render(request, 'institucional/agendamento.html')
+
+# Subsistema: Conta | Jurídica
+def editarEstabelecimento(request, id):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+
+    instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
+    
+    if request.method == "POST":
+        form_estabelecimento = FormularioEstabelecimento(request.POST, instance=instanciaEstabelecimento)
+
+        if form_estabelecimento.is_valid():
+            instanciaEstabelecimento = form_estabelecimento.save(commit=False)
+            instanciaEstabelecimento.save()
+
+            # Mensagem de sucesso
+            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        else:
+            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
+    else:
+        form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
+
+    contexto = {
+        "instanciaEstabelecimento" : instanciaEstabelecimento,
+        "form_estabelecimento" : form_estabelecimento,
+        'nome_usuario' : nome_usuario
+    }
+
+    return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
+
+# Subsistema: Conta | Física
+def usuariosCadastrados(request):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
+    # Trazendo todos os registros da tabela Serviço
+    usuarios_cadastrados = Usuario.objects.all()
+    estab_cadastrado = Estabelecimento.objects.all()
+
+    contexto = {
+        'usuarios_cadastrados' : usuarios_cadastrados,
+        'estab_cadastrado' : estab_cadastrado,
+        'nome_usuario' : nome_usuario
+    }
+
+    return render(request, 'minha-conta/conta/lista.html', contexto)
+
+def editarUsuario(request, id):
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
+    
+    nome_usuario = request.session['nome_usuario_logado']
+    
+    instancia_usuario = get_object_or_404(Usuario, id=id)
+    
+    if request.method == "POST":
+        nome = request.POST['nome-especialista']
+        usuario = request.POST['usuario-especialista']
+        senha = request.POST['senha-especialista']
+        email = request.POST['email-especialista']
+
+        Usuario.objects.filter(pk=id).update(us_nome=nome, us_usuario=usuario, us_senha=senha, us_email=email)
+
+        # Mensagem de sucesso
+        messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
+        
+        instancia_usuario = get_object_or_404(Usuario, id=id)
+        contexto = {
+            "instancia_usuario" : instancia_usuario,
+            'nome_usuario' : nome_usuario
+        }
+        return render(request, 'minha-conta/conta/editar.html', contexto)
+
+    contexto = {
+        "id_usuario_selecionado" : id,
+        "instancia_usuario" : instancia_usuario,
+        'nome_usuario' : nome_usuario
+    }
+    return render(request, 'minha-conta/conta/editar.html', contexto)
 
 # Subsistema: Minha Conta
 def dashboard(request):   
@@ -97,37 +179,6 @@ def dashboard(request):
         'total_agendamentos_por_servico': total_agendamentos_por_servico
     }
     return render(request, 'minha-conta/dashboard.html', contexto)
-
-# Subsistema: Conta | Jurídica
-def editarEstabelecimento(request, id):
-    if Login.verificarUsuarioLogado(request) == False:
-        return redirect('acessoLogin')
-    
-    nome_usuario = request.session['nome_usuario_logado']
-
-    instanciaEstabelecimento = get_object_or_404(Estabelecimento, id=id)
-    
-    if request.method == "POST":
-        form_estabelecimento = FormularioEstabelecimento(request.POST, instance=instanciaEstabelecimento)
-
-        if form_estabelecimento.is_valid():
-            instanciaEstabelecimento = form_estabelecimento.save(commit=False)
-            instanciaEstabelecimento.save()
-
-            # Mensagem de sucesso
-            messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
-        else:
-            messages.error(request, 'Cadastro não alterado.', extra_tags='alert-danger')
-    else:
-        form_estabelecimento = FormularioEstabelecimento(instance=instanciaEstabelecimento)
-
-    contexto = {
-        "instanciaEstabelecimento" : instanciaEstabelecimento,
-        "form_estabelecimento" : form_estabelecimento,
-        'nome_usuario' : nome_usuario
-    }
-
-    return render(request, 'minha-conta/conta/estabelecimento/editar.html', contexto)
 
 # Subsistema: Serviço
 def servicosCadastrados(request):
@@ -220,58 +271,6 @@ def excluirServico(request, id):
     resultado_busca.delete()
 
     return redirect('servicosCadastrados')
-
-# Subsistema: Conta | Física
-def usuariosCadastrados(request):
-    if Login.verificarUsuarioLogado(request) == False:
-        return redirect('acessoLogin')
-    
-    nome_usuario = request.session['nome_usuario_logado']
-    
-    # Trazendo todos os registros da tabela Serviço
-    usuarios_cadastrados = Usuario.objects.all()
-    estab_cadastrado = Estabelecimento.objects.all()
-
-    contexto = {
-        'usuarios_cadastrados' : usuarios_cadastrados,
-        'estab_cadastrado' : estab_cadastrado,
-        'nome_usuario' : nome_usuario
-    }
-
-    return render(request, 'minha-conta/conta/lista.html', contexto)
-
-def editarUsuario(request, id):
-    if Login.verificarUsuarioLogado(request) == False:
-        return redirect('acessoLogin')
-    
-    nome_usuario = request.session['nome_usuario_logado']
-    
-    instancia_usuario = get_object_or_404(Usuario, id=id)
-    
-    if request.method == "POST":
-        nome = request.POST['nome-especialista']
-        usuario = request.POST['usuario-especialista']
-        senha = request.POST['senha-especialista']
-        email = request.POST['email-especialista']
-
-        Usuario.objects.filter(pk=id).update(us_nome=nome, us_usuario=usuario, us_senha=senha, us_email=email)
-
-        # Mensagem de sucesso
-        messages.success(request, 'Cadastro alterado com sucesso.', extra_tags='alert-success')
-        
-        instancia_usuario = get_object_or_404(Usuario, id=id)
-        contexto = {
-            "instancia_usuario" : instancia_usuario,
-            'nome_usuario' : nome_usuario
-        }
-        return render(request, 'minha-conta/conta/editar.html', contexto)
-
-    contexto = {
-        "id_usuario_selecionado" : id,
-        "instancia_usuario" : instancia_usuario,
-        'nome_usuario' : nome_usuario
-    }
-    return render(request, 'minha-conta/conta/editar.html', contexto)
 
 # Subsistema: Agenda
 def agendamentosCadastrados(request):
@@ -433,7 +432,12 @@ def finalizarCancelar(request):
 
 def cancelarAgendamentoEmail(request, codigo_verificacao):
     reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
- 
+    
+    contexto = {
+        'status' : True,
+        'reserva' : reserva
+    }
+
     for item in reserva:
         nome_cliente = getattr(item, 'res_nome_cliente')
         data_atendimento = getattr(item, 'res_data_atendimento')
@@ -454,7 +458,7 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
         for resultado in request.POST:
             if request.POST[resultado] == 'Sim':
                 messages.success(request, 'Agendamento cancenlado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
-                reserva.update(res_status='Cancelado', res_observacao="Cancelado pelo usuário.")
+                reserva.update(res_status='Cancelado pelo usuário')
                 Email.cancelarAgendamento(request, getattr(item, 'id'))
                 contexto = {
                     'status' : True,
@@ -462,7 +466,7 @@ def cancelarAgendamentoEmail(request, codigo_verificacao):
                 }
 
         return render(request, 'institucional/cancelamento.html', contexto)
-    return HttpResponse('Ta caindo aqui, pq?')        
+    return render(request, 'institucional/cancelamento.html', contexto)
 
 def avaliarAtendimento(request, codigo_verificacao):
     reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
@@ -549,12 +553,28 @@ def relatorios(request):
                     'relatorio_selecionado' : 'Agendamentos Cancelados'
                 }
             
+            if request.POST[valor] == 'Agendamentos Cancelados Pelo Usuário':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCanceladosPeloUsuario(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados Pelo Usuário'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Cancelados Pelo Especialista':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCanceladosPeloEspecialista(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados Pelo Especialista'
+                }
+            
             if request.POST[valor] in 'Chiquinho Oliveira':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Chiquinho Oliveira'),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
-                    'relatorio_selecionado' : 'Agendamentos por Especialista'
+                    'relatorio_selecionado' : 'Agendamentos por Especialista: {especialista}'.format(especialista='Chiquinho Oliveira')
                 }
             
             if request.POST[valor] in 'Sandrinho Santos':
@@ -562,7 +582,7 @@ def relatorios(request):
                     'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Sandrinho Santos'),
                     'servicos_cadastrados' : Servicos.retornarListaServicos(),
                     'nome_usuario' : request.session['nome_usuario_logado'],
-                    'relatorio_selecionado' : 'Agendamentos por Especialista'
+                    'relatorio_selecionado' : 'Agendamentos por Especialista: {especialista}'.format(especialista='Sandrinho Santos')
                 }
 
             if request.POST[valor] in Servicos.retornarListaServicos():
@@ -577,43 +597,77 @@ def relatorios(request):
     return render(request, 'minha-conta/relatorio/lista.html', contexto)
 
 def exportarRelatorio(request):
-    print(request.POST)
-    pdf = io.BytesIO()
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
 
-    doc = SimpleDocTemplate(pdf, pagesize=letter)
-    # container for the 'Flowable' objects
-    elements = []
-    data= [[
-        'Código', 
-        'Agendado Em', 
-        'Nome', 
-        'Telefone', 
-        'E-mail', 
-        'Data Atendimento', 
-        'Especialista', 
-        'Período Atendimento',
-        'Serviço',
-        'Situação',
-        'Observação'
-    ],
-    ['10', '11', '12', '13', '14'],
-    ['20', '21', '22', '23', '24'],
-    ['30', '31', '32', '33', '34']]
-    t=Table(data,20*[0.7*inch], 4*[0.7*inch])
-    t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
-        ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
-        ('VALIGN',(0,0),(0,-1),'TOP'),
-        ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-        ('ALIGN',(0,-1),(-1,-1),'CENTER'),
-        ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
-        ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
-    ]))
+    # Create the Exel
+    workbook = xlwt.Workbook()
+    # add data
 
-    elements.append(t)
-    # write the document to disk
-    doc.build(elements)
-    pdf.seek(0)
+    # save to buffer
+    workbook.save(buffer)
 
-    return FileResponse(pdf, as_attachment=True, filename='hello.pdf')
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='example.xls')
+
+'''
+pdf = io.BytesIO()
+
+doc = SimpleDocTemplate(pdf, pagesize=letter)
+# container for the 'Flowable' objects
+elements = []
+data= [[
+    'Código', 
+    'Agendado Em', 
+    'Nome', 
+    'Telefone', 
+    'E-mail', 
+    'Data Atendimento', 
+    'Especialista', 
+    'Período Atendimento',
+    'Serviço',
+    'Situação',
+    'Observação'
+],
+['10', '11', '12', '13', '14'],
+['20', '21', '22', '23', '24'],
+['30', '31', '32', '33', '34']]
+t=Table(data,20*[0.7*inch], 4*[0.7*inch])
+t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+    ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+    ('VALIGN',(0,0),(0,-1),'TOP'),
+    ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+    ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+    ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+    ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+    ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+    ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+]))
+
+elements.append(t)
+# write the document to disk
+doc.build(elements)
+pdf.seek(0)
+
+return FileResponse(pdf, as_attachment=True, filename='relatorio-{nomeRelatorio}.pdf'.format(nomeRelatorio=''))
+
+<QueryDict: {
+    'csrfmiddlewaretoken': ['y3kcXNY783lykVTaAt9yMeWUvQnmFHERorSGKDl79qMywO6ZmamlXqbr4S2yFC0K'], 
+    'codigo': ['61'], 
+    'agendado-em': ['8 de Junho de 2020 às 16:37'], 
+    'nome-cliente': ['Luciana dos Santos'], 
+    'telefone-cliente': ['11123231312'], 
+    'email-cliente': ['lenildo.ln@gmail.com'], 
+    'data-atendimento': ['9 de Junho de 2020'], 
+    'nome-especialista': ['Sandrinho Santos'], 
+    'periodo-atendimento': ['9-10'], 
+    'servicos': [''], 
+    'status-atendimento': ['Cancelado pelo usuário'], 
+    'observacao-agendamento': [' '], 
+    'avaliacao-cliente': ['Sem avaliação'], 
+    'observacao-avaliacao-cliente': [''], 
+    'observacao-especialista': ['']
+    }>
+'''
