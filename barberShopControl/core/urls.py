@@ -7,7 +7,7 @@ urlpatterns = [
     # Institucional
     path('', views.home, name="home"),
     path('agendamento/', views.agendamento, name="agendamento"),
-    path('<slug:codigo_verificacao>/cancelamento/', views.cancelarAgendamentoEmail, name="cancelarAgendamentoEmail"),
+    path('<slug:codigo_verificacao>/cancelamento/', views.cancelarAgendamentoPorEmail, name="cancelarAgendamentoPorEmail"),
     path('<slug:codigo_verificacao>/avaliacao/', views.avaliarAtendimento, name="avaliarAtendimento"),
 
     # Login

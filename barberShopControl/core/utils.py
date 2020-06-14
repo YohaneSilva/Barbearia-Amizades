@@ -16,13 +16,114 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from .models import *
 
 class Avaliacao:
-    def jaFoiAvaliado(request, codigo_verificacao):
+    def avaliarAtendimento(request):
+        reserva.update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
+        return messages.success(request, 'Obrigado pela avaliação!', extra_tags='alert-success')
+        
+    def atendimentoAvaliado(request, codigo_verificacao):
         reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
-
-        # for item in reserva:
-        #     if getattr(item, 'res_avaliacao') != ''
+        for item in reserva:
+            if getattr(item, 'res_avaliacao') > 0:
+                contexto = {
+                    'status' : True,
+                    'reserva' : reserva
+                }
+            else:
+                contexto = {
+                    'status' : False,
+                    'reserva' : reserva
+                }
+        return contexto
 
 class Relatorio:
+    def filtrarRelatorio(request):
+        contexto = {}
+        for valor in request.POST:
+            if request.POST[valor] == 'Agendamentos do Mês':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosDoMes(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos do Mês'
+                }
+
+            if request.POST[valor] == 'Agendamentos Ativos':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosAtivos(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Ativos'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Finalizados':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosFinalizados(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Finalizados'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Pendentes':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosPendentes(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Pendentes'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Cancelados':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCancelados(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Cancelados Pelo Usuário':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCanceladosPeloUsuario(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados Pelo Usuário'
+                }
+            
+            if request.POST[valor] == 'Agendamentos Cancelados Pelo Especialista':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosCanceladosPeloEspecialista(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos Cancelados Pelo Especialista'
+                }
+            
+            if request.POST[valor] in 'Chiquinho Oliveira':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Chiquinho Oliveira'),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Especialista: {especialista}'.format(especialista='Chiquinho Oliveira')
+                }
+            
+            if request.POST[valor] in 'Sandrinho Santos':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosEspecialista('Sandrinho Santos'),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Especialista: {especialista}'.format(especialista='Sandrinho Santos')
+                }
+
+            if request.POST[valor] in Servicos.retornarListaServicos():
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosPorServico(request.POST[valor]),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Agendamentos por Serviço: {servico}'.format(servico=request.POST[valor])
+                }
+            
+        return contexto
+
+    def agendamentosEfetuados():
+        return Reserva.objects.all().order_by('res_data_atendimento')
+
     def agendamentosPorMes(numero):
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
         reservas_por_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=int(numero)).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
@@ -62,7 +163,8 @@ class Relatorio:
     # Totalizadores
     def totalAgendamentos():
         total = 0
-        resultado = Reserva.objects.all()
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_data_atendimento__year=ano)
         
         for index in range(len(resultado)):
             total += 1
@@ -72,9 +174,9 @@ class Relatorio:
     def totalAgendamentosDoAno():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
-        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano)
+        reservas_ano = Reserva.objects.filter(res_data_atendimento__year=ano)
         
-        for index in range(len(reservas_mes)):
+        for index in range(len(reservas_ano)):
             total += 1
         
         return total
@@ -91,7 +193,8 @@ class Relatorio:
     
     def totalAgendamentosCancelados():
         total = 0
-        resultado = Reserva.objects.filter(res_status='Cancelado')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_status='Cancelado', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
@@ -100,7 +203,8 @@ class Relatorio:
     
     def totalAgendamentosPendentes():
         total = 0
-        resultado = Reserva.objects.filter(res_status='Pendente')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_status='Pendente', res_data_atendimento__year=ano)
         
         for index in range(len(resultado)):
             total += 1
@@ -109,7 +213,8 @@ class Relatorio:
     
     def totalAgendamentosFinalizados():
         total = 0
-        resultado = Reserva.objects.filter(res_status='Finalizado')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_status='Finalizado', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
@@ -118,7 +223,8 @@ class Relatorio:
 
     def totalAgendamentosAtivos():
         total = 0
-        resultado = Reserva.objects.filter(res_status='Ativo')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_status='Ativo', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
@@ -127,7 +233,8 @@ class Relatorio:
 
     def totalAgendamentosChiquinho():
         total = 0
-        resultado = Reserva.objects.filter(res_especialista='Chiquinho Oliveira')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_especialista='Chiquinho Oliveira', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
@@ -136,7 +243,8 @@ class Relatorio:
 
     def totalAgendamentosSandrinho():
         total = 0
-        resultado = Reserva.objects.filter(res_especialista='Sandrinho Santos')
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
+        resultado = Reserva.objects.filter(res_especialista='Sandrinho Santos', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
@@ -147,10 +255,11 @@ class Relatorio:
         servicos = Servico.objects.all()
         total = {}
         contador = 0
+        dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
         for servico in servicos:
             servico = str(servico)
             total[servico] = ''
-            reservas = Reserva.objects.filter(res_servicos__icontains=servico)
+            reservas = Reserva.objects.filter(res_servicos__icontains=servico, res_data_atendimento__year=ano)
             contador = len(reservas)
             total[servico] = str(contador)
 
@@ -453,6 +562,20 @@ class Data:
         return meses_ano[numero]
 
 class Conta:
+    def editarUsuario(request, id):
+        nome = request.POST['nome-especialista']
+        usuario = request.POST['usuario-especialista']
+        senha = request.POST['senha-especialista']
+        email = request.POST['email-especialista']
+
+        return Usuario.objects.filter(pk=id).update(us_nome=nome, us_usuario=usuario, us_senha=senha, us_email=email)
+
+    def usuariosCadastrados():
+        return Usuario.objects.all()
+    
+    def estabelecimentoCadastrado():
+        return Estabelecimento.objects.all()
+
     def validarRecuperacaoDeSenha(request):
         email = request.POST['email']
         usuario = request.POST['usuario']
@@ -474,14 +597,64 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def cancelarAgendamentoPorEmail(codigo_verificacao, id_atendimento):
+        Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_status='Cancelado pelo usuário')
+        Email.cancelarAgendamento(request, id_atendimento)
+        return messages.success(request, 'Agendamento cancelado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
+
+    def consultarAgendamentoCodigo(codigo_verificacao):
+        return Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+
+    def statusAgendamento(codigo_verificacao):
+        reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+
+        for item in reserva:
+            if getattr(item, 'res_status') == 'Ativo':
+                contexto = {
+                    'status' : False,
+                    'reserva' : reserva
+                }
+            else:
+                contexto = {
+                    'status' : True,
+                    'reserva' : reserva
+                }
+        
+        return contexto
+
+    def novoAgendamento(nome_cliente, telefone_cliente, data_atendimento, periodo_atendimento,
+            email_cliente, especialista, servicos, codigo_verificacao, observacao_atendimento):
+        
+        novo_agendamento = Reserva(
+            res_nome_cliente = nome_cliente,
+            res_telefone_cliente = telefone_cliente,
+            res_data_atendimento = data_atendimento,
+            res_periodo_atendimento = periodo_atendimento,
+            res_email_cliente = email_cliente,
+            res_especialista = especialista,
+            res_servicos = servicos,
+            res_status = 'Ativo',
+            res_codigo_verificacao = codigo_verificacao,
+            res_observacao = observacao_atendimento
+        )
+
+        novo_agendamento.save()
+
+        mensagem_agendamento_sucesso = """\
+            Agendamento realizado com sucesso.
+            Por favor, verifique o e-mail enviado para: {email}.
+        """.format(email=email_cliente)
+
+        return messages.success(request, mensagem_agendamento_sucesso, extra_tags='alert-success')
+
     def todosAgendamentos(nome_usuario):
         agendamentos_cadastrados = Reserva.objects.filter(res_especialista=nome_usuario).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
         return agendamentos_cadastrados
 
-    def agendamentoNaoFinalizado(reserva: object, codigo_verificacao):   
+    def atendimentoNaoFinalizado(reserva: object, codigo_verificacao):   
         for item in reserva:
             if getattr(item, 'res_status') != 'Finalizado':
-                return True
+                return redirect('home')
 
     def finalizarAgendamento(request):
         nome_cliente  = request.POST['nome-cliente']
@@ -528,6 +701,14 @@ class Agendamento:
                     return True
 
 class Servicos:
+    def cadastrarServico(nome):
+        novo_servico = Servico(serv_nome=nome)
+        novo_servico.save()
+        return messages.success(request, 'Serviço cadastrado com sucesso.', extra_tags='alert-success')
+
+    def buscarServicoPeloNome(nome_servico):
+        return Servico.objects.filter(serv_nome__icontains=nome_servico)
+
     def atualizarStatus(id_servico):
         servicos_cadastrados = Servico.objects.filter(id=id_servico)
         
@@ -540,7 +721,6 @@ class Servicos:
                 Servico.objects.filter(id=id_servico).update(serv_status='Habilitado')
         
         return True
-
 
     def retornarTodosServicos():
         return Servico.objects.all()

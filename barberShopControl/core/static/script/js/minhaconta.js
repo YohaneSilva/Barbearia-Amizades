@@ -91,8 +91,11 @@ $("#backToTop").click(function () {
 
 // Contador das linhas da tabela
 $(document).ready(function () {
-  var quantidadeLinhasTabela = $('#tableAllResults tr').length - 1;
+  var quantidadeLinhasTabela = $('#tableAllResults tr').length - 2;
+  var quantidadeLinhasTabelaServico = $('#tableAllResultsService tr').length - 1;
+
   $('#lengthRowTable').html('<strong>Quantidade de Registros: </strong> '+quantidadeLinhasTabela);
+  $('#lengthRowTableService').html('<strong>Quantidade de Registros: </strong> '+quantidadeLinhasTabelaServico);
 
   // Remover classe da tabela quando acessado pelo mobile
   var tamanhoJanela = $( window ).width();
