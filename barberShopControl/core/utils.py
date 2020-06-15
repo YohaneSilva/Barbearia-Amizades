@@ -3,15 +3,12 @@ from django.contrib import messages
 from django.http import FileResponse, HttpResponse
 
 import io
+import xlwt
 import smtplib
 import hashlib
 import random
 from email.mime.text import MIMEText
 from datetime import date, datetime
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, inch
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 from .models import *
 
@@ -36,6 +33,123 @@ class Avaliacao:
         return contexto
 
 class Relatorio:
+    def exportarRelatorio(request):      
+        # Create a file-like buffer to receive PDF data.
+        buffer = io.BytesIO()
+
+        # Criando o Excel
+        wb = xlwt.Workbook()
+
+        ws = wb.add_sheet('Página única')
+
+        # Valores do Cabeçalho
+        ws.write(0,0, 'Código')
+        ws.write(0,1, 'Agendado Em')
+        ws.write(0,2, 'Nome Cliente')
+        ws.write(0,3, 'Telefone Cliente')
+        ws.write(0,4, 'E-mail Cliente')
+        ws.write(0,5, 'Data Atendimento')
+        ws.write(0,6, 'Especialista')
+        ws.write(0,7, 'Período Atendimento')
+        ws.write(0,8, 'Serviço')
+        ws.write(0,9, 'Situação')
+        ws.write(0,10, 'Observação Agendamento')
+        ws.write(0,11, 'Observação Especialista')
+        ws.write(0,12, 'Avaliação Atendimento')
+        ws.write(0,13, 'Observação Avaliação')
+
+        # Valores do Corpo
+        codigos = request.POST.getlist('codigo')
+        contador = 0
+        for codigo in codigos:
+            contador += 1
+            ws.write(contador,0, codigo)
+
+        agendamentos = request.POST.getlist('agendado-em')
+        contador = 0
+        for agendamento in agendamentos:
+            contador += 1
+            ws.write(contador,1, agendamento)
+            
+        clientes = request.POST.getlist('nome-cliente')
+        contador = 0
+        for nome_cliente in clientes:
+            contador += 1
+            ws.write(contador,2, nome_cliente)
+        
+        telefones = request.POST.getlist('telefone-cliente')
+        contador = 0
+        for telefone_cliente in telefones:
+            contador += 1
+            ws.write(contador,3, telefone_cliente)
+        
+        emails = request.POST.getlist('email-cliente')
+        contador = 0
+        for email_cliente in emails:
+            contador += 1
+            ws.write(contador,4, email_cliente)
+        
+        datas_atendimento = request.POST.getlist('data-atendimento')
+        contador = 0
+        for data_atendimento in datas_atendimento:
+            contador += 1
+            ws.write(contador,5, data_atendimento)
+        
+        especialistas = request.POST.getlist('nome-especialista')
+        contador = 0
+        for especialista in especialistas:
+            contador += 1
+            ws.write(contador,6, especialista)
+        
+        periodos = request.POST.getlist('periodo-atendimento')
+        contador = 0
+        for periodo_atendimento in periodos:
+            contador += 1
+            ws.write(contador,7, periodo_atendimento)
+        
+        servicos = request.POST.getlist('servicos')
+        contador = 0
+        for servico in servicos:
+            contador += 1
+            ws.write(contador,8, servico)
+        
+        status = request.POST.getlist('status-atendimento')
+        contador = 0
+        for status_atendimento in status:
+            contador += 1
+            ws.write(contador,9, status_atendimento)
+        
+        observacoes_agendamento = request.POST.getlist('observacao-agendamento')
+        contador = 0
+        for observacao_agendamento in observacoes_agendamento:
+            contador += 1
+            ws.write(contador,10, observacao_agendamento)
+        
+        avaliacoes = request.POST.getlist('avaliacao-cliente')
+        contador = 0
+        for avaliacao_cliente in avaliacoes:
+            contador += 1
+            ws.write(contador,11, avaliacao_cliente)
+        
+        observacoes_avaliacao = request.POST.getlist('observacao-avaliacao-cliente')
+        contador = 0
+        for observacao_avaliacao in observacoes_avaliacao:
+            contador += 1
+            ws.write(contador,12, observacao_avaliacao)
+        
+        observacoes_especialistas = request.POST.getlist('observacao-especialista')
+        contador = 0
+        for observacao_especialista in observacoes_especialistas:
+            contador += 1
+            ws.write(contador,13, observacao_especialista)
+
+        wb.save(buffer)
+
+        # FileResponse sets the Content-Disposition header so that browsers
+        # present the option to save the file.
+        buffer.seek(0)
+        return buffer
+
     def filtrarRelatorio(request):
         contexto = {}
         for valor in request.POST:
@@ -160,7 +274,6 @@ class Relatorio:
     def agendamentosPorServico(servico):
         return  Reserva.objects.filter(res_servicos__icontains=servico).order_by('res_data_atendimento')
 
-    # Totalizadores
     def totalAgendamentos():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
