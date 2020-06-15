@@ -429,24 +429,3 @@ def exportarRelatorio(request):
     nome_relatorio = request.POST['relatorio-selecionado'].replace(' ', '-')
     buffer = Relatorio.exportarRelatorio(request)
     return FileResponse(buffer, as_attachment=True, filename='Relatorio-{nome_relatorio}-{data}.xls'.format(nome_relatorio=nome_relatorio, data=Data.dataDoComputador('-')))
-
-'''
-<QueryDict: {
-    'csrfmiddlewaretoken': ['KSbwgeIcgkTeD0hYRBLbn5x7hIgWhr42AgJ0345chHkePTuNDiYYyhMEQKV8hmqV'],
-    'relatorio-selecionado': ['Agendamentos Cancelados Pelo Especialista'],
-    'codigo': ['34', '42', '60'], 
-    'agendado-em': ['25 de Maio de 2020 às 03:36', '25 de Maio de 2020 às 03:36', '27 de Maio de 2020 às 22:53'], 
-    'nome-cliente': ['Luciana', 'asdtr3', 'Lenildo Nascimento'], 
-    'telefone-cliente': ['11', '11', '11946573223'], 
-    'email-cliente': ['lu@lu', 'asd@asd', 'lenildo.ln@gmail.com'], 
-    'data-atendimento': ['20 de Maio de 2020', '26 de Maio de 2020', '29 de Maio de 2020'],
-    'nome-especialista': ['Chiquinho Oliveira', 'Chiquinho Oliveira', 'Chiquinho Oliveira'], 
-    'periodo-atendimento': ['9-10', '10-11', '9-10'], 
-    'servicos': ['Corte Comum, Corte Dimil, Progressiva', 'Corte na Tesoura, Corte Comum', 'Barba, Pézinho'], 
-    'status-atendimento': ['Cancelado pelo especialista', 'Cancelado pelo especialista', 'Cancelado pelo especialista'], 
-    'observacao-agendamento': [' ', ' ', ''], 
-    'avaliacao-cliente': ['Sem avaliação', 'Sem avaliação', 'Sem avaliação'], 
-    'observacao-avaliacao-cliente': [' ', ' ', ''], 
-    'observacao-especialista': ['', '', 'Cliente não compareceu no horário agendado.']}>
-
-'''

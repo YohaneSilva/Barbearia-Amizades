@@ -22,6 +22,10 @@
                 $('#divRelatorioServico').hide();
             }
         });
+
+        if ($('#tableAllResults tr').length <= 2) {
+            $('#btnExportarRelatorio').hide()
+        }
     });
 </script>
   <div class="container-fluid">
@@ -104,8 +108,8 @@
 
     <p id="lengthRowTable"></p>
 
-    <button type="submit" title="Exportar Relatório" class="btn btn-secondary module-title" form="formExportarRelatorio">
-        Exportar Relatório
+    <button type="submit" id="btnExportarRelatorio" title="Exportar relatório para planilha" class="btn btn-outline-success module-title" form="formExportarRelatorio">
+        <i class="fas fa-file-excel"></i>
     </button>
 
   </div>

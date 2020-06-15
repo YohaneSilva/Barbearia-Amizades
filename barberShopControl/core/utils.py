@@ -153,6 +153,14 @@ class Relatorio:
     def filtrarRelatorio(request):
         contexto = {}
         for valor in request.POST:
+            if request.POST[valor] == 'Todos':
+                contexto = {
+                    'agendamentos_cadastrados' : Relatorio.agendamentosEfetuados(),
+                    'servicos_cadastrados' : Servicos.retornarListaServicos(),
+                    'nome_usuario' : request.session['nome_usuario_logado'],
+                    'relatorio_selecionado' : 'Todos'
+                }
+
             if request.POST[valor] == 'Agendamentos do Mês':
                 contexto = {
                     'agendamentos_cadastrados' : Relatorio.agendamentosDoMes(),
