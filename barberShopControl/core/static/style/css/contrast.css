@@ -1,0 +1,89 @@
+.contrast,
+.contrast nav,
+.contrast div,
+.contrast li,
+.contrast ol,
+.contrast header,
+.contrast footer,
+.contrast section,
+.contrast main,
+.contrast aside,
+.contrast article {
+    background: black !important;
+    color: white !important;
+}
+
+.contrast h1,
+.contrast h4,
+.contrast h5,
+.contrast h6,
+.contrast p,
+.contrast strong,
+.contrast em,
+.contrast cite,
+.contrast q,
+.contrast b,
+.contrast u,
+.contrast span {
+    color: white !important;
+}
+
+.contrast h3,
+.contrast label,
+.contrast h2 {
+    color: yellow !important;
+}
+
+.contrast a {
+    color: yellow !important;
+}
+.contrast a.btn,
+.contrast a.custom-prev,
+.contrast a.custom-next {
+    color: black !important;
+    background: yellow !important;
+}
+.contrast a.custom-prev span,
+.contrast a.custom-next span {
+    color: black !important;
+}
+
+.contrast button,
+.contrast input[type="button"],
+.contrast input[type="reset"],
+.contrast input[type="submit"] {
+    background: yellow !important;
+    color: black !important;
+    border: none !important;
+}
+
+.contrast img.logotipo {
+    filter: invert(100%);
+}
+
+.contrast input[type="text"],
+.contrast input[type="password"],
+.contrast input[type="url"],
+.contrast input[type="search"],
+.contrast input[type="email"],
+.contrast input[type="tel"],
+.contrast input[type="date"],
+.contrast input[type="month"],
+.contrast input[type="week"],
+.contrast input[type="datetime"],
+.contrast input[type="datetime-local"],
+.contrast textarea,
+.contrast input[type="number"] {
+    background: black !important;
+    border: 1px solid white !important;
+    color: white !important;
+}
+
+.contrast .form-control,
+.contrast .form-group {
+    background-color: black !important;
+    color: white !important;
+}
+.contrast .card > a {
+    border: 1px solid white !important;
+}

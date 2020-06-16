@@ -1,9 +1,9 @@
-{% extends 'institucional/base.html' %}
+{% extends 'institucional/base-index.html' %}
 {% load static %}
 {% block title %}Home | Barbearia Amizades S & D{% endblock %}
 {% block content %}
 
-  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  <body class="content" data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
   
     <!-- LOADER -->
 
@@ -20,26 +20,26 @@
 
     <div class="site-blocks-cover overlay" style="background-image: url(static/img/home-section-home.png);" data-aos="fade" id="home-section">
 
-      <div class="container">
-        <div class="row pt-4">
-          <div class="col">
-            <div class="pl-0 ml-3 mt-5 mb-5">
+      <div class="container pl-xl-0">
+        <div class="row pt-lg-4">
+          <div class="col-lg col-xl-11 pl-xl-0">
+            <div class="pl-0 ml-3 mt-5 pt-lg-3 pt-md-5 mb-5 logo">
               <img 
               src="{% static 'img/logotipo-barbearia-amizades-branco.png' %}" 
-              width="18%"
-              alt="logotipo da barbearia amizades"
+              alt="Logotipo da Barbearia Amizades"
+              class="logotipo-index"
               >
             </div>
-            <div class="pl-3 pt-4">
-              <h1 data-aos="fade-up">
+            <div class="pl-3 pt-lg-3">
+              <h1>
                 Respeito</br> 
                 pela tradição.
               </h1>
               <div class="line-shape mb-3"></div>
-              <div class="col-6 pl-0 pt-3">
-                <p class="mb-5 mr-30 desc"  data-aos="fade-up" data-aos-delay="100">
-                  Venha conhecer a barbearia mais tradicional de Campo Limpo
-                </p>
+              <div class="col-lg-6 col-sm-12 pl-0 pt-3">
+                <h2 class="text-dark-yellow mb-5 mr-30 desc">
+                  Agende seu horário na barbearia mais tradicional do Campo Limpo.
+                </h2>
               </div>
             </div>
           </div>
@@ -56,32 +56,32 @@
     <!-- SOBRE-->  
     
     <section class="site-section cta-big-image" id="about-section">
-      <div class="container" style="margin:0; padding:0; border:0;">
-        <div class="row">
-          <div class="col-lg-7 pt-5" data-aos="fade-up">
+      <div class="container-fluid paddingless">
+        <div class="row pt-lg-5">
+          <div class="col-lg-7 pr-lg-5">
             <img 
             src="{% static 'img/home-section-sobre.jpg' %}" 
-            alt="acessórios de barbearia" 
+            alt="Corte de Barba na Barbearia Amizades" 
             class="img-fluid"
             >
           </div>
-          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
-            <div class="mb-4 mt-5 pt-5 pl-5">
+          <div class="col-lg-5">
+            <div class="mb-lg-4 pl-lg-2 pr-lg-5 p-4">
               <h1 class="text-dark is-text-title">
-                Sobre
+                Barba, cabelo, bigode e parceria.
               </h1>
               <div class="line-shape-dark"></div>
-              <h5 class="text-dark-yellow mt-3">Um pouco da nossa história</h5>
+              <h2 class="text-dark-yellow mt-3 font-weight-bold">Aqui é lugar de amizade.</h2>
               <p>
-                A Barbearia Amizades S & D foi idealizada por Sandoval Santos Silva Filho 
-                e por seu sócio Daniel Ramos de Oliveira com o intuito de criar um espaço 
-                com serviços de qualidade com o preço acessível. Nasce então no dia dez 
-                de Maio de dois mil e quinze a “Barbearia Amizades S & D” com sede na 
-                Estrada Bragantina, no número mil quatrocentos e noventa e sete, segundo 
-                andar, sala dezessete, no Parque Internacional em Campo Limpo Paulista, 
-                com foco em proporcionar ótimos serviços de barbearia e estética, em um 
-                ambiente descontraído onde novas amizades são geradas e as existentes são 
-                fortalecidas.
+                A Barberia Amizades S&D foi fundada em 2015 para ser a referência 
+                em estilo na região do Campo Limpo. Com foco em oferecer um serviço 
+                de alta qualidade com preço acessível, nos unimos para criar um salão 
+                que vai muito além de dar um tapa no visual. 
+              </p>
+              <p>
+                Nosso espaço oferece mesa de bilhar, internet wi-fi e TV a cabo, 
+                tudo para criar o ambiente perfeito para relaxar, escolher um novo 
+                corte e curtir.
               </p>
             </div>
           </div>
@@ -91,12 +91,12 @@
 
     <!--SERVIÇOS--> 
 
-    <section class="site-section p-0" id="services-section">
-      <div class="container-fluid pt-5">
-        <div class="row ml-3 pt-5">
-          <div class="col-lg-5 p-5" data-aos="fade-up" data-aos-delay="100">
+    <section class="site-section pt-lg-5" id="services-section">
+      <div class="container-fluid pt-lg-5 pr-0">
+        <div class="row ml-lg-3">
+          <div class="col-lg-5 pl-lg-5 pl-md-4 pr-md-4">
             <h1 class="mb-4 text-dark is-text-title">
-              Serviços
+              Nossas especialidades
             </h1>
             <div class="line-shape-dark"></div>
 
@@ -104,35 +104,33 @@
 
             <div class="owl-carousel slide-one-item-alt-text">
               <div>
-                <h5 class="text-dark-yellow mt-3">Corte na Tesoura</h5>
-                <p class="lead">
-                  R$ 25,00
+                <h2 class="text-dark-yellow mt-3 font-weight-bold">Conheça nossas especialidades</h2>
+                <p>
+                  <strong>Cabelos:</strong> Moicano, Degradê, Riscas de navalha, Undercut, Topete afro, Nudred, Black power, Químicas e coloração
                 </p>
                 <p>
-                  Os cortes com a tesoura são geralmente usados quando o cliente 
-                  quer remover pouca quantidade cabelo. A tesoura dará forma e leveza
-                  ao topo da cabeça. E não se engane achando que isso é apenas para 
-                  cabelos lisos. Cabelos cacheados e afros também devem ser cortados 
-                  com tesoura se o intuito é só manter o corte e tirar pouco cabelo.
+                  <strong>Barba:</strong> Circular, Barba real, Cavanhaque, Barba Van Dyke, Barba balbo, Barba âncora, Químicas e coloração
                 </p>
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Corte</h5>
-                <p class="lead">
-                  R$ 20,00
-                </p>
+                <h2 class="text-dark-yellow mt-3 font-weight-bold">Barba na Navalha</h2>
+                <p><strong>Rosto liso e pele suave</strong></p>
                 <p>
-                  Corte de cabelo masculino máquina 1,  2 e 3, muitas pessoas acreditam 
-                  que cortar cabelo na maquina estraga os fios, mas isso é uma grande 
-                  mentira. Por isso, antes de saber como, é preciso desmistificar a 
-                  ideia de que cortar o cabelo com máquina fará o fio crescer, grosso, 
-                  cacheado ou modificá-lo de alguma forma. Isso não vai acontecer.
+                  Um dos serviços mais pedidos da Amizades. Agende um horário para sua barba!
                 </p>
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Barba</h5>
+                <h2 class="text-dark-yellow mt-3 font-weight-bold">Corte na máquina</h2>
+                <p><strong>Deixa na régua</strong></p>
+                <p>
+                  Ousadia & Alegria até no corte. A gente deixa seu cabelo na régua. E aí, quantas linhas vão ser?
+                </p>
+              </div>
+<!-- 
+              <div>
+                <h2 class="text-dark-yellow mt-3 font-weight-bold">Barba</h2>
                 <p class="lead">
                   R$ 20,00
                 </p>
@@ -144,7 +142,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Progressiva</h5>
+                <h2 class="text-dark-yellow mt-3">Progressiva</h2>
                 <p class="lead">
                   R$ 45,00 <span style="color: red;">(a partir)</span>
                 </p>
@@ -156,7 +154,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Platinado</h5>
+                <h2 class="text-dark-yellow mt-3">Platinado</h2>
                 <p class="lead">
                   R$ 40,00 <span style="color: red;">(a partir)</span>
                 </p>
@@ -167,7 +165,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Corte Dimil</h5>
+                <h2 class="text-dark-yellow mt-3">Corte Dimil</h2>
                 <p class="lead">
                   R$ 30,00
                 </p>
@@ -178,7 +176,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Luzes</h5>
+                <h2 class="text-dark-yellow mt-3">Luzes</h2>
                 <p class="lead">
                   R$ 30,00 <span style="color: red;">(a partir)</span>
                 </p>
@@ -189,7 +187,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Limpeza de Pele</h5>
+                <h2 class="text-dark-yellow mt-3">Limpeza de Pele</h2>
                 <p class="lead">
                   R$ 15,00
                 </p>
@@ -200,7 +198,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Sobrancelha</h5>
+                <h2 class="text-dark-yellow mt-3">Sobrancelha</h2>
                 <p class="lead">
                   R$ 5,00
                 </p>
@@ -212,7 +210,7 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Pézinho</h5>
+                <h2 class="text-dark-yellow mt-3">Pézinho</h2>
                 <p class="lead">
                   R$ 5,00
                 </p>
@@ -222,19 +220,19 @@
               </div>
 
               <div>
-                <h5 class="text-dark-yellow mt-3">Desenho</h5>
+                <h2 class="text-dark-yellow mt-3">Desenho</h2>
                 <p class="lead">
                   R$ 10,00 <span style="color: red;">(a partir)</span>
                 </p>
                 <p>
                   Quer deixar uma marca no mundo? Nós te ajudamos com a arte.
                 </p>
-              </div>
+              </div> -->
 
             </div>
             
           </div>
-          <div class="col-lg-7" data-aos="fade-up">
+          <div class="col-lg-7 col-md-12">
             <div class="custom-direction">
               <a href="#" class="custom-prev">
                 <span><span class="icon-angle-left"></span></span>
@@ -243,34 +241,25 @@
                 <span><span class="icon-angle-right"></span></span>
               </a>
             </div>
-             <div class="owl-carousel slide-one-item-alt pl-5 mb-5" style="margin-right:0; padding-right:0; border:0;">
-              <img 
-              src="{% static 'img/home-section-home.png' %}" 
-              width="50%" 
-              alt="Image" 
-              class="img-fluid"
-              >
-            </div>
             
-            {% comment %} <div class="owl-carousel slide-one-item-alt pl-5 mb-5" style="margin-right:0; padding-right:0; border:0;">
+            <div class="owl-carousel slide-one-item-alt pl-lg-5 pl-md-0 mb-lg-5">
               <img 
-              src="{% static 'img/home-section-home.png' %}" 
+              src="{% static 'img/bancada-itens-barbearia.jpg' %}" 
+              alt="Itens no Balcão da Barbearia Amizades" 
+              class="img-fluid"
+              >
+              <img 
+              src="{% static 'img/barba-na-navalha.jpg' %}" 
+              alt="Corte de barba na Barbearia Amizades" 
+              class="img-fluid"
+              >
+              <img 
+              src="{% static 'img/corte-cabelo-maquina.jpg' %}" 
               width="50%" 
-              alt="Image" 
+              alt="Corte de cabelo com máquina na Barbearia Amizades" 
               class="img-fluid"
               >
-              <img 
-              src="{% static 'img/home-section-home.png' %}" 
-              alt="Image" 
-              class="img-fluid"
-              >
-              <img 
-              src="{% static 'img/home-section-home.png' %}" 
-              alt="Image" 
-              class="img-fluid"
-              >
-            </div> {% endcomment %}
-          </div>
+            </div> 
         </div>
       </div>
     </section>
@@ -278,42 +267,42 @@
     <!--NOSSO TIME--> 
     
     <section class="site-section cta-big-image" id="team-section">
-      <div class="container-fluid pt-5">
+      <div class="container-fluid pt-lg-5">
         <div class="row">
           <div class="col">
-            <div class="pl-5 col-lg-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                <h1 class="text-dark is-text-title ml-4">
+            <div class="pl-lg-5 col-lg-6 ml-auto">
+                <h1 class="text-dark is-text-title ml-lg-4">
                   Nosso time
                 </h1>
-                <div class="line-shape-dark mb-4 ml-4"></div>
+                <div class="line-shape-dark mb-4 ml-lg-4"></div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="margin:0; padding:0; border:0;">
+          <div class="col-lg-6 paddingless">
             <img 
             src="{% static 'img/home-barbeiro-chiquinho.png' %}" 
-            alt="barbeiro chiquinho oliveira" 
+            alt="Barbeiro Chiquinho Oliveira na Barbearia Amizades" 
             class="img-fluid"
             style="filter: brightness(100%);" 
             >
-            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+            <div class="barber-image">
               <h1 class="text-gray">Chiquinho Oliveira</h1>
-              <div class="line-shape-gray mb-4"></div>
-              <h5 class="text-dark-yellow mt-3">barbeiro</h5>
+              <div class="line-shape-gray mb-lg-4"></div>
+              <h2 class="text-dark-yellow mt-lg-3">barbeiro</h2>
             </div>
           </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="margin:0; padding:0; border:0;">
+          <div class="col-lg-6 paddingless">
             <img 
             src="{% static 'img/home-barbeiro-sandro.png' %}" 
-            alt="barbeiro sandrinho santos" 
+            alt="Barbeiro Sandrinho Santos na Barbearia Amizades" 
             class="img-fluid"
             style="filter: brightness(80%);" 
             >
-            <div class="col-lg-5" style="position:absolute; top: 50%; left:10%;">
+            <div class="col-md-4 barber-image">
               <h1 class="text-white">Sandrinho Santos</h1>
-              <div class="line-shape-white mb-4"></div>
-              <h5 class="text-dark-yellow mt-3">barbeiro</h5>
+              <div class="line-shape-white mb-lg-4"></div>
+              <h2 class="text-dark-yellow mt-lg-3">barbeiro</h2>
             </div>
           </div>
 
@@ -323,80 +312,83 @@
     </section>
 
     <!-- AGENDA -->
-    
- <section class="site-section p-0" id="booking-section">
-      <div class="container-fluid pt-5">
-        <div class="row ml-3 pt-5">
-          <div class="col-lg-5 p-5" data-aos="fade-up" data-aos-delay="100">
-            <h1 class="mb-4 text-dark is-text-title">
-              Agendamento
-            </h1>
-            <div class="line-shape-dark"></div>
 
-            <div>
-              <h5 class="text-dark-yellow mt-3">Hora de Cortar!</h5>
-              <p>
-                Agende agora com um dos nossos especialistas clicando
-              </p>
-              <a type="button" href="{% url 'agendamento' %}" class="btn btn-primary" title="Ir para Agendamento">Nesse botão</a>
-
-            </div>            
-          </div>
-          <div class="col-lg-7" data-aos="fade-up">
-             <div class="owl-carousel slide-one-item-alt pt-5" style="margin-right:0; padding-right:0; border:0;">
-              <img 
-              src="{% static 'img/home-agendamento.jpg' %}" 
-              width="50%" 
-              alt="Image" 
-              class="img-fluid"
-              >
+    <section class="site-section" id="booking-section">
+      
+      <div class="container-fluid paddingless">
+        <a type="button" 
+          href="{% url 'agendamento' %}" 
+          title="Ir para Agendamento"
+          aria-label="botão para agendar">
+          <div class="site-section booking d-flex align-items-center justify-content-center" style="background-image: url(static/img/booking-section-background.jpg);">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="booking-content text-center">
+                  <h1 class="mb-lg-4 text-white is-text-title">
+                    Agende seu corte!
+                  </h1>
+                  <h2 class="text-white font-weight-bold">
+                    Escolha o melhor dia e hora para você </br>
+                    dar um tapa no visual.
+                  </h2>
+                  <div class="mt-lg-5 mt-md-5">
+                    <a 
+                      type="button" 
+                      href="{% url 'agendamento' %}" 
+                      class="btn btn-primary" 
+                      title="Ir para Agendamento"
+                      aria-label="botão para agendar">
+                      Agendar Corte
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </a>
+      </div>  
+    
     </section>
+    
 
     <!--CONTATO--> 
   
     <section class="site-section" id="contact-section">
-      <div class="container pt-5" style="margin:0; padding:0; border:0;">
+      <div class="container pt-lg-5 paddingless">
         <div class="row">
-          <div class="col-lg-7 mb-5" data-aos="fade-up">
+          <div class="col-lg-7 mb-lg-5">
             <img 
             src="{% static 'img/home-section-contato.png' %}" 
-            alt="acessórios da barbearia amizades" 
+            alt="Acessórios da Barbearia Amizades" 
             class="img-fluid"
             >
           </div>
-          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
-            <div class="mb-4 pt-5 pl-5">
+          <div class="col-lg-5">
+            <div class="mb-4 pl-lg-5 p-4">
               <h1 class="mb-4 text-dark is-text-title">
                 Contato
               </h1>
               <div class="line-shape-dark"></div>
               <div class="mt-4" style="line-height: 50px;">
                 <a>
-                  <span class="flaticon-email"><span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">barbeariaamizades@gmail.com</span></span>
+                  <p>
+                  <i class="flaticon-email">
+                    <span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">
+                      barbeariaamizades@gmail.com
+                    </span>
+                  </i>
+                </p>
                 </a>
               </div>
-              <!--div style="line-height: 50px;">
-                <a>
-                  <span class="flaticon-telephone">
-                    <span class="text-dark" style="vertical-align: 8px;margin-left: 14px;">
-                      11 2222.5555
-                    </span> 
-                  </span>
-                </a>
-              </div-->
-              <div>
-                <a>
-                  <span class="flaticon-placeholder">
-                    <span class="text-dark" style="vertical-align: 8px;margin-left: 9px;">
-                      R. Edmundo Antônio Pernetti, 212, 2° andar
+              <div class="local">
+                <p>
+                  <i class="flaticon-placeholder">
+                    <span class="text-dark" style="vertical-align: 8px;">
+                      R. Edmundo Antônio Pernetti, 212, 2° andar - SP
                     </span>
-                  </span>
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr" width="600" height="190" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                </a>
+                  </i>
+                </p>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.797810756999!2d-46.761575584458946!3d-23.214037984856393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cede637b596191%3A0xc82bb744e664cb6c!2sR.%20Edmundo%20Ant%C3%B4nio%20Pernetti%2C%20212%20-%202%C2%B0%20andar%20-%20Campo%20Limpo%20Paulista%2C%20SP%2C%2013232-281!5e0!3m2!1spt-BR!2sbr!4v1589947870011!5m2!1spt-BR!2sbr"  frameborder="0" allowfullscreen aria-hidden="false" tabindex="0"></iframe>
               </div>
             </div>
           </div>

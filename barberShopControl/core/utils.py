@@ -12,6 +12,7 @@ from datetime import date, datetime
 
 from .models import *
 
+
 class Avaliacao:
     def avaliarAtendimento(request):
         reserva.update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
@@ -31,6 +32,7 @@ class Avaliacao:
                     'reserva' : reserva
                 }
         return contexto
+
 
 class Relatorio:
     def exportarRelatorio(request):      
@@ -289,7 +291,7 @@ class Relatorio:
         
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
 
     def totalAgendamentosDoAno():
@@ -299,19 +301,20 @@ class Relatorio:
         
         for index in range(len(reservas_ano)):
             total += 1
-        
+
         return total
 
     def totalAgendamentosDoMes():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
-        reservas_mes = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes)
-        
+        reservas_mes = Reserva.objects.filter(
+            res_data_atendimento__year=ano, res_data_atendimento__month=mes)
+
         for index in range(len(reservas_mes)):
             total += 1
-        
+
         return total
-    
+
     def totalAgendamentosCancelados():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
@@ -319,9 +322,9 @@ class Relatorio:
 
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
-    
+
     def totalAgendamentosPendentes():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
@@ -329,9 +332,9 @@ class Relatorio:
         
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
-    
+
     def totalAgendamentosFinalizados():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
@@ -339,7 +342,7 @@ class Relatorio:
 
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
 
     def totalAgendamentosAtivos():
@@ -349,7 +352,7 @@ class Relatorio:
 
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
 
     def totalAgendamentosChiquinho():
@@ -359,7 +362,7 @@ class Relatorio:
 
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
 
     def totalAgendamentosSandrinho():
@@ -369,9 +372,9 @@ class Relatorio:
 
         for index in range(len(resultado)):
             total += 1
-        
+
         return total
-    
+
     def totalAgendamentoPorServico():
         servicos = Servico.objects.all()
         total = {}
@@ -386,19 +389,22 @@ class Relatorio:
 
         return total
 
+
 class Telefone:
     def quantidadeCaracteres(telefone):
         if len(telefone) > 11:
             return True
-    
+
     def validarCampo(request):
         telefone = request.POST['telefone-cliente']
 
         if Telefone.quantidadeCaracteres(telefone):
-            messages.success(request, 'Os dados informados estão incorretos.', extra_tags='alert-danger')
+            messages.success(
+                request, 'Os dados informados estão incorretos.', extra_tags='alert-danger')
             return True
         else:
             return False
+
 
 class Periodo:
     def foraDoPeriodoDeAtendimento(request):
@@ -410,22 +416,23 @@ class Periodo:
 
     def periodos():
         periodos_disponiveis = {
-            '9-10' : 'Das 9hr as 10hrs',
-            '10-11' : 'Das 10hr as 11hrs',
-            '13-14' : 'Das 13hr as 14hrs',
-            '14-15' : 'Das 14hr as 15hrs',
-            '15-16' : 'Das 15hr as 16hrs',
-            '16-17' : 'Das 16hr as 17hrs',
-            '17-18' : 'Das 17hr as 18hrs',
-            '18-19' : 'Das 18hr as 19hrs',
-            '19-20' : 'Das 19hr as 20hrs'
+            '9-10': '9h às 10h ',
+            '10-11': '10h às 11h ',
+            '13-14': '13h às 14h ',
+            '14-15': '14h às 15h ',
+            '15-16': '15h às 16h ',
+            '16-17': '16h às 17h ',
+            '17-18': '17h às 18h ',
+            '18-19': '18h às 19h ',
+            '19-20': '19h às 20h '
         }
 
         return periodos_disponiveis
 
     def periodosDisponiveis(request):
         dia, mes, ano = Data.desmembrarData(request.POST['dia-atendimento'])
-        reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
+        reservas = Reserva.objects.filter(
+            res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
         sem_periodo_disponivel = False
         periodos_chiquinho = Periodo.periodos()
         periodos_sandrinho = Periodo.periodos()
@@ -449,8 +456,10 @@ class Periodo:
         else:
             especialista_indisponivel = ''
             for index in range(len(reservas.values())):
-                nome_especialista = reservas.values()[index]['res_especialista']
-                periodo_reservado = reservas.values()[index]['res_periodo_atendimento']
+                nome_especialista = reservas.values()[
+                    index]['res_especialista']
+                periodo_reservado = reservas.values(
+                )[index]['res_periodo_atendimento']
 
                 if nome_especialista == 'Chiquinho Oliveira':
                     periodos_chiquinho.pop(periodo_reservado)
@@ -464,8 +473,7 @@ class Periodo:
                 if len(periodos_sandrinho) == 0:
                     sem_periodo_disponivel = True
                     especialista_indisponivel = 'Sandrinho Santos'
-                    
-            
+
             contexto = {
                 'periodos_chiquinho' : periodos_chiquinho,
                 'periodos_sandrinho' : periodos_sandrinho,
@@ -477,6 +485,7 @@ class Periodo:
                 'nome_usuario' : request.session['nome_usuario_logado']
             }
             return contexto
+
 
 class Login:
     def verificarUsuarioLogado(request):
@@ -492,7 +501,8 @@ class Login:
     def validarLogin(request):
         usuario = request.POST['usuario']
         senha = request.POST['senha']
-        resultado_busca = Usuario.objects.filter(us_usuario=usuario, us_senha=senha)
+        resultado_busca = Usuario.objects.filter(
+            us_usuario=usuario, us_senha=senha)
 
         if len(resultado_busca.values()) > 0:
             for nome in resultado_busca:
@@ -502,7 +512,8 @@ class Login:
             return True
 
         else:
-            messages.success(request, 'E-mail ou senha inválido.', extra_tags='alert-danger')
+            messages.success(request, 'E-mail ou senha inválido.',
+                             extra_tags='alert-danger')
             return False
 
     def deslogar(request):
@@ -510,19 +521,22 @@ class Login:
         request.session['nome_usuario_logado'] = ''
         request.session['logado'] = False
 
+
 class Senha:
     def gerarSenhaRandomica():
         caracters = '0123456789abcdefghijlmnopqrstuwvxzABCDEFGHIJKLMNOPQRSTUVXWYZ'
         senha = ''
         for char in range(10):
-                senha += random.choice(caracters)
+            senha += random.choice(caracters)
         return senha
+
 
 class Sessao:
     def criarVariaveisSessao(request):
         request.session['usuario_logado'] = ''
         request.session['nome_usuario_logado'] = ''
         request.session['logado'] = False
+
 
 class Data:
     def desmembrarData(data):
@@ -552,7 +566,8 @@ class Data:
         timestamp_data_computador = datetime.timestamp(data_computador)
 
         if timestamp_data_enviada < timestamp_data_computador:
-            messages.success(request, 'A data informada é inválida.', extra_tags='alert-danger')
+            messages.success(
+                request, 'A data informada é inválida.', extra_tags='alert-danger')
             return True
 
     def dataRetroativaDoBanco(data):
@@ -573,9 +588,10 @@ class Data:
     def dataVazia(request):
         data = request.POST['dia-atendimento']
         if data == '':
-            messages.success(request, 'Informe uma data.', extra_tags='alert-danger')
+            messages.success(request, 'Informe uma data.',
+                             extra_tags='alert-danger')
             return True
-    
+
     def formatarData(data, separador):
         if type(data) == str:
             if '-' in data:
@@ -583,7 +599,8 @@ class Data:
                 ano = data.split()[0]
                 mes = data.split()[1]
                 dia = data.split()[2]
-                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                    dia=dia, mes=mes, ano=ano, separador=separador)
                 return data
 
             elif '/' in data:
@@ -591,13 +608,15 @@ class Data:
                 ano = data.split()[2]
                 mes = data.split()[1]
                 dia = data.split()[0]
-                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                    dia=dia, mes=mes, ano=ano, separador=separador)
                 return data
         else:
             dia = data.strftime("%d")
             mes = data.strftime("%m")
             ano = data.strftime("%Y")
-            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
+            data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                dia=dia, mes=mes, ano=ano, separador=separador)
             return data
 
     def formatarDataComMes(data, separador):
@@ -607,7 +626,8 @@ class Data:
                 ano = data.split()[0]
                 mes = data.split()[1]
                 dia = data.split()[2]
-                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                    dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
                 return data
 
             elif '/' in data:
@@ -615,13 +635,15 @@ class Data:
                 ano = data.split()[2]
                 mes = data.split()[1]
                 dia = data.split()[0]
-                data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+                data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                    dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
                 return data
         else:
             dia = data.strftime("%d")
             mes = data.strftime("%m")
             ano = data.strftime("%Y")
-            data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
+            data = '{dia}{separador}{mes}{separador}{ano}'.format(
+                dia=dia, mes=Data.mesDoAno(mes), ano=ano, separador=separador)
             return data
 
     def dataDoComputador(separador):
@@ -629,7 +651,8 @@ class Data:
         dia = data.strftime("%d")
         mes = data.strftime("%m")
         ano = data.strftime("%Y")
-        data = '{dia}{separador}{mes}{separador}{ano}'.format(dia=dia, mes=mes, ano=ano, separador=separador)
+        data = '{dia}{separador}{mes}{separador}{ano}'.format(
+            dia=dia, mes=mes, ano=ano, separador=separador)
 
         return data
 
@@ -689,6 +712,7 @@ class Data:
 
         return meses_ano[numero]
 
+
 class Conta:
     def editarUsuario(request, id):
         nome = request.POST['nome-especialista']
@@ -707,22 +731,25 @@ class Conta:
     def validarRecuperacaoDeSenha(request):
         email = request.POST['email']
         usuario = request.POST['usuario']
-        resultado_busca = Usuario.objects.filter(us_email=email, us_usuario=usuario)
+        resultado_busca = Usuario.objects.filter(
+            us_email=email, us_usuario=usuario)
 
         if len(resultado_busca.values()) > 0:
             contexto = {
-                'status' : True,
-                'resultado_busca' : resultado_busca,
-                'email' : email,
-                'usuario' : usuario,
-                'especialista' : resultado_busca.values('us_nome')[0]['us_nome']
+                'status': True,
+                'resultado_busca': resultado_busca,
+                'email': email,
+                'usuario': usuario,
+                'especialista': resultado_busca.values('us_nome')[0]['us_nome']
             }
         else:
             contexto = {
-                'status' : False,
+                'status': False,
             }
-            messages.success(request, 'Usuário ou e-mail inválido.', extra_tags='alert-danger')
+            messages.success(
+                request, 'Usuário ou e-mail inválido.', extra_tags='alert-danger')
         return contexto
+
 
 class Agendamento:
     def buscarAgendamentoPeloCliente(nome_cliente):
@@ -792,22 +819,24 @@ class Agendamento:
                 return redirect('home')
 
     def finalizarAgendamento(request):
-        nome_cliente  = request.POST['nome-cliente']
+        nome_cliente = request.POST['nome-cliente']
         email_destino = request.POST['email-cliente']
         data_agendada = request.POST['data-agendada']
         reserva = Reserva.objects.filter(id=request.POST['id-registro'])
 
         for item in reserva:
             codigo_verificacao = getattr(item, 'res_codigo_verificacao')
-
-
-        Email.finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao)
-        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
+        Email.finalizarAtendimento(
+            email_destino, nome_cliente, data_agendada, codigo_verificacao)
+        Reserva.objects.filter(id=request.POST['id-registro']).update(
+            res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
 
     def cancelarAgendamento(request):
         Email.cancelarAgendamento(request, request.POST['id-registro'])
-        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'],res_status='Cancelado pelo especialista')
-        messages.success(request, 'Agendamento cancelado.', extra_tags='alert-success')
+        Reserva.objects.filter(id=request.POST['id-registro']).update(
+            res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Cancelado pelo especialista')
+        messages.success(request, 'Agendamento cancelado.',
+                         extra_tags='alert-success')
 
     def agendamentoPendente():
         agendamentos_cadastrados = Reserva.objects.all()
@@ -821,11 +850,13 @@ class Agendamento:
 
     def retornarTodosAgendamentos():
         return Reserva.objects.all()
-    
+
     def agendamentoUnico(request):
         dia, mes, ano = Data.desmembrarData(request.POST['data-enviada'])
-        data_formatada = Data.formatarDataComMes(request.POST['data-enviada'], ' de ')
-        reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
+        data_formatada = Data.formatarDataComMes(
+            request.POST['data-enviada'], ' de ')
+        reservas = Reserva.objects.filter(
+            res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
 
         if len(reservas.values()) > 0:
             for index in range(len(reservas.values())):
@@ -834,6 +865,7 @@ class Agendamento:
                 if nome_cliente == request.POST['nome-cliente']:
                     messages.success(request, 'Você já possui um agendamento no dia {data}.'.format(data=data_formatada), extra_tags='alert-danger')
                     return True
+
 
 class Servicos:
     def cadastrarServico(nome):
@@ -873,6 +905,7 @@ class Servicos:
 
         return servicos
 
+
 class Email:
     def finalizarAtendimento(email_destino, nome_cliente, data_agendada, codigo_verificacao):
         assunto = 'Atendimento Finalizado | Barbearia Amizades S & D'
@@ -889,9 +922,10 @@ class Email:
             <br><br>
             Agradecemos a preferência!
             """.format(cliente=nome_cliente, data=data_agendada, codigo=codigo_verificacao)
-        
-        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
-        
+
+        Email.enviarEmail(assunto, Email.corpoEmail(
+            titulo, mensagem), email_destino)
+
     def recuperarSenha(request, email_destino, especialista, senha):
         data = Data.dataDoComputador(' de ')
         assunto = 'Recuperar Senha | Barbearia Amizades S & D'
@@ -905,11 +939,13 @@ class Email:
             <br><br>
             Sua nova senha é: <strong>{senha}</strong>
             """.format(especialista=especialista, data=data, senha=senha)
-        
-        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
 
-        messages.success(request, 'Nova senha enviada por e-mail.', extra_tags='alert-success')
-    
+        Email.enviarEmail(assunto, Email.corpoEmail(
+            titulo, mensagem), email_destino)
+
+        messages.success(request, 'Nova senha enviada por e-mail.',
+                         extra_tags='alert-success')
+
     def novoAgendamento(request, codigo_verificacao):
         periodo_reservado = Periodo.periodos()
         periodo_reservado = periodo_reservado[request.POST['periodo-atendimento']].lower()
@@ -932,16 +968,21 @@ class Email:
             <br><br>
             Para cancelar o agendamento <a href="http://127.0.0.1:8000/{codigo}/cancelamento/">clique aqui</a>
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos, codigo=codigo_verificacao)
-        
-        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
+
+        Email.enviarEmail(assunto, Email.corpoEmail(
+            titulo, mensagem), email_destino)
 
     def cancelarAgendamento(request, id_registro):
         resultado_busca = Reserva.objects.filter(id=id_registro)
-        data_agendada = Data.formatarDataComMes(resultado_busca.values('res_data_atendimento')[0]['res_data_atendimento'], ' de ')
+        data_agendada = Data.formatarDataComMes(resultado_busca.values(
+            'res_data_atendimento')[0]['res_data_atendimento'], ' de ')
 
-        nome_cliente = resultado_busca.values('res_nome_cliente')[0]['res_nome_cliente']
-        nome_especialista = resultado_busca.values('res_especialista')[0]['res_especialista']
-        email_destino = resultado_busca.values('res_email_cliente')[0]['res_email_cliente']
+        nome_cliente = resultado_busca.values('res_nome_cliente')[
+            0]['res_nome_cliente']
+        nome_especialista = resultado_busca.values('res_especialista')[
+            0]['res_especialista']
+        email_destino = resultado_busca.values('res_email_cliente')[
+            0]['res_email_cliente']
         assunto = 'Agendamento Cancelado | Barbearia Amizades S & D'
         titulo = """\
                 <strong>Agendamento Cancelado</strong>
@@ -949,8 +990,9 @@ class Email:
         mensagem = """\
             Olá <strong>{cliente}.</strong> <br><br> O agendamento para o dia <strong>{data}</strong>, com o especialista <strong>{especialista}</strong>, foi cancelado.
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista)
-        
-        Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
+
+        Email.enviarEmail(assunto, Email.corpoEmail(
+            titulo, mensagem), email_destino)
 
     def enviarEmail(assunto, mensagem, email_destino):
         # conexão com os servidores do google
@@ -1082,7 +1124,7 @@ class Email:
                                                                     </tbody>
                                                                 </table>
                                                                 <div align="center" class="img-container center fixedwidth" style="padding-right: 40px;padding-left: 40px;">
-                                                                <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><img align="center" alt="Logo Barbearia Amizades S & D" border="0" class="center fixedwidth" src="https://i.ibb.co/4dRPWtz/logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 352px; display: block;" title="Logo Barbearia Amizades S & D" width="352"/>
+                                                                <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><img align="center" alt="Logo Barbearia Amizades S & D" border="0" class="center fixedwidth" src="https://i.ibb.co/4dRPWtz/logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 150px; max-width: 150px; display: block;" title="Logo Barbearia Amizades S & D" width="352"/>
                                                                 <!--[if mso]></td></tr></table><![endif]-->
                                                                 </div>
                                                                 <table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
@@ -1263,5 +1305,5 @@ class Email:
                     <!--[if (IE)]></div><![endif]-->
                     </body>
             """.format(titulo=titulo, mensagem=mensagem)
-        
+
         return corpo

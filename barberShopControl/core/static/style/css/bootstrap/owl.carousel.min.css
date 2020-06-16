@@ -12,7 +12,16 @@
   display: none;
   width: 100%;
   z-index: 1;
+  padding: 2px;
 }
+@media (min-width: 992px) {
+  .owl-carousel {
+    padding-right: 0;
+    margin-right: 0;
+    border-right: 0;
+  }
+}
+
 .owl-carousel .owl-stage {
   position: relative;
   -ms-touch-action: pan-Y;
@@ -48,7 +57,20 @@
 }
 .owl-carousel .owl-item img {
   display: block;
-  width: 100%;
+  width: 95%;
+}
+@media (min-width: 992px) {
+  .owl-carousel .owl-item img {
+    display: block;
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .owl-carousel .owl-item img {
+    display: block;
+    width: 97%;
+    padding: 10px;
+  }
 }
 .owl-carousel .owl-dots.disabled,
 .owl-carousel .owl-nav.disabled {

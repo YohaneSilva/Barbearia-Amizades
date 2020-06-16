@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+
+.ui-datepicker-inline {
+  padding: 0;
+}
+.ui-datepicker-header {
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  letter-spacing: 0.1em;
+  background-color: rgba(217, 162, 61, 0.6);
+  width: 300px;
+}
+.ui-datepicker-header .ui-datepicker-prev,
+.ui-datepicker-header .ui-datepicker-next {
+  display: inline;
+  cursor: pointer;
+  font-size: 1.4em;
+  padding: 10px 10px;
+  color: #a66d03;
+  position: relative;
+}
+.ui-datepicker-header .ui-datepicker-prev {
+  float: left;
+  left: 20px;
+}
+.ui-datepicker-header .ui-datepicker-next {
+  float: right;
+  right: 20px;
+}
+.ui-datepicker-calendar {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+.ui-datepicker-calendar thead {
+  color: #ccc;
+}
+.ui-datepicker-calendar tr th,
+.ui-datepicker-calendar tr td {
+  padding-bottom: 0.5em;
+}
+.ui-datepicker-calendar a {
+  color: #444;
+  text-decoration: none;
+  display: block;
+  margin: 0 auto;
+  width: 35px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 700;
+}
+.ui-datepicker-calendar a:hover {
+  background-color: #d24d57;
+  color: white;
+}
+/* .ui-datepicker-calendar a:active {
+  background-color: #d24d57;
+  color: white;
+} */
+.ui-datepicker-calendar .ui-state-active {
+  border-color: #d24d57;
+  color: #d24d57;
+}
+.ui-datepicker-calendar thead {
+  color: #d24d57;
+  font-size: 10px;
+}
+
+.ui-datepicker-title {
+  line-height: 1.1;
+}
+.ui-datepicker-month {
+  text-transform: capitalize;
+  font-size: 32px;
+  font-family: "Abril Fatface" !important;
+  color: white !important;
+  display: block;
+}
+.ui-datepicker-year {
+  font-size: 18px;
+  font-family: "Abril Fatface" !important;
+  color: #a66d03;
+}
+.ui-datepicker-unselectable {
+  color: grey;
+}
