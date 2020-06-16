@@ -62,6 +62,21 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
               Profissional: <strong>{{ valor.res_especialista }}</strong><br />
             </div>
           </div>
+          <div style="margin-top:50px" class="d-flex justify-content-center">
+                <form class="module-title text-center" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
+                    {% csrf_token %}
+                    <label for="cancelarAgendamento"><strong>Tem certeza que quer cancelar o agendamento?</strong></label>
+                    <select id="cancelarAgendamento" class="form-control module-title" name="cancelar-agendamento">
+                        <option selected>Selecione uma opção</option>
+                        <option>Sim</option>
+                        <option>Não</option>
+                    </select>
+                    <button type="submit" id="btnEnviarResposta" class="btn btn-primary">
+                        <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Enviar Resposta
+                    </button>
+                </form>
+          </div>
 
           {% elif valor.res_status == 'Finalizado' %}
           <div>
@@ -86,23 +101,6 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
           </div>
           {% endif %}
         </div>
-    <div style="margin-top:50px" class="d-flex justify-content-center">
-        {% if status == False %}
-            <form class="module-title text-center" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
-                {% csrf_token %}
-                <label for="cancelarAgendamento"><strong>Tem certeza que quer cancelar o agendamento?</strong></label>
-                <select id="cancelarAgendamento" class="form-control module-title" name="cancelar-agendamento">
-                    <option selected>Selecione uma opção</option>
-                    <option>Sim</option>
-                    <option>Não</option>
-                </select>
-                <button type="submit" id="btnEnviarResposta" class="btn btn-primary">
-                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Enviar Resposta
-                </button>
-            </form>
-        {% endif %}
-    </div>
     {% endfor %}
     <div>
         {% for message in messages %}

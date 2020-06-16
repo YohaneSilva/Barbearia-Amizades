@@ -366,6 +366,10 @@ def cancelarAgendamentoPorEmail(request, codigo_verificacao):
 def avaliarAtendimento(request, codigo_verificacao):
     contexto = Avaliacao.atendimentoAvaliado(request, codigo_verificacao)
 
+    status = Agendamento.statusAgendamento(codigo_verificacao)
+    if status['reserva'].values()[0]['res_status'] == 'Ativo':
+        return redirect('home')
+        
     if request.method == 'POST':
         Avaliacao.avaliarAtendimento(request)
 
@@ -380,7 +384,8 @@ def avaliarAtendimento(request, codigo_verificacao):
 def relatorios(request):
     if Login.verificarUsuarioLogado(request) == False:
             return redirect('acessoLogin')
-        
+    
+    Agendamento.agendamentoPendente()
     contexto = {
         'agendamentos_cadastrados' : Relatorio.agendamentosEfetuados(),
         'servicos_cadastrados' : Servicos.retornarListaServicos(),
