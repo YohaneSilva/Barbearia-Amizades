@@ -101,6 +101,7 @@ $(document).ready(function () {
   var tamanhoJanela = $( window ).width();
   if (tamanhoJanela <= 768) {
     $("#listingTable").removeClass("container-fluid");
+    $("#filtros").removeClass("container-fluid");
     $("#tableAllResults").removeClass("container-fluid");
   };
 });

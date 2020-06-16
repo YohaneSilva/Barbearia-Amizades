@@ -163,11 +163,8 @@ def servicosCadastrados(request):
         return redirect('acessoLogin')
     
     nome_usuario = request.session['nome_usuario_logado']
-    
-    # Trazendo todos os registros da tabela Serviço
     servicos_cadastrados = Servico.objects.all()        
 
-    # Filtrando os registros da tabela Serviço
     busca = request.GET.get('search')
     if busca:
         servicos_cadastrados = Servicos.buscarServicoPeloNome(busca)
@@ -253,6 +250,14 @@ def agendamentosCadastrados(request):
         'relatorio_selecionado' : 'Todos'
     }
 
+    busca = request.GET.get('search')
+    if busca:
+        contexto = {
+                'agendamentos_cadastrados' : Agendamento.buscarAgendamentoPeloCliente(busca),
+                'nome_usuario' : nome_usuario,
+                'relatorio_selecionado' : 'Todos'
+            }
+
     if request.method == 'POST':
         if request.POST['mes-selecionado'] != 'Todos':
             contexto = {
@@ -269,56 +274,19 @@ def cadastrarAgendamento(request):
         if request.method == "POST":
             if Agendamento.agendamentoUnico(request):
                 return redirect('agendamento')
-            
-            # Alterando o formato da data
-            dia, mes, ano = Data.desmembrarData(request.POST['data-enviada'])
-            data_formatada = '{ano}-{mes}-{dia}'.format(ano=ano, mes=mes, dia=dia)
 
-            # Retirando os elementos do array e os separando por vírgula
-            servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
-
-            codigo_verificacao = Senha.gerarSenhaRandomica()
-            nome_cliente = request.POST['nome-cliente'],
-            telefone_cliente = request.POST['telefone-cliente'],
-            periodo_atendimento = request.POST['periodo-atendimento'],
-            email_cliente = request.POST['email-cliente'],
-            especialista = request.POST['nome-especialista'],
-            observacao = request.POST['observacao-atendimento']
-
-            Agendamento.novoAgendamento(nome_cliente, telefone_cliente, data_formatada, periodo_atendimento, email_cliente,
-                    especialista, servicos, codigo_verificacao, observacao)
-            
-            Email.novoAgendamento(request, codigo_verificacao)
+            Agendamento.novoAgendamento(request)
             return redirect('agendamento')
         
     else:
-        nome_usuario = request.session['nome_usuario_logado']
         if Login.verificarUsuarioLogado(request) == False:
             return redirect('acessoLogin')
 
         if request.method == "POST":
             if Agendamento.agendamentoUnico(request):
                 return redirect('cadastrarAgendamento')
-            
-            # Alterando o formato da data
-            dia, mes, ano = Data.desmembrarData(request.POST['data-enviada'])
-            data_formatada = '{ano}-{mes}-{dia}'.format(ano=ano, mes=mes, dia=dia)
 
-            # Retirando os elementos do array e os separando por vírgula
-            servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
-
-            codigo_verificacao = Senha.gerarSenhaRandomica()
-            nome_cliente = request.POST['nome-cliente'],
-            telefone_cliente = request.POST['telefone-cliente'],
-            periodo_atendimento = request.POST['periodo-atendimento'],
-            email_cliente = request.POST['email-cliente'],
-            especialista = request.POST['nome-especialista'],
-            observacao = request.POST['observacao-atendimento']
-
-            Agendamento.novoAgendamento(nome_cliente, telefone_cliente, data_formatada, periodo_atendimento, email_cliente,
-                    especialista, servicos, codigo_verificacao, observacao)
-
-            Email.novoAgendamento(request, codigo_verificacao)
+            Agendamento.novoAgendamento(request)
             return redirect('agendamentosCadastrados')
 
         contexto = {'nome_usuario' : nome_usuario}
@@ -332,12 +300,13 @@ def periodosDisponiveis(request):
         if request.method == "POST":
             request.session['origem-usuario'] = 'institucional'
             
-            # Validando se a data não foi enviada vazia
             if Data.dataVazia(request):
                 return redirect('agendamento')
 
-            # Verificando se a data informada não é retroativa
             if Data.dataRetroativa(request):
+                return redirect('agendamento')
+            
+            if Periodo.foraDoPeriodoDeAtendimento(request):
                 return redirect('agendamento')
 
             contexto = Periodo.periodosDisponiveis(request)
@@ -352,12 +321,13 @@ def periodosDisponiveis(request):
             sessao = request.session['logado']
             nome_usuario = request.session['nome_usuario_logado']
             
-            # Validando se a data não foi enviada vazia
             if Data.dataVazia(request):
                 return redirect('cadastrarAgendamento')
 
-            # Verificando se a data informada não é retroativa
             if Data.dataRetroativa(request):
+                return redirect('cadastrarAgendamento')
+            
+            if Periodo.foraDoPeriodoDeAtendimento(request):
                 return redirect('cadastrarAgendamento')
 
             contexto = Periodo.periodosDisponiveis(request)

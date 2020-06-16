@@ -401,6 +401,13 @@ class Telefone:
             return False
 
 class Periodo:
+    def foraDoPeriodoDeAtendimento(request):
+        data = Data.formatarData(request.POST['dia-atendimento'], '-')
+        dia_da_semana = Data.diaDaSemana(data)
+        if dia_da_semana == 'Domingo' or dia_da_semana == 'Segunda-feira':
+            messages.success(request, 'Desculpe, mas não atendemos aos Domingos e Segundas.', extra_tags='alert-danger')
+            return True
+
     def periodos():
         periodos_disponiveis = {
             '9-10' : 'Das 9hr as 10hrs',
@@ -416,10 +423,7 @@ class Periodo:
 
         return periodos_disponiveis
 
-    # Listar apenas os períodos livres
-    # dentro do módulo administrativo
     def periodosDisponiveis(request):
-        # Consultando todos os registros da data enviada
         dia, mes, ano = Data.desmembrarData(request.POST['dia-atendimento'])
         reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
         sem_periodo_disponivel = False
@@ -429,9 +433,6 @@ class Periodo:
         data_enviada = Data.formatarData(request.POST['dia-atendimento'],'/')
         servicos_cadastrados = Servicos.retornarServicosHabilitados()
 
-        # Se houver algum resultado é verificado qual o 
-        # período está reservado por especialista e o período
-        # reservado é removido do dicionário de períodos
         if len(reservas.values()) <= 0:
             contexto = {
                 'status ' : False,
@@ -440,7 +441,8 @@ class Periodo:
                 'sem_periodo_disponivel' : sem_periodo_disponivel,
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
-                'servicos_cadastrados' : servicos_cadastrados
+                'servicos_cadastrados' : servicos_cadastrados,
+                'nome_usuario' : request.session['nome_usuario_logado']
             }
             return contexto
 
@@ -471,7 +473,8 @@ class Periodo:
                 'especialista_indisponivel' : especialista_indisponivel,
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
-                'servicos_cadastrados' : servicos_cadastrados
+                'servicos_cadastrados' : servicos_cadastrados,
+                'nome_usuario' : request.session['nome_usuario_logado']
             }
             return contexto
 
@@ -633,7 +636,6 @@ class Data:
     # Função que retorna o dia da semana a partir
     # de uma string no formato: yyyy-mm-dd
     def diaDaSemana(data):
-
         DIAS = [
             'Segunda-feira',
             'Terça-feira',
@@ -648,6 +650,11 @@ class Data:
         ano = int(data.split()[0])
         mes = int(data.split()[1])
         dia = int(data.split()[2])
+
+        if len(str(dia)) > 2:
+            ano = int(data.split()[2])
+            mes = int(data.split()[1])
+            dia = int(data.split()[0])
 
         data = date(year=ano, month=mes, day=dia)
         indice_da_semana = data.weekday()
@@ -718,6 +725,9 @@ class Conta:
         return contexto
 
 class Agendamento:
+    def buscarAgendamentoPeloCliente(nome_cliente):
+        return Reserva.objects.filter(res_nome_cliente__icontains=nome_cliente).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
+
     def cancelarAgendamentoPorEmail(codigo_verificacao, id_atendimento):
         Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_status='Cancelado pelo usuário')
         Email.cancelarAgendamento(request, id_atendimento)
@@ -743,28 +753,32 @@ class Agendamento:
         
         return contexto
 
-    def novoAgendamento(nome_cliente, telefone_cliente, data_atendimento, periodo_atendimento,
-            email_cliente, especialista, servicos, codigo_verificacao, observacao_atendimento):
+    def novoAgendamento(request):
+        dia, mes, ano = Data.desmembrarData(request.POST['data-enviada'])
+        data_formatada = '{ano}-{mes}-{dia}'.format(ano=ano, mes=mes, dia=dia)
+        servicos = ', '.join(request.POST.getlist('servicos-selecionados'))
+        codigo_verificacao = Senha.gerarSenhaRandomica()
         
         novo_agendamento = Reserva(
-            res_nome_cliente = nome_cliente,
-            res_telefone_cliente = telefone_cliente,
-            res_data_atendimento = data_atendimento,
-            res_periodo_atendimento = periodo_atendimento,
-            res_email_cliente = email_cliente,
-            res_especialista = especialista,
+            res_nome_cliente = request.POST['nome-cliente'],
+            res_telefone_cliente = request.POST['telefone-cliente'],
+            res_data_atendimento = data_formatada,
+            res_periodo_atendimento = request.POST['periodo-atendimento'],
+            res_email_cliente = request.POST['email-cliente'],
+            res_especialista = request.POST['nome-especialista'],
             res_servicos = servicos,
             res_status = 'Ativo',
             res_codigo_verificacao = codigo_verificacao,
-            res_observacao = observacao_atendimento
+            res_observacao = request.POST['observacao-atendimento']
         )
-
         novo_agendamento.save()
+
+        Email.novoAgendamento(request, codigo_verificacao)
 
         mensagem_agendamento_sucesso = """\
             Agendamento realizado com sucesso.
             Por favor, verifique o e-mail enviado para: {email}.
-        """.format(email=email_cliente)
+        """.format(email=request.POST['email-cliente'])
 
         return messages.success(request, mensagem_agendamento_sucesso, extra_tags='alert-success')
 
@@ -818,7 +832,7 @@ class Agendamento:
                 nome_cliente = reservas.values()[index]['res_nome_cliente']
 
                 if nome_cliente == request.POST['nome-cliente']:
-                    messages.success(request, 'Você já possui um agendamento na dia {data} selecionada.'.format(data=data_formatada), extra_tags='alert-danger')
+                    messages.success(request, 'Você já possui um agendamento no dia {data}.'.format(data=data_formatada), extra_tags='alert-danger')
                     return True
 
 class Servicos:
@@ -916,7 +930,7 @@ class Email:
             <br><br>
             Os serviços reservados foram: <strong>{servico}</strong>.
             <br><br>
-            Para cancelar o agendamento <a href="http://127.0.0.1:8000/{codigo}">clique aqui</a>
+            Para cancelar o agendamento <a href="http://127.0.0.1:8000/{codigo}/cancelamento/">clique aqui</a>
             """.format(cliente=nome_cliente, data=data_agendada, especialista=nome_especialista, periodo=periodo_reservado, servico=servicos, codigo=codigo_verificacao)
         
         Email.enviarEmail(assunto, Email.corpoEmail(titulo, mensagem), email_destino)
