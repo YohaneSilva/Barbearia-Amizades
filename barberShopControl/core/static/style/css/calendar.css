@@ -57,14 +57,14 @@
   background-color: #d24d57;
   color: white;
 }
-.ui-datepicker-calendar a:active {
+/* .ui-datepicker-calendar a:active {
   background-color: #d24d57;
   color: white;
-}
-/* .ui-datepicker-calendar .ui-state-highlight {
+} */
+.ui-datepicker-calendar .ui-state-active {
   border-color: #d24d57;
   color: #d24d57;
-} */
+}
 .ui-datepicker-calendar thead {
   color: #d24d57;
   font-size: 10px;
@@ -76,13 +76,13 @@
 .ui-datepicker-month {
   text-transform: capitalize;
   font-size: 32px;
-  font-family: "Abril Fatface";
-  color: white;
+  font-family: "Abril Fatface" !important;
+  color: white !important;
   display: block;
 }
 .ui-datepicker-year {
   font-size: 18px;
-  font-family: "Abril Fatface";
+  font-family: "Abril Fatface" !important;
   color: #a66d03;
 }
 .ui-datepicker-unselectable {

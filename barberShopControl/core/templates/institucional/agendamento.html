@@ -37,11 +37,21 @@ $(document).ready(function () {
     $("#submitFormDaniel").prop("disabled", true);
     $("#submitFormSandro").prop("disabled", true);
   });
+
+  $("#bEnviar").click(function(){
+    var data = $("#diaAtendimento").val();
+
+    if(!data) {
+        $("#alertaInput").removeClass("d-none");
+    } else $("#alertaInput").addClass("d-none");
+    if (data) {
+      // Submit form
+    }
+  });
 });
 
 $(function(){
   $('.datepicker').datepicker({
-    
     onSelect: function(dateText, inst) {
       $("input[name='dia-atendimento']").val(dateText);
     },
@@ -55,7 +65,10 @@ $(function(){
     dayNamesShort: ['DOM','SEG','TER','QUA','QUI','SEX','SAB'],
     dayNamesMin: ['DOM','SEG','TER','QUA','QUI','SEX','SAB'],
     minDate: 0,
-    
+    beforeShowDay: function(date) {
+      var day = date.getDay();
+      return [(day != 1 && day != 0)];
+    },
   });
 });     
 </script>
@@ -70,7 +83,7 @@ $(function(){
     </div>
   </div> 
 
-  <!-- Formulário para veriricar períodos disponíveis -->
+  <!-- Formulário para verificar períodos disponíveis -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-6 col-sm-6 section-wrapper">
@@ -122,6 +135,7 @@ $(function(){
                 name="dia-atendimento">
               </input>
               <button
+                id="bEnviar"
                 type="submit"
                 class="btn btn-primary"
                 form="formPeriodosDisponiveisHome"
@@ -133,7 +147,20 @@ $(function(){
             </div>
           </form>
         </div>
+        
+      </div>
 
+      <div class="col-xl-6">
+        <div id="alertaInput" class="alert alert-danger alert-block d-none" role="alert">
+          <strong>Selecione uma data</strong>
+          <button 
+            type="button" 
+            class="close" 
+            data-dismiss="alert"
+            aria-label="Fechar mensagem">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div>
           {% for message in messages %}
           <div class="alert {{ message.tags }}" role="alert">
@@ -149,9 +176,6 @@ $(function(){
           </div>
           {% endfor %}
         </div>
-      </div>
-
-      <div class="col-xl-6">
         <div
           class="form-row text-left"
           id="formulariosAgendamento"
@@ -295,7 +319,6 @@ $(function(){
             </div>
           </div>
           </form>
-            
 
           <!-- Formulário do Sandrinho (Sandro) -->
 
@@ -422,6 +445,7 @@ $(function(){
                 id="submitFormSandro"
                 class="btn btn-primary"
                 title="Confirmar agendamento"
+                onclick="return validar()"
               >
                 <span
                   hidden
@@ -438,3 +462,6 @@ $(function(){
   </div>
 </div>
 {% endblock %}
+
+
+  

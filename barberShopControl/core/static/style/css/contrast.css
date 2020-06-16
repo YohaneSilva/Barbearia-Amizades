@@ -84,6 +84,6 @@
     background-color: black !important;
     color: white !important;
 }
-.contrast .card {
-    border: 1px solid white;
+.contrast .card > a {
+    border: 1px solid white !important;
 }
