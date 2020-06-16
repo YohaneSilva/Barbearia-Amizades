@@ -351,7 +351,6 @@ def finalizarCancelar(request):
 
 def cancelarAgendamentoPorEmail(request, codigo_verificacao):
     contexto = Agendamento.statusAgendamento(codigo_verificacao)
-
     if request.method == 'POST':
         for resultado in request.POST:
             id_atendimento = getattr(resultado, 'id')
@@ -359,7 +358,6 @@ def cancelarAgendamentoPorEmail(request, codigo_verificacao):
             if request.POST[resultado] == 'Sim':
                 Agendamento.cancelarAgendamentoPorEmail(codigo_verificacao, id_atendimento)
                 contexto = {
-                    'status' : True,
                     'reserva' : reserva
                 }
 

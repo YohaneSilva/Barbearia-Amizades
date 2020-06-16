@@ -50,28 +50,37 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
 
         {% for valor in reserva %}
         <div>
-          {% if status == False %}
+          {% if valor.res_status == 'Ativo'  %}
           <div>
             <p class="h4 mb-4">
               Olá,
-              <strong class="capitalize text-dark-yellow"
-                >{{ valor.res_nome_cliente }}!</strong
-              >
+              <strong class="capitalize text-dark-yellow">{{ valor.res_nome_cliente }}!</strong>
             </p>
             <div>
               <p class="h6">Detalhes sobre seu agendamento</p>
-
               Data: <strong>{{ valor.res_data_atendimento }}</strong><br />
               Profissional: <strong>{{ valor.res_especialista }}</strong><br />
             </div>
           </div>
-          {% else %}
+
+          {% elif valor.res_status == 'Finalizado' %}
           <div>
             <p class="h4 mb-4">
               Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
             </p>
             <p>
-              Seu agendamento foi cancelado. <br />
+              Seu agendamento foi finalizado. Por favor, verifique o seu e-mail<br>
+               e nos avalie, sua opnião é importante para nós!
+            </p>
+          </div>
+
+          {% else%}
+          <div>
+            <p class="h4 mb-4">
+              Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
+            </p>
+            <p>
+              Seu agendamento já foi cancelado. <br />
               Por favor verifique o seu e-mail.
             </p>
           </div>

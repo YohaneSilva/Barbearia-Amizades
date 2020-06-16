@@ -767,17 +767,10 @@ class Agendamento:
         reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
 
         for item in reserva:
-            if getattr(item, 'res_status') == 'Ativo':
-                contexto = {
-                    'status' : False,
-                    'reserva' : reserva
-                }
-            else:
-                contexto = {
-                    'status' : True,
-                    'reserva' : reserva
-                }
-        
+            contexto = {
+                'reserva' : reserva
+            }
+            
         return contexto
 
     def novoAgendamento(request):
