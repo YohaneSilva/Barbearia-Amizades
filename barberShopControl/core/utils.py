@@ -457,7 +457,6 @@ class Periodo:
 
         if len(reservas.values()) <= 0:
             contexto = {
-<<<<<<< HEAD
                 'status ' : False,
                 'periodos_chiquinho' : periodos_chiquinho,
                 'periodos_sandrinho' : periodos_sandrinho,
@@ -465,16 +464,6 @@ class Periodo:
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
                 'servicos_cadastrados' : servicos_cadastrados
-=======
-                'status ': False,
-                'periodos_chiquinho': periodos_chiquinho,
-                'periodos_sandrinho': periodos_sandrinho,
-                'sem_periodo_disponivel': sem_periodo_disponivel,
-                'data_enviada_formatada': data_enviada_formatada,
-                'data_enviada': data_enviada,
-                'servicos_cadastrados': servicos_cadastrados,
-                'nome_usuario': request.session['nome_usuario_logado']
->>>>>>> ba8eba82a2756fa6174f2c255892b2ccb91c1c9f
             }
             return contexto
 
@@ -500,7 +489,6 @@ class Periodo:
                     especialista_indisponivel = 'Sandrinho Santos'
 
             contexto = {
-<<<<<<< HEAD
                 'periodos_chiquinho' : periodos_chiquinho,
                 'periodos_sandrinho' : periodos_sandrinho,
                 'sem_periodo_disponivel' : sem_periodo_disponivel,
@@ -508,16 +496,6 @@ class Periodo:
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
                 'servicos_cadastrados' : servicos_cadastrados,
-=======
-                'periodos_chiquinho': periodos_chiquinho,
-                'periodos_sandrinho': periodos_sandrinho,
-                'sem_periodo_disponivel': sem_periodo_disponivel,
-                'especialista_indisponivel': especialista_indisponivel,
-                'data_enviada_formatada': data_enviada_formatada,
-                'data_enviada': data_enviada,
-                'servicos_cadastrados': servicos_cadastrados,
-                'nome_usuario': request.session['nome_usuario_logado']
->>>>>>> ba8eba82a2756fa6174f2c255892b2ccb91c1c9f
             }
             return contexto
 
@@ -801,30 +779,12 @@ class Agendamento:
         return Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
 
     def statusAgendamento(codigo_verificacao):
-<<<<<<< HEAD
         reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
         contexto = {
                 'status' : reserva.values()[0]['res_status'],
                 'reserva': reserva
             }
 
-=======
-        reserva = Reserva.objects.filter(
-            res_codigo_verificacao=codigo_verificacao)
-
-        for item in reserva:
-            if getattr(item, 'res_status') == 'Ativo':
-                contexto = {
-                    'status': False,
-                    'reserva': reserva
-                }
-            else:
-                contexto = {
-                    'status': True,
-                    'reserva': reserva
-                }
-
->>>>>>> ba8eba82a2756fa6174f2c255892b2ccb91c1c9f
         return contexto
 
     def novoAgendamento(request):
