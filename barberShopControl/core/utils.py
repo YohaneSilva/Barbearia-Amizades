@@ -755,9 +755,10 @@ class Agendamento:
     def buscarAgendamentoPeloCliente(nome_cliente):
         return Reserva.objects.filter(res_nome_cliente__icontains=nome_cliente).extra(where=["res_status='Ativo' OR res_status='Pendente'"]).order_by('res_data_atendimento')
 
-    def cancelarAgendamentoPorEmail(codigo_verificacao, id_atendimento):
-        Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_status='Cancelado pelo usuário')
-        Email.cancelarAgendamento(request, id_atendimento)
+    def cancelarAgendamentoPorEmail(request, codigo_verificacao):
+        reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+        reserva.update(res_status='Cancelado pelo usuário')
+        Email.cancelarAgendamento(request, reserva.values()[0]['id'])
         return messages.success(request, 'Agendamento cancelado com sucesso. Por favor, verique seu e-mail.', extra_tags='alert-success')
 
     def consultarAgendamentoCodigo(codigo_verificacao):

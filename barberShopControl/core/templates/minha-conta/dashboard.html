@@ -3,6 +3,46 @@
 {% block title %} Dashboard | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Dashboard{% endblock %}
 {% block content %}
+<script>
+var data = [
+    {
+      primaryColor: "#1991EB", 
+      secondaryColor: "#EAF3FB", 
+      progress: "80", 
+      labelText: "HTML5"
+    },
+    {
+      primaryColor: "#0154C8", 
+      secondaryColor: "#ECEDFF", 
+      progress: "60", 
+      labelText: "CSS3"
+    },
+    {
+      primaryColor: "#9B0696", 
+      secondaryColor: "#FBECFF", 
+      progress: "40", 
+      labelText: "JavaScript"
+    }
+];
+
+$(".radial").radialBar({
+  data: data
+});
+
+$(".radial").radialBar({
+  data: data,
+  width: "300",
+  height: "300"
+});
+
+$(".radial").radialBar({
+  data: data,
+  strokeWidth: 12
+});
+</script>
+
+<div class="radial">adadsa</div>
+
       <!-- Main Content -->
       <div id="content">
 
