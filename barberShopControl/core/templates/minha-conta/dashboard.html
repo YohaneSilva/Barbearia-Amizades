@@ -3,126 +3,125 @@
 {% block title %} Dashboard | Barbearia Amizades S & D{% endblock %}
 {% block module_title %}Dashboard{% endblock %}
 {% block content %}
+  <!-- Main Content -->
+  <div id="content">
 
-      <!-- Main Content -->
-      <div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <!-- Content Row -->
+      <div class="row">
 
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Total Períodico-->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><strong>Períodicos:</strong></div>
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos }}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Por Mês</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos_mes }}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Por Ano</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos_ano }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-            <!-- Total por Especialista -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><strong>Por Especialista:</strong></div>
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Chiquinho</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamento_chiquinho }}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Sandrinho</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamento_sandrinho }}
-                      </div>
-                    </div><br>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Total por Situação -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1"><strong>Situação:</strong></div>
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Ativos</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{total_agendamentos_ativos}}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Finalizados</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos_finalizados }}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pendentes</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos_pendentes }}
-                      </div>
-                    </div><br>
-                    <div class="col mr-2 text-center border-bottom rounded">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Cancelados</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        {{ total_agendamentos_cancelados }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Total por Serviço-->
-      <div class="container-fluid mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-          <div class="card-body">
-            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><strong>Por Serviço:</strong></div>
-            <div class="row no-gutters align-items-center">
-              {% for chave, valor in total_agendamentos_por_servico.items %}
-                <div class="col mr-3 text-center border-bottom rounded">
-                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">{{chave}}</div>
+        <!-- Total Períodico-->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><strong>Períodicos:</strong></div>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total</div>
                   <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{valor}}
+                    {{ total_agendamentos }}
                   </div>
                 </div><br>
-              {% endfor %}
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Por Mês</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamentos_mes }}
+                  </div>
+                </div><br>
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Por Ano</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamentos_ano }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      
+        <!-- Total por Especialista -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><strong>Por Especialista:</strong></div>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Chiquinho</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamento_chiquinho }}
+                  </div>
+                </div><br>
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Sandrinho</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamento_sandrinho }}
+                  </div>
+                </div><br>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total por Situação -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1"><strong>Situação:</strong></div>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Ativos</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{total_agendamentos_ativos}}
+                  </div>
+                </div><br>
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Finalizados</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamentos_finalizados }}
+                  </div>
+                </div><br>
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pendentes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamentos_pendentes }}
+                  </div>
+                </div><br>
+                <div class="col mr-2 text-center border-bottom rounded">
+                  <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Cancelados</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{ total_agendamentos_cancelados }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Total por Serviço-->
+  <div class="container-fluid mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><strong>Por Serviço:</strong></div>
+        <div class="row no-gutters align-items-center">
+          {% for chave, valor in total_agendamentos_por_servico.items %}
+            <div class="col mr-3 text-center border-bottom rounded">
+              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">{{chave}}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{valor}}
+              </div>
+            </div><br>
+          {% endfor %}
+        </div>
       </div>
+    </div>
+  </div>
 {% endblock %}
