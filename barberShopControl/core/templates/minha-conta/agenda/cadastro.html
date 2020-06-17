@@ -61,128 +61,282 @@ $(document).ready(function (){
 
     <div class="form-row justify-content-center" id="formulariosAgendamento">
         <!-- Formulário do Chiquinho (Daniel) -->
-        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoDaniel">
+          
+          
+          <form
+            class="module-title mb-4"
+            action="{% url 'cadastrarAgendamento' %}"
+            method="POST"
+            id="formRegistrarAgendamentoDaniel"
+          >
             {% csrf_token %}
             <div class="card mr-md-3">
-                <img class="card-img-top" src="{% static 'img/perfil_daniel.jpg'%}" alt="Barbeiro Chiquinho Oliveira">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Chiquinho Oliveira</h5>
-                    <input type="hidden" name="nome-especialista" value="Chiquinho Oliveira"/>
-                    <input type="hidden" name="data-enviada" value="{{ data_enviada }}"/>
-                    <input type="hidden" name="data-enviada-por-email" value="{{ data_enviada_formatada }}"/>
-
-                    <hr>
-
-                    <div class="form-group">
-                        <label for="nomeCliente">Quem será atendido?</label>
-                        <input required type="text" id="nomeCliente" name="nome-cliente" class="form-control" maxlength="60" title="digite o nome completo" placeholder="digite o nome completo">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefoneCliente">Qual o telefone?</label>
-                        <input required type="number" id="telefoneCliente" name="telefone-cliente" maxlength="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="emailCliente">Qual o e-mail?</label>
-                        <input required type="email" id="emailCliente" name="email-cliente" maxlength="254" class="form-control" title="digite um e-mail válido" placeholder="digite um e-mail válido">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="periodoAtendimento">Qual o período?</label>
-                        <div class="mr-md-3">
-                            <select required id="periodoAtendimento" class="form-control" name="periodo-atendimento" onchange="exibirCampos()" title="Selecione um período">
-                                {% for chave, valor  in periodos_chiquinho.items %}
-                                    <option value="{{ chave }}"> {{ valor }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label> Qual(is) serviço(s)</label><br>
-                        {% for valor in servicos_cadastrados %}
-                            <input type="checkbox" id="{{ valor }}Daniel" name="servicos-selecionados" value="{{ valor }}">
-                            <label for="{{ valor }}Daniel">{{ valor }}</label><br>
-                        {% endfor %}
-                    </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#observacaoDaniel" aria-expanded="false" title="Inserir observações para o especialista">
-                            Observações
-                        </button><br>
-                        <small class="module-title">Clique no botão acima para inserir alguma observação.</small>
-                        <textarea id="observacaoDaniel" class="form-control collapse" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
-                    </div>
+              <a href="#formularioChiquinho" data-toggle="collapse">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <img
+                  class="card-img-top rounded"
+                  src="{% static 'img/perfil_daniel.png'%}"
+                  alt="Barbeiro Chiquinho Oliveira"/>
                 </div>
-                <button type="submit" id="submitFormDaniel" class="btn btn-primary" title="Confirmar agendamento">
-                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Agendar
-                </button>
-            </div>
-        </form>
+                <div class="col-md-4 col-sm-12">
+                  <h3 class="card-title">Chiquinho Oliveira</h3>
+                  <div class="line-shape-dark"></div>
+                </div>
+              </div>
+              </a>
+              
+              <div class="card-body collapse"  id="formularioChiquinho">
+                <input
+                  type="hidden"
+                  name="nome-especialista"
+                  value="Chiquinho Oliveira"
+                />
+                <input
+                  type="hidden"
+                  name="data-enviada"
+                  value="{{ data_enviada }}"
+                />
+                <input
+                  type="hidden"
+                  name="data-enviada-por-email"
+                  value="{{ data_enviada_formatada }}"
+                />
 
-        <!-- Formulário do Sandrinho (Sandro) -->
-        <form class="module-title" action="{% url 'cadastrarAgendamento' %}" method="POST" id="formRegistrarAgendamentoSandro">
+                <div class="form-group">
+                  <label for="periodoAtendimento"><h3 class="text-dark-yellow h4">Qual o horário?</h3></label>
+                    <select 
+                      required
+                      id="periodoAtendimento"
+                      name="periodo-atendimento"
+                      title="Selecione um período"
+                      onchange="exibirCampos()"
+                      class="form-control">
+                      {% for chave, valor in periodos_chiquinho.items %}
+                      <option value="{{ chave }}">{{ valor }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="nomeCliente"><h3 class="text-dark-yellow h4">Quem será atendido?</h3></label>
+                  <input
+                    required
+                    type="text"
+                    id="nomeCliente"
+                    name="nome-cliente"
+                    class="form-control"
+                    maxlength="60"
+                    title="digite o nome completo"
+                    placeholder="nome completo"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="telefoneCliente"><h3 class="text-dark-yellow h4">Qual o telefone?</h3></label>
+                  <input
+                    required
+                    type="tel"
+                    id="telefoneCliente"
+                    name="telefone-cliente"
+                    maxlength="11"
+                    class="form-control"
+                    title="digite apenas os números com ddd"
+                    placeholder="ex: 11912345678"
+
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="emailCliente"><h3 class="text-dark-yellow h4">Qual o e-mail?</h3></label>
+                  <input
+                    required
+                    type="email"
+                    id="emailCliente"
+                    name="email-cliente"
+                    maxlength="254"
+                    class="form-control phone-ddd-mask"
+                    title="digite um e-mail válido"
+                    placeholder="e-mail"
+                  />
+                </div>
+                
+                <div class="form-group">
+                  <label for="observacao"><h3 class="text-dark-yellow h4">Observações</h3></label>
+                  <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="height:100px; min-width: 250px"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label><h3 class="text-dark-yellow h4">Qual(is) serviço(s)</h3></label>
+                  <div class="row d-flex justify-content-start">
+                  {% for valor in servicos_cadastrados %}
+                    <div class="col-sm-5">
+                    <input
+                      type="checkbox"
+                      id="{{ valor }}Daniel"
+                      name="servicos-selecionados"
+                      value="{{ valor }}"
+                    />
+                    <label for="{{ valor }}Daniel">{{ valor }}</label>
+                  </div>
+                  {% endfor %}
+                  </div>
+                </div>
+              
+              <button
+                type="submit"
+                id="submitFormDaniel"
+                class="btn btn-primary"
+                title="Confirmar agendamento"
+              >
+                <span
+                  hidden
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Agendar
+              </button>
+            </div>
+          </div>
+          </form>
+
+          <!-- Formulário do Sandrinho (Sandro) -->
+
+          <form
+            class="module-title"
+            action="{% url 'cadastrarAgendamento' %}"
+            method="POST"
+            id="formRegistrarAgendamentoSandro"
+          >
             {% csrf_token %}
             <div class="card mr-md-3">
-                <img class="card-img-top" src="{% static 'img/perfil_sandro.jpg'%}" alt="Barbeiro Sandrinho Santos">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Sandrinho Santos</h5>
-                    <input type="hidden" name="nome-especialista" value="Sandrinho Santos"/>
-                    <input type="hidden" name="data-enviada" value="{{ data_enviada }}"/>
-                    <input type="hidden" name="data-enviada-por-email" value="{{ data_enviada_formatada }}"/>
-
-                    <hr>
-
-                    <div class="form-group">
-                        <label for="nomeCliente">Quem será atendido?</label>
-                        <input required type="text" id="nomeCliente" name="nome-cliente" class="form-control" maxlength="60" title="digite o nome completo" placeholder="digite o nome completo">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefoneCliente">Qual o telefone?</label>
-                        <input required type="number" id="telefoneCliente" name="telefone-cliente" min="0" max="99999999999" maxlength="11" class="form-control" title="digite apenas os números com ddd" placeholder="digite apenas os números com ddd">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="emailCliente">Qual o e-mail?</label>
-                        <input required type="email" id="emailCliente" name="email-cliente" maxlength="254" class="form-control" title="digite um e-mail válido" placeholder="digite um e-mail válido">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="periodoAtendimento">Qual o período?</label>
-                        <div class="mr-md-3">
-                            <select required id="periodoAtendimento" class="form-control" name="periodo-atendimento" onchange="exibirCampos()" title="Selecione um período">
-                                {% for chave, valor  in periodos_sandrinho.items %}
-                                    <option value="{{ chave }}"> {{ valor }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label> Qual(is) serviço(s)</label><br>
-                        {% for valor in servicos_cadastrados %}
-                            <input type="checkbox" id="{{ valor }}Sandro" name="servicos-selecionados" value="{{ valor }}">
-                            <label for="{{ valor }}Sandro">{{ valor }}</label><br>
-                        {% endfor %}
-                    </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#observacaoSandro" aria-expanded="false" title="Inserir observações para o especialista">
-                            Observações
-                        </button><br>
-                        <small class="module-title">Clique no botão acima inserir alguma observação.</small>
-                        <textarea id="observacaoSandro" class="form-control collapse" rows="7" cols="40" name="observacao-atendimento" style="min-height:100px; min-width: 250px"></textarea>
-                    </div>
+              <a href="#formularioSandro" data-toggle="collapse">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <img
+                    class="card-img-top rounded"
+                    src="{% static 'img/perfil_sandro.png'%}"
+                    alt="Barbeiro Sandrinho Santos"
+                  />
                 </div>
-                <button type="submit" id="submitFormSandro" class="btn btn-primary" title="Confirmar agendamento">
-                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Agendar
-                </button>
+                <div class="col-md-4 col-sm-12">
+                  <h3 class="card-title">Sandrinho Santos</h3>
+                  <div class="line-shape-dark"></div>
+                </div>
+              </div>
+            </a>
+
+              <div class="card-body collapse" id="formularioSandro">
+                <input
+                  type="hidden"
+                  name="nome-especialista"
+                  value="Sandrinho Santos"
+                />
+                <input
+                  type="hidden"
+                  name="data-enviada"
+                  value="{{ data_enviada }}"
+                />
+                <input
+                  type="hidden"
+                  name="data-enviada-por-email"
+                  value="{{ data_enviada_formatada }}"
+                />
+
+                <div class="form-group">
+                  <label for="periodoAtendimento"><h3 class="text-dark-yellow h4">Qual o horário?</h3></label>
+                      <select 
+                        required
+                        id="periodoAtendimento"
+                        name="periodo-atendimento"
+                        title="Selecione um período"
+                        onchange="exibirCampos()"
+                        class="form-control">
+                        {% for chave, valor in periodos_sandrinho.items %}
+                        <option value="{{ chave }}">{{ valor }}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="nomeCliente"><h3 class="text-dark-yellow h4">Quem será atendido?</h3></label>
+                  <input
+                    required
+                    type="text"
+                    id="nomeCliente"
+                    name="nome-cliente"
+                    class="form-control"
+                    maxlength="60"
+                    title="digite o nome completo"
+                    placeholder="nome completo"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="telefoneCliente"><h3 class="text-dark-yellow h4">Qual o telefone?</h3></label>
+                  <input
+                    required
+                    type="tel"
+                    id="telefoneCliente"
+                    name="telefone-cliente"
+                    maxlength="11"
+                    class="form-control"
+                    title="digite apenas os números com ddd"
+                    placeholder="ex: 11912345678"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="emailCliente"><h3 class="text-dark-yellow h4">Qual o e-mail?</h3></label>
+                  <input
+                    required
+                    type="email"
+                    id="emailCliente"
+                    name="email-cliente"
+                    maxlength="254"
+                    class="form-control"
+                    title="digite um e-mail válido"
+                    placeholder="e-mail"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="observacao"><h3 class="text-dark-yellow h4">Observações</h3></label>
+                  <textarea id="observacao" class="form-control" rows="7" cols="40" name="observacao-atendimento" style="height:100px; min-width: 250px"></textarea>
+                </div>
+                <div class="form-group">
+                  <label><h3 class="text-dark-yellow h4">Qual(is) serviço(s)</h3></label>
+                  <div class="row d-flex justify-content-start">
+                  {% for valor in servicos_cadastrados %}
+                    <div class="col-sm-5">
+                    <input
+                      type="checkbox"
+                      id="{{ valor }}Sandro"
+                      name="servicos-selecionados"
+                      value="{{ valor }}"
+                    />
+                    <label for="{{ valor }}Sandro">{{ valor }}</label>
+                  </div>
+                  {% endfor %}
+                  </div>
+                </div>
+
+              <button
+                type="submit"
+                id="submitFormSandro"
+                class="btn btn-primary"
+                title="Confirmar agendamento"
+                onclick="return validar()"
+              >
+                <span
+                  hidden
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Agendar
+              </button>
             </div>
-        </form>
+          </form>
+  
     </div>
     <div>
         {% for message in messages %}

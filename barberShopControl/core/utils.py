@@ -15,13 +15,11 @@ from .models import *
 
 class Avaliacao:
     def avaliarAtendimento(request, codigo_verificacao):
-        Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_avaliacao=int(
-            request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
-        return messages.success(request, 'Obrigado pela avaliação!', extra_tags='alert-success')
+        Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
+        return True
 
     def atendimentoAvaliado(request, codigo_verificacao):
-        reserva = Reserva.objects.filter(
-            res_codigo_verificacao=codigo_verificacao)
+        reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
         for item in reserva:
             if getattr(item, 'res_avaliacao') > 0:
                 contexto = {

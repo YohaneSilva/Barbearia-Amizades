@@ -1,7 +1,15 @@
 {% extends 'login/base-login.html' %} {% load static %} {% block title %}Agendamento | Barbearia
 Amizades S & D{% endblock %} {% block content %}
-    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
+$(document).ready(function () {
+  $("#formCancelarAgendamento").on("submit", function () {
+    $("#btnEnviarResposta .spinner-border").removeAttr("hidden");
+    $("#btnEnviarResposta").prop("disabled", true);
+  });
+});
+
 $(document).ready(function () {
   
   var sem_periodo_disponivel = "{{ sem_periodo_disponivel }}";
@@ -314,6 +322,7 @@ $(function(){
                   hidden
                   role="status"
                   aria-hidden="true"
+                  class="spinner-border spinner-border-sm"
                 ></span>
                 Agendar
               </button>
@@ -452,6 +461,7 @@ $(function(){
                   hidden
                   role="status"
                   aria-hidden="true"
+                  class="spinner-border spinner-border-sm"
                 ></span>
                 Agendar
               </button>

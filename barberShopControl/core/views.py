@@ -92,10 +92,7 @@ def avaliarAtendimento(request, codigo_verificacao):
     if request.method == 'POST':
         Avaliacao.avaliarAtendimento(request, codigo_verificacao)
 
-        contexto = {
-            'status' : True,
-            'reserva' : reserva
-        }
+        contexto = Avaliacao.atendimentoAvaliado(request, codigo_verificacao)
 
     return render(request, 'institucional/avaliacao.html', contexto)
 
