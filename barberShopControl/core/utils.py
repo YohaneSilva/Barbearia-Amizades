@@ -318,7 +318,7 @@ class Relatorio:
     def totalAgendamentosCancelados():
         total = 0
         dia, mes, ano = Data.desmembrarData(Data.dataDoComputador('/'))
-        resultado = Reserva.objects.filter(res_status='Cancelado', res_data_atendimento__year=ano)
+        resultado = Reserva.objects.filter(res_status__icontains='Cancelado', res_data_atendimento__year=ano)
 
         for index in range(len(resultado)):
             total += 1
