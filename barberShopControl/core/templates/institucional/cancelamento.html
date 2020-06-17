@@ -11,15 +11,7 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
   });
 </script>
 
-<div
-  class="clean-body"
-  style="
-    margin: 0;
-    padding: 0;
-    -webkit-text-size-adjust: 100%;
-    background-color: #f8f8f9;
-  "
->
+<div class="container-fluid">
   <!-- LOADER -->
 
   <div id="overlayer"></div>
@@ -32,7 +24,7 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
   <!-- Formulário para veriricar períodos disponíveis -->
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-xl-6 col-sm-6 section-wrapper align-self-center">
+      <div class="col-xl-6 col-sm-6 section-wrapper-agenda align-self-center">
         <div class="brand-wrapper">
           <a
             href="{% url 'home' %}"
@@ -52,14 +44,14 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
         <div>
           {% if status == False %}
           <div>
-            <p class="h4 mb-4">
+            <h2 class="h4 mb-4 mt-3">
               Olá,
               <strong class="capitalize text-dark-yellow"
                 >{{ valor.res_nome_cliente }}!</strong
               >
-            </p>
-            <div>
-              <p class="h6">Detalhes sobre seu agendamento</p>
+            </h2>
+            <div class="dados-cancelamento">
+              <p class="h7">Detalhes sobre seu agendamento</p>
 
               Data: <strong>{{ valor.res_data_atendimento }}</strong><br />
               Profissional: <strong>{{ valor.res_especialista }}</strong><br />
@@ -67,22 +59,22 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
           </div>
           {% else %}
           <div>
-            <p class="h4 mb-4">
+            <p class="h4 mb-5 mt-3">
               Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
             </p>
-            <p>
-              Seu agendamento foi cancelado. <br />
+            <p class="dados-cancelamento">
+              Seu agendamento foi cancelado.
               Por favor verifique o seu e-mail.
             </p>
           </div>
           {% endif %}
         </div>
-    <div style="margin-top:50px" class="d-flex justify-content-center">
+    <div style="margin-top:50px" class="d-flex justify-content-start">
         {% if status == False %}
-            <form class="module-title text-center" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
+            <form class="module-title text-right mb-5" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
                 {% csrf_token %}
                 <label for="cancelarAgendamento"><strong>Tem certeza que quer cancelar o agendamento?</strong></label>
-                <select id="cancelarAgendamento" class="form-control module-title" name="cancelar-agendamento">
+                <select id="cancelarAgendamento" class="form-control module-title mb-2" name="cancelar-agendamento">
                     <option selected>Selecione uma opção</option>
                     <option>Sim</option>
                     <option>Não</option>
@@ -119,6 +111,14 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
           </div>
           {% endfor %}
         </div>
+      </div>
+      </div>
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img
+          src="{% static 'img/cancelar-agendamento.jpg' %}"
+          alt="Barbearia Amizades"
+          class="img-fluid"
+        />
       </div>
     </div>
   </div>

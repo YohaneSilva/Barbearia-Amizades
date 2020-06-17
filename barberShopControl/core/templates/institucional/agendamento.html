@@ -86,7 +86,7 @@ $(function(){
   <!-- Formulário para verificar períodos disponíveis -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xl-6 col-sm-6 section-wrapper">
+      <div class="col-xl-6 col-sm-6 section-wrapper-agenda">
         <div class="brand-wrapper">
           <a
             href="{% url 'home' %}"
@@ -108,7 +108,7 @@ $(function(){
     </div>
 
     <div class="row">
-      <div class="col-xl-5 section-wrapper mt-0 pt-3">
+      <div class="col-xl-5 section-wrapper-agenda mt-0 pt-3">
         <div class="form-group mb-5">
           <form
             class="module-title text-left"
@@ -139,7 +139,7 @@ $(function(){
                 type="submit"
                 class="btn btn-primary"
                 form="formPeriodosDisponiveisHome"
-                style="padding: 10px 30px; margin-left: 50%;"
+                style="padding: 10px 30px; margin-left: 160px;"
                 title="Clique para verificar a disponibilidade de horários"
               >
                 Pesquisar
@@ -176,12 +176,13 @@ $(function(){
           </div>
           {% endfor %}
         </div>
+        <h3 class="text-dark-yellow h4">{{ data_enviada_formatada }}</h3>
         <div
           class="form-row text-left"
           id="formulariosAgendamento"
         >
           <!-- Formulário do Chiquinho (Daniel) -->
-          <h3 class="text-dark-yellow h4">{{ data_enviada_formatada }}</h3>
+          
           
           <form
             class="module-title mb-4"
@@ -199,7 +200,7 @@ $(function(){
                   src="{% static 'img/perfil_daniel.png'%}"
                   alt="Barbeiro Chiquinho Oliveira"/>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 col-sm-12">
                   <h3 class="card-title">Chiquinho Oliveira</h3>
                   <div class="line-shape-dark"></div>
                 </div>
@@ -339,7 +340,7 @@ $(function(){
                     alt="Barbeiro Sandrinho Santos"
                   />
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 col-sm-12">
                   <h3 class="card-title">Sandrinho Santos</h3>
                   <div class="line-shape-dark"></div>
                 </div>
