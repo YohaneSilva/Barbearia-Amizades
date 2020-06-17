@@ -369,7 +369,7 @@ def avaliarAtendimento(request, codigo_verificacao):
     contexto = Avaliacao.atendimentoAvaliado(request, codigo_verificacao)
 
     if request.method == 'POST':
-        Avaliacao.avaliarAtendimento(request)
+        Avaliacao.avaliarAtendimento(request, codigo_verificacao)
 
         contexto = {
             'status' : True,

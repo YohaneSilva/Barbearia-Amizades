@@ -14,8 +14,8 @@ from .models import *
 
 
 class Avaliacao:
-    def avaliarAtendimento(request):
-        reserva.update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
+    def avaliarAtendimento(request, codigo_verificacao):
+        Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao).update(res_avaliacao=int(request.POST['avaliacao_cliente']), res_observacao_avaliacao=request.POST['observacao-avaliacao'])
         return messages.success(request, 'Obrigado pela avaliação!', extra_tags='alert-success')
         
     def atendimentoAvaliado(request, codigo_verificacao):
