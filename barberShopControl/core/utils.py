@@ -431,8 +431,7 @@ class Periodo:
 
     def periodosDisponiveis(request):
         dia, mes, ano = Data.desmembrarData(request.POST['dia-atendimento'])
-        reservas = Reserva.objects.filter(
-            res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
+        reservas = Reserva.objects.filter(res_data_atendimento__year=ano, res_data_atendimento__month=mes, res_data_atendimento__day=dia)
         sem_periodo_disponivel = False
         periodos_chiquinho = Periodo.periodos()
         periodos_sandrinho = Periodo.periodos()
@@ -448,8 +447,7 @@ class Periodo:
                 'sem_periodo_disponivel' : sem_periodo_disponivel,
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
-                'servicos_cadastrados' : servicos_cadastrados,
-                'nome_usuario' : request.session['nome_usuario_logado']
+                'servicos_cadastrados' : servicos_cadastrados
             }
             return contexto
 
@@ -482,7 +480,6 @@ class Periodo:
                 'data_enviada_formatada' : data_enviada_formatada,
                 'data_enviada' : data_enviada,
                 'servicos_cadastrados' : servicos_cadastrados,
-                'nome_usuario' : request.session['nome_usuario_logado']
             }
             return contexto
 
@@ -766,19 +763,11 @@ class Agendamento:
 
     def statusAgendamento(codigo_verificacao):
         reserva = Reserva.objects.filter(res_codigo_verificacao=codigo_verificacao)
+        contexto = {
+                'status' : reserva.values()[0]['res_status'],
+                'reserva': reserva
+            }
 
-        for item in reserva:
-            if getattr(item, 'res_status') == 'Ativo':
-                contexto = {
-                    'status' : False,
-                    'reserva' : reserva
-                }
-            else:
-                contexto = {
-                    'status' : True,
-                    'reserva' : reserva
-                }
-        
         return contexto
 
     def novoAgendamento(request):

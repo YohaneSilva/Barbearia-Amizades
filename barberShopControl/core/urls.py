@@ -6,7 +6,9 @@ from . import views
 urlpatterns = [
     # Institucional
     path('', views.home, name="home"),
-    path('agendamento/', views.agendamento, name="agendamento"),
+    path('agendamento/', views.agendamentoHome, name="agendamentoHome"),
+    path('agendamento/novo-agendamento/', views.cadastrarAgendamentoHome, name="cadastrarAgendamentoHome"),
+    path('agendamento/novo-agendamento/#', views.periodosDisponiveisHome, name="periodosDisponiveisHome"),
     path('<slug:codigo_verificacao>/cancelamento/', views.cancelarAgendamentoPorEmail, name="cancelarAgendamentoPorEmail"),
     path('<slug:codigo_verificacao>/avaliacao/', views.avaliarAtendimento, name="avaliarAtendimento"),
 

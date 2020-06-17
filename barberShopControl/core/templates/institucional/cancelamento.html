@@ -39,79 +39,86 @@ Agendamento | Barbearia Amizades S & D{% endblock %} {% block content%}
         <div class="wrapper">
           <h3 class="is-text-title text-dark">Cancelar <br />Agendamento</h3>
         </div>
-
-        {% for valor in reserva %}
         <div>
-          {% if status == False %}
-          <div>
-            <h2 class="h4 mb-4 mt-3">
-              Olá,
-              <strong class="capitalize text-dark-yellow"
-                >{{ valor.res_nome_cliente }}!</strong
-              >
-            </h2>
-            <div class="dados-cancelamento">
-              <p class="h7">Detalhes sobre seu agendamento</p>
+            {% for valor in reserva%}
+              {% if status == 'Ativo' %}
+                <div>
+                  <h2 class="h4 mb-4 mt-3">
+                    Olá,
+                    <strong class="capitalize text-dark-yellow"
+                      >{{ valor.res_nome_cliente }}!</strong
+                    >
+                  </h2>
+                  <div class="dados-cancelamento">
+                    <p class="h7">Detalhes sobre seu agendamento</p>
 
-              Data: <strong>{{ valor.res_data_atendimento }}</strong><br />
-              Profissional: <strong>{{ valor.res_especialista }}</strong><br />
-            </div>
-          </div>
-          {% else %}
-          <div>
-            <p class="h4 mb-5 mt-3">
-              Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
-            </p>
-            <p class="dados-cancelamento">
-              Seu agendamento foi cancelado.
-              Por favor verifique o seu e-mail.
-            </p>
-          </div>
-          {% endif %}
+                    Data: <strong>{{ valor.res_data_atendimento }}</strong><br />
+                    Profissional: <strong>{{ valor.res_especialista }}</strong><br />
+                  </div>
+                </div>
+                <div style="margin-top:50px" class="d-flex justify-content-start">
+                  <form class="module-title text-right mb-5" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
+                      {% csrf_token %}
+                      <label for="cancelarAgendamento"><strong>Tem certeza que quer cancelar o agendamento?</strong></label>
+                      <select id="cancelarAgendamento" class="form-control module-title mb-2" name="cancelar-agendamento">
+                          <option selected>Selecione uma opção</option>
+                          <option>Sim</option>
+                          <option>Não</option>
+                      </select>
+                      <button type="submit" id="btnEnviarResposta" class="btn btn-primary">
+                          <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          Enviar Resposta
+                      </button>
+                  </form>
+                </div>
+              {% elif status == 'Finalizado'%}
+                <div>
+                  <p class="h4 mb-5 mt-3">
+                    Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
+                  </p>
+                  <p class="dados-cancelamento">
+                    Seu agendamento foi finalizado. Por favor, verifique o seu e-mail <br>
+                    e nos avalie, sua opnião é importante para nós!
+                  </p>
+                </div>
+              {% else %}
+                <div>
+                  <p class="h4 mb-5 mt-3">
+                    Olá, <strong>{{ valor.res_nome_cliente }}!</strong>
+                  </p>
+                  <p class="dados-cancelamento">
+                    Seu agendamento foi cancelado. Por favor, verifique o seu e-mail.
+                  </p>
+                </div>
+              {% endif %}
+            {% endfor %}
         </div>
-    <div style="margin-top:50px" class="d-flex justify-content-start">
-        {% if status == False %}
-            <form class="module-title text-right mb-5" id="formCancelarAgendamento" action="{% url 'cancelarAgendamentoPorEmail' valor.res_codigo_verificacao %}" method="POST">
-                {% csrf_token %}
-                <label for="cancelarAgendamento"><strong>Tem certeza que quer cancelar o agendamento?</strong></label>
-                <select id="cancelarAgendamento" class="form-control module-title mb-2" name="cancelar-agendamento">
-                    <option selected>Selecione uma opção</option>
-                    <option>Sim</option>
-                    <option>Não</option>
-                </select>
-                <button type="submit" id="btnEnviarResposta" class="btn btn-primary">
-                    <span hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Enviar Resposta
-                </button>
-            </form>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <div>
-        {% for message in messages %}
-          <div class="alert {{ message.tags }}" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-            </form>
-          </div>
-        {% endfor %}
+          
         <div>
           {% for message in messages %}
-          <div class="alert {{ message.tags }}" role="alert">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Fechar mensagem"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            {{ message }}
-          </div>
+            <div class="alert {{ message.tags }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fechar mensagem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </form>
+            </div>
           {% endfor %}
+          <div>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }}" role="alert">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Fechar mensagem"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
+            </div>
+            {% endfor %}
+          </div>
         </div>
-      </div>
       </div>
       <div class="col-sm-6 px-0 d-none d-sm-block">
         <img

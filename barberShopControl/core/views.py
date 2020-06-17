@@ -48,8 +48,57 @@ def recuperarSenha(request):
 def home(request):
     return render(request, 'institucional/index.html')
 
-def agendamento(request):
+def agendamentoHome(request):
     return render(request, 'institucional/agendamento.html')
+
+def periodosDisponiveisHome(request):
+    if request.method == "POST":
+        
+        if Data.dataVazia(request):
+            return redirect('agendamentoHome')
+
+        if Data.dataRetroativa(request):
+            return redirect('agendamentoHome')
+        
+        if Periodo.foraDoPeriodoDeAtendimento(request):
+            return redirect('agendamentoHome')
+
+        contexto = Periodo.periodosDisponiveis(request)
+        return render(request, 'institucional/agendamento.html', contexto)
+    return render('agendamentoHome')
+
+def cadastrarAgendamentoHome(request):      
+    if request.method == "POST":
+        if Agendamento.agendamentoUnico(request):
+            return redirect('agendamentoHome')
+
+        Agendamento.novoAgendamento(request)
+        return redirect('agendamentoHome')
+    return redirect('agendamentoHome')
+
+def cancelarAgendamentoPorEmail(request, codigo_verificacao):
+    contexto = Agendamento.statusAgendamento(codigo_verificacao)
+
+    if request.method == 'POST':
+        if request.POST['cancelar-agendamento'] == 'Sim':
+            Agendamento.cancelarAgendamentoPorEmail(request, codigo_verificacao)
+            contexto = Agendamento.statusAgendamento(codigo_verificacao)
+
+    return render(request, 'institucional/cancelamento.html', contexto)
+
+def avaliarAtendimento(request, codigo_verificacao):
+    contexto = Avaliacao.atendimentoAvaliado(request, codigo_verificacao)
+
+    if request.method == 'POST':
+        Avaliacao.avaliarAtendimento(request, codigo_verificacao)
+
+        contexto = {
+            'status' : True,
+            'reserva' : reserva
+        }
+
+    return render(request, 'institucional/avaliacao.html', contexto)
+
 
 # Subsistema: Conta | Jurídica
 def editarEstabelecimento(request, id):
@@ -270,68 +319,41 @@ def agendamentosCadastrados(request):
 
 def cadastrarAgendamento(request):
     nome_usuario = request.session['nome_usuario_logado']
-    if request.session['origem-usuario'] == 'institucional':        
-        if request.method == "POST":
-            if Agendamento.agendamentoUnico(request):
-                return redirect('agendamento')
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
 
-            Agendamento.novoAgendamento(request)
-            return redirect('agendamento')
-        
-    else:
-        if Login.verificarUsuarioLogado(request) == False:
-            return redirect('acessoLogin')
+    if request.method == "POST":
+        if Agendamento.agendamentoUnico(request):
+            return redirect('cadastrarAgendamento')
 
-        if request.method == "POST":
-            if Agendamento.agendamentoUnico(request):
-                return redirect('cadastrarAgendamento')
-
-            Agendamento.novoAgendamento(request)
-            return redirect('agendamentosCadastrados')
-
-        contexto = {'nome_usuario' : nome_usuario}
-        return render(request, 'minha-conta/agenda/cadastro.html', contexto)
+        Agendamento.novoAgendamento(request)
+        return redirect('agendamentosCadastrados')
 
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
 def periodosDisponiveis(request):
-    if request.POST['origem-usuario'] == 'institucional':
-        if request.method == "POST":
-            request.session['origem-usuario'] = 'institucional'
-            
-            if Data.dataVazia(request):
-                return redirect('agendamento')
+    nome_usuario = request.session['nome_usuario_logado']
+    if Login.verificarUsuarioLogado(request) == False:
+        return redirect('acessoLogin')
 
-            if Data.dataRetroativa(request):
-                return redirect('agendamento')
-            
-            if Periodo.foraDoPeriodoDeAtendimento(request):
-                return redirect('agendamento')
-
-            contexto = Periodo.periodosDisponiveis(request)
-            return render(request, 'institucional/agendamento.html', contexto)
+    if request.method == "POST":
+        request.session['origem-usuario'] = 'minha-conta'
+        sessao = request.session['logado']
+        nome_usuario = request.session['nome_usuario_logado']
         
-    else:
-        if Login.verificarUsuarioLogado(request) == False:
-            return redirect('acessoLogin')
+        if Data.dataVazia(request):
+            return redirect('cadastrarAgendamento')
 
-        if request.method == "POST":
-            request.session['origem-usuario'] = 'minha-conta'
-            sessao = request.session['logado']
-            nome_usuario = request.session['nome_usuario_logado']
-            
-            if Data.dataVazia(request):
-                return redirect('cadastrarAgendamento')
+        if Data.dataRetroativa(request):
+            return redirect('cadastrarAgendamento')
+        
+        if Periodo.foraDoPeriodoDeAtendimento(request):
+            return redirect('cadastrarAgendamento')
 
-            if Data.dataRetroativa(request):
-                return redirect('cadastrarAgendamento')
-            
-            if Periodo.foraDoPeriodoDeAtendimento(request):
-                return redirect('cadastrarAgendamento')
-
-            contexto = Periodo.periodosDisponiveis(request)
-            return render(request, 'minha-conta/agenda/cadastro.html', contexto)
+        contexto = Periodo.periodosDisponiveis(request)
+        contexto.update({'nome_usuario' : request.session['nome_usuario_logado']})
+        return render(request, 'minha-conta/agenda/cadastro.html', contexto)
 
     contexto = {'nome_usuario' : nome_usuario}
     return render(request, 'minha-conta/agenda/cadastro.html', contexto)
@@ -348,32 +370,6 @@ def finalizarCancelar(request):
             Agendamento.cancelarAgendamento(request)
         
     return redirect('agendamentosCadastrados')
-
-def cancelarAgendamentoPorEmail(request, codigo_verificacao):
-    contexto = Agendamento.statusAgendamento(codigo_verificacao)
-
-    if request.method == 'POST':
-        if request.POST['cancelar-agendamento'] == 'Sim':
-            Agendamento.cancelarAgendamentoPorEmail(request, codigo_verificacao)
-        #     # contexto = {
-            #     'status' : True,
-            #     'reserva' : reserva
-            # }
-
-    return render(request, 'institucional/cancelamento.html', contexto)
-
-def avaliarAtendimento(request, codigo_verificacao):
-    contexto = Avaliacao.atendimentoAvaliado(request, codigo_verificacao)
-
-    if request.method == 'POST':
-        Avaliacao.avaliarAtendimento(request, codigo_verificacao)
-
-        contexto = {
-            'status' : True,
-            'reserva' : reserva
-        }
-
-    return render(request, 'institucional/avaliacao.html', contexto)
 
 # Subsistema: Relatório
 def relatorios(request):
