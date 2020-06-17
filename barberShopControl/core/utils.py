@@ -834,8 +834,8 @@ class Agendamento:
             codigo_verificacao = getattr(item, 'res_codigo_verificacao')
         Email.finalizarAtendimento(
             email_destino, nome_cliente, data_agendada, codigo_verificacao)
-        Reserva.objects.filter(id=request.POST['id-registro']).update(
-            res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
+        Reserva.objects.filter(id=request.POST['id-registro']).update(res_observacao_especialista=request.POST['observacao-atendimento'], res_status='Finalizado')
+        return messages.success(request, 'Agendamento finalizado.',extra_tags='alert-success')
 
     def cancelarAgendamento(request):
         Email.cancelarAgendamento(request, request.POST['id-registro'])
