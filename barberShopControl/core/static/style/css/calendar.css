@@ -57,10 +57,10 @@
   background-color: #d24d57;
   color: white;
 }
-/* .ui-datepicker-calendar a:active {
+.ui-datepicker-calendar a:active {
   background-color: #d24d57;
   color: white;
-} */
+}
 .ui-datepicker-calendar .ui-state-active {
   border-color: #d24d57;
   color: #d24d57;
@@ -87,4 +87,18 @@
 }
 .ui-datepicker-unselectable {
   color: grey;
+}
+
+@media (min-width: 1400px) {
+  .ui-datepicker-header {
+    text-align: center;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    letter-spacing: 0.1em;
+    background-color: rgba(217, 162, 61, 0.6);
+    width: 350px;
+  }
+  #bEnviar {
+    margin-left: 210px !important;
+  }
 }

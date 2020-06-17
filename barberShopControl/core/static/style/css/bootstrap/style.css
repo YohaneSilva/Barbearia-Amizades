@@ -88,8 +88,8 @@ body:after {
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 .btn:hover,
 .btn:active,
@@ -151,6 +151,46 @@ body:after {
   background-color: gray;
   margin-top: 20px;
 }
+@media (min-width: 1400px) {
+  .site-blocks-cover .container {
+    min-width: 1400px;
+    max-width: 1600px !important;
+  }
+  .site-blocks-cover .container .text-dark-yellow {
+    font-size: 1.8rem;
+  }
+  .site-blocks-cover .container .content-cover {
+    height: 500px;
+  }
+  .site-blocks-cover h1 {
+    font-size: 6rem !important;
+    padding: 2rem 0 2rem;
+  }
+  .container .row > .col-lg {
+    margin: 0 4rem;
+  }
+  .site-section p {
+    font-size: 1.1rem !important;
+  }
+  .site-section h2 {
+    font-size: 1.6rem !important;
+  }
+}
+@media (min-width: 1600px) {
+  .site-blocks-cover .container .text-dark-yellow {
+    font-size: 2rem;
+    padding: 1rem 0 1rem;
+  }
+  .container .row > .col-lg {
+    margin: 0 2rem;
+  }
+  .site-section p {
+    font-size: 1.2rem !important;
+  }
+  .site-section h2 {
+    font-size: 1.8rem !important;
+  }
+}
 
 .site-section {
   padding: 3em 0;
@@ -159,6 +199,9 @@ body:after {
   .site-section {
     padding: 3em 0;
     height: auto;
+  }
+  .site-section p {
+    font-size: 1rem;
   }
 }
 .site-section.site-section-sm {
@@ -180,6 +223,22 @@ body:after {
     position: absolute;
     top: 50%;
     left: 10%;
+    max-width: 50%;
+  }
+}
+@media (min-width: 1400px) {
+  .barber-image {
+    position: absolute;
+    top: 55%;
+    left: 7%;
+    max-width: 50%;
+  }
+}
+@media (min-width: 1600px) {
+  .barber-image {
+    position: absolute;
+    top: 70%;
+    left: 5%;
     max-width: 50%;
   }
 }
@@ -325,11 +384,7 @@ body:after {
 .site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top {
   position: absolute;
 }
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown.arrow-top:before {
+.site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top:before {
   bottom: 100%;
   left: 20%;
   border: solid transparent;
@@ -339,11 +394,7 @@ body:after {
   position: absolute;
   pointer-events: none;
 }
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown.arrow-top:before {
+.site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top:before {
   border-color: rgba(136, 183, 213, 0);
   border-bottom-color: #fff;
   border-width: 10px;
@@ -370,40 +421,16 @@ body:after {
   padding: 9px 20px;
   display: block;
 }
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown
-  > li
-  > a:hover {
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li > a:hover {
   background: #eff1f3;
   color: #000;
 }
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown
-  > li.has-children
-  > a:before {
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li.has-children > a:before {
   content: "\e315";
   right: 20px;
 }
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown
-  > li.has-children
-  > .dropdown,
-.site-navbar
-  .site-navigation
-  .site-menu
-  .has-children
-  .dropdown
-  > li.has-children
-  > ul {
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li.has-children > .dropdown,
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li.has-children > ul {
   left: 100%;
   top: 0;
 }
@@ -966,13 +993,7 @@ body:after {
     color-stop(99%, rgba(0, 0, 0, 0.8)),
     to(rgba(0, 0, 0, 0.8))
   );
-  background: -o-linear-gradient(
-    top,
-    transparent 0%,
-    transparent 18%,
-    rgba(0, 0, 0, 0.8) 99%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
+  background: -o-linear-gradient(top, transparent 0%, transparent 18%, rgba(0, 0, 0, 0.8) 99%, rgba(0, 0, 0, 0.8) 100%);
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -2087,4 +2108,24 @@ figure figcaption {
 
 .capitalize {
   text-transform: capitalize !important;
+}
+
+footer {
+  background-color: #343a40 !important;
+}
+footer p,
+footer .footer-copyright {
+  color: gray !important;
+}
+.dados-cancelamento {
+  width: 70%;
+  background-color: #f5f5f5;
+}
+@media (max-width: 768px) {
+  .dados-cancelamento {
+    width: 100%;
+  }
+}
+textarea.form-control {
+  height: 100px;
 }

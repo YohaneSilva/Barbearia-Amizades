@@ -24,6 +24,16 @@
   padding: 68px 100px 0px 100px !important;
   background-color: #fff;
 }
+.section-wrapper-agenda {
+  overflow-y: auto;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  padding: 68px 100px 0px 100px !important;
+  background-color: #fff;
+}
 
 .login-wrapper {
   background-color: #fff;
@@ -125,6 +135,11 @@
 
   .section-wrapper {
     width: 100%;
+  }
+
+  .section-wrapper-agenda {
+    width: 100%;
+    padding: 68px 35px 10px !important;
   }
 
   .login-wrapper .form-control {
